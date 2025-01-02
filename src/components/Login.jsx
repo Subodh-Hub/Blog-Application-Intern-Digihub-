@@ -1,54 +1,42 @@
 import React from "react";
 import useLoginForm from "./hooks/useLoginForm";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Form } from "@/components/ui/form";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Label } from "@/components/ui/label";
+import character from "@/assets/logo/character.png";
+import cactus from "@/assets/logo/cactus.png";
+import "./styles/login.css";
+import { FaAngleRight } from "react-icons/fa";
+import { Link } from "react-router-dom";
+
 const Login = () => {
   const { formik } = useLoginForm();
   //   console.log(formik.values);
   return (
-    <div className="flex items-center justify-center h-screen">
-      <Card className="p-5 m-auto sm:w-[95vw] md:w-[500px] lg:w-[600px]">
-        <CardHeader className="mb-5">
-          <CardTitle>Sign-In</CardTitle>
-          <CardDescription>
-            Blogging site developed during intern
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <Form>
-            <form
-              onSubmit={formik.handleSubmit}
-              className="grid items-center w-full gap-4"
-            >
-              <div className="flex flex-col space-y-1.5">
-                <Label htmlFor="userName">User Name</Label>
-                <Input
-                  type="text"
-                  id="userName"
-                  name="userName"
-                  value={formik.values.userName}
+    <div className="flex items-center justify-center w-screen h-screen bg-custom-gradient">
+      <div className="form-container">
+        <div className="form-details">
+          <div className="form-header">
+            <h1>Logo Here</h1>
+            <p>Blogging site developed during intern!!!!</p>
+            <h3>Log In</h3>
+          </div>
+          <div className="form-content">
+            <form onSubmit={formik.handleSubmit}>
+              <div className="form-component">
+                <label htmlFor="email">Email</label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  value={formik.values.email}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                 />
-                {formik.touched.userName && formik.errors.userName ? (
-                  <p className="text-sm text-red-500">
-                    {formik.errors.userName}
-                  </p>
+                {formik.touched.email && formik.errors.email ? (
+                  <p className="text-sm text-red-500">{formik.errors.email}</p>
                 ) : null}
               </div>
-              <div className="flex flex-col space-y-1.5">
-                <Label htmlFor="password">Password</Label>
-                <Input
+              <div className="form-component">
+                <label htmlFor="password">Password</label>
+                <input
                   type="password"
                   id="password"
                   name="password"
@@ -63,17 +51,24 @@ const Login = () => {
                 ) : null}
               </div>
 
-              <Button type="submit">Submit</Button>
+              <button className="btn-submit" type="submit">login <FaAngleRight /></button>
             </form>
-          </Form>
-        </CardContent>
-        <CardFooter className="flex flex-col justify-between gap-2 ">
-          <Button variant="link">Forgot Password</Button>
-          <p>
-            Need an account? <Button variant="link">Sign Up</Button>
-          </p>
-        </CardFooter>
-      </Card>
+          </div>
+          <div className="form-footer">
+            <p>
+              Need an account? <Link to="/signup">Sign Up</Link>
+            </p>
+          </div>
+        </div>
+        {/* <div>
+          <img src={cactus} alt="cactus" />
+        </div> */}
+        <div className="side-container">
+            
+          <img src={character} alt="" className="character-img" />
+          <img src={cactus} alt="" className="cactus-img" />
+        </div>
+      </div>
     </div>
   );
 };

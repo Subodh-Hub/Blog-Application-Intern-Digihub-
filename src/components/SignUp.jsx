@@ -1,10 +1,17 @@
 import React from "react";
+import {Link} from "react-router-dom";
 import useSignUp from "./hooks/useSignUp";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@radix-ui/react-label";
 import { Form } from "@/components/ui/form";
-import { Card, CardContent, CardHeader, CardTitle,CardFooter } from "./ui/card";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CardFooter,
+} from "./ui/card";
 const SignUp = () => {
   const { formik } = useSignUp();
   console.log(formik.values);
@@ -31,7 +38,9 @@ const SignUp = () => {
                   onBlur={formik.handleBlur}
                 />
                 {formik.touched.firstName && formik.errors.firstName ? (
-                  <p className="text-sm text-red-500">{formik.errors.firstName}</p>
+                  <p className="text-sm text-red-500">
+                    {formik.errors.firstName}
+                  </p>
                 ) : null}
               </div>
               <div className="flex flex-col space-y-1.5">
@@ -56,7 +65,9 @@ const SignUp = () => {
                   onBlur={formik.handleBlur}
                 />
                 {formik.touched.lastName && formik.errors.lastName ? (
-                  <p className="text-sm text-red-500">{formik.errors.lastName}</p>
+                  <p className="text-sm text-red-500">
+                    {formik.errors.lastName}
+                  </p>
                 ) : null}
               </div>
               <div className="flex flex-col space-y-1.5">
@@ -84,7 +95,9 @@ const SignUp = () => {
                   onBlur={formik.handleBlur}
                 />
                 {formik.touched.password && formik.errors.password ? (
-                  <p className="text-sm text-red-500">{formik.errors.password}</p>
+                  <p className="text-sm text-red-500">
+                    {formik.errors.password}
+                  </p>
                 ) : null}
               </div>
               <div className="flex flex-col space-y-1.5">
@@ -99,7 +112,9 @@ const SignUp = () => {
                 />
                 {formik.touched.confirmPassword &&
                 formik.errors.confirmPassword ? (
-                  <p className="text-sm text-red-500">{formik.errors.confirmPassword}</p>
+                  <p className="text-sm text-red-500">
+                    {formik.errors.confirmPassword}
+                  </p>
                 ) : null}
               </div>
               <Button type="submit">Sign Up</Button>
@@ -108,7 +123,7 @@ const SignUp = () => {
         </CardContent>
         <CardFooter>
           <p>
-            Already have an account? <Button variant="link">Sign In</Button>
+            Already have an account? <Link to="/">Sign In</Link>
           </p>
         </CardFooter>
       </Card>
