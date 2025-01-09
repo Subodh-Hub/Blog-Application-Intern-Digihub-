@@ -1,8 +1,8 @@
 import React from "react";
 import useLoginForm from "../components/hooks/useLoginForm";
-import character from "@/assets/logo/character.png";
-import cactus from "@/assets/logo/cactus.png";
-import "../components/styles/login.css";
+import character from "@/assets/images/logo/character.png";
+import cactus from "@/assets/images/logo/cactus.png";
+import "@/assets/styles/login.css";
 import { FaAngleRight } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";

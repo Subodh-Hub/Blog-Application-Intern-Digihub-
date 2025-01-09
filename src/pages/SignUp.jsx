@@ -12,7 +12,7 @@ import {
   CardTitle,
   CardFooter,
 } from "../components/ui/card";
-import character from "../assets/logo/character.png";
+import character from "@/assets/images/logo/character.png";
 import { ToastContainer } from "react-toastify";
 import { Loader2 } from "lucide-react";
 const SignUp = () => {
