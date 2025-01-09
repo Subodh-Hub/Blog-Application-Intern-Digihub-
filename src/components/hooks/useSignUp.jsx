@@ -1,9 +1,12 @@
 import { useFormik } from "formik";
 import { signUpSchema } from "./signUpValidationSchema";
-
-import React from "react";
+import axios from "@/api/axios";
+import { toast } from "react-toastify";
+import { useState } from "react";
 
 const useSignUp = () => {
+  const URL = "/signup";
+  const [loading, setLoading] = useState(false);
   const formik = useFormik({
     initialValues: {
       firstName: "",
@@ -14,13 +17,37 @@ const useSignUp = () => {
       confirmPassword: "",
     },
     validationSchema: signUpSchema,
-    onSubmit: (value) => {
-      console.log("Form data", value);
+    onSubmit: async (values) => {
+      setLoading(true);
+
+      const payload = {
+        firstName: values.firstName,
+        middleName: values.middleName,
+        lastName: values.lastName,
+        email: values.email,
+        phone: values.phone,
+        password: values.password,
+        confirmPassword: values.confirmPassword,
+      };
+
+      try {
+        const response = await axios.post(URL, payload);
+        if (response) {
+          toast.success("Signup successfull!!!");
+        }
+        else if(response.message==="Email already exits"){
+          toast.warning("Email already exist!!!");
+        }
+        console.log("Form data", response);
+      } catch (error) {
+        toast.error("Error submitting form ", error);
+        setLoading(false);
+      }
     },
   });
-
   return {
     formik,
+    loading,
   };
 };
 

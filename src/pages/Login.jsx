@@ -1,13 +1,16 @@
 import React from "react";
-import useLoginForm from "./hooks/useLoginForm";
+import useLoginForm from "../components/hooks/useLoginForm";
 import character from "@/assets/logo/character.png";
 import cactus from "@/assets/logo/cactus.png";
-import "./styles/login.css";
+import "../components/styles/login.css";
 import { FaAngleRight } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { Loader2 } from "lucide-react";
+import { ToastContainer } from "react-toastify";
 
 const Login = () => {
-  const { formik } = useLoginForm();
+  const { formik, loading } = useLoginForm();
   //   console.log(formik.values);
   return (
     <div className="flex items-center justify-center w-screen h-screen bg-custom-gradient">
@@ -51,7 +54,14 @@ const Login = () => {
                 ) : null}
               </div>
 
-              <button className="btn-submit" type="submit">login <FaAngleRight /></button>
+              <Button className="btn-submit" type="submit">
+                login{" "}
+                {loading ? (
+                  <Loader2 className="animate-spin" />
+                ) : (
+                  <FaAngleRight />
+                )}
+              </Button>
             </form>
           </div>
           <div className="form-footer">
@@ -64,11 +74,11 @@ const Login = () => {
           <img src={cactus} alt="cactus" />
         </div> */}
         <div className="side-container">
-            
           <img src={character} alt="" className="character-img" />
           <img src={cactus} alt="" className="cactus-img" />
         </div>
       </div>
+      <ToastContainer position="top-center" />
     </div>
   );
 };
