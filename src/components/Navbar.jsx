@@ -19,35 +19,38 @@ const Navbar = () => {
         </div>
         <div className="logo font-playwright dark:text-white">DGBlog</div>
         <ul className="hidden gap-10 font-sans text-base text-[#3B3C4A] dark:text-white xl:flex">
-          <li className="cursor-pointer hover:text-teal-400">Home</li>
-          <li className="cursor-pointer hover:text-teal-400">Blog</li>
-          <li className="cursor-pointer hover:text-teal-400">Single Post</li>
-          <li className="cursor-pointer hover:text-teal-400">Pages</li>
-          <li className="cursor-pointer hover:text-teal-400">Contact</li>
+          <li className="cursor-pointer hover:text-blue-500">Home</li>
+          <li className="cursor-pointer hover:text-blue-500">Blog</li>
+          <li className="cursor-pointer hover:text-blue-500">Single Post</li>
+          <li className="cursor-pointer hover:text-blue-500">Pages</li>
+          <li className="cursor-pointer hover:text-blue-500">Contact</li>
         </ul>
         <div className="flex gap-3 lg:gap-10 xl:gap-10">
           <Avatar className="cursor-pointer">
             <AvatarImage src="https://github.com/shadcn.png" />
             <AvatarFallback>CN</AvatarFallback>
           </Avatar>
-          <ModeToggle className="cursor-pointer"/>
+          <ModeToggle className="cursor-pointer" />
+          <button className="px-3 text-sm border-[1px] border-black border-solid rounded-lg hover:bg-black hover:text-white dark:bg-blue-600 dark:hover:bg-blue-500 dark:text-white">
+            Sign In
+          </button>
         </div>
       </header>
       {isMenuOpen ? (
         <ul className="flex flex-col items-center w-screen gap-2 bg-zinc-100 drop-shadow-lg xl:hidden dark:text-white dark:bg-blue-950 rounded-xl">
-          <li className="w-full py-5 text-center cursor-pointer hover:text-teal-400 hover:bg-zinc-200 dark:hover:bg-blue-900 hover:rounded-b-3xl">
+          <li className="w-full py-5 text-center cursor-pointer hover:text-blue-500 hover:bg-zinc-200 dark:hover:bg-blue-900 hover:rounded-b-3xl">
             Home
           </li>
-          <li className="w-full py-5 text-center cursor-pointer hover:text-teal-400 hover:bg-zinc-200 dark:hover:bg-blue-900 hover:rounded-3xl">
+          <li className="w-full py-5 text-center cursor-pointer hover:text-blue-500 hover:bg-zinc-200 dark:hover:bg-blue-900 hover:rounded-3xl">
             Blog
           </li>
-          <li className="w-full py-5 text-center cursor-pointer hover:text-teal-400 hover:bg-zinc-200 dark:hover:bg-blue-900 hover:rounded-3xl">
+          <li className="w-full py-5 text-center cursor-pointer hover:text-blue-500 hover:bg-zinc-200 dark:hover:bg-blue-900 hover:rounded-3xl">
             Single Post
           </li>
-          <li className="w-full py-5 text-center cursor-pointer hover:text-teal-400 hover:bg-zinc-200 dark:hover:bg-blue-900 hover:rounded-3xl">
+          <li className="w-full py-5 text-center cursor-pointer hover:text-blue-500 hover:bg-zinc-200 dark:hover:bg-blue-900 hover:rounded-3xl">
             Pages
           </li>
-          <li className="w-full py-5 text-center cursor-pointer hover:text-teal-400 hover:bg-zinc-200 dark:hover:bg-blue-900 hover:rounded-t-3xl">
+          <li className="w-full py-5 text-center cursor-pointer hover:text-blue-500 hover:bg-zinc-200 dark:hover:bg-blue-900 hover:rounded-t-3xl">
             Contact
           </li>
         </ul>

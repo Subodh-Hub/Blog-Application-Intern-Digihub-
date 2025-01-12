@@ -7,7 +7,7 @@ const Hero = () => {
       <div className="flex justify-center dark:bg-customDarkTheme">
         <div className=" z-10 relative w-[90vw] text-black bg-white h-[85vh] dark:bg-customDarkTheme bg-[url('@/assets/images/hero.jpg')] bg-cover bg-center bg-no-repeat rounded-2xl">
           <div className="absolute bottom-[-40px] left-20 z-40 bg-white shadow-xl p-8 rounded-lg dark:bg-customDarkTheme dark:text-white">
-            <p className="bg-[#4B6BFB] text-white px-3 py-1 font-sans rounded-md w-fit text-sm font-semibold dark:bg-[#211F39]">
+            <p className="bg-[#4B6BFB] text-white px-3 py-1 font-sans rounded-md w-fit text-sm font-semibold">
               Music
             </p>
             <h1 className="max-w-md mt-4 text-2xl font-bold leading-8 tracking-wide text-left text-sans">
