@@ -6,11 +6,11 @@ const Hero = () => {
     <>
       <div className="flex justify-center dark:bg-customDarkTheme">
         <div className=" z-10 relative w-[90vw] text-black bg-white h-[85vh] dark:bg-customDarkTheme bg-[url('@/assets/images/hero.jpg')] bg-cover bg-center bg-no-repeat rounded-2xl">
-          <div className="absolute bottom-[-40px] left-20 z-40 bg-white shadow-xl p-8 rounded-lg dark:bg-customDarkTheme dark:text-white">
+          <div className="relative z-40 p-8 top-80 xl:absolute xl:top-[600px] xl:left-20 xl:bg-white xl:shadow-xl xl:rounded-lg xl:dark:bg-customDarkTheme dark:text-white">
             <p className="bg-[#4B6BFB] text-white px-3 py-1 font-sans rounded-md w-fit text-sm font-semibold">
               Music
             </p>
-            <h1 className="max-w-md mt-4 text-2xl font-bold leading-8 tracking-wide text-left text-sans">
+            <h1 className="max-w-md mt-4 text-2xl font-bold leading-8 tracking-wide text-left text-white text-sans xl:text-black xl:dark:text-white">
               (21 November 1852 - 15 December 1909) Classical Guitar
               Revolutions: Francisco Tárrega
             </h1>
@@ -22,8 +22,12 @@ const Hero = () => {
                   <AvatarFallback>CN</AvatarFallback>
                 </Avatar>
               </div>
-              <p className="text-[#97989F] text-base hover:cursor-pointer">Subodh Rijal</p>
-              <p className="text-[#97989F] text-base">January 12, 2025</p>
+              <p className="text-white xl:text-[#97989F] text-base hover:cursor-pointer">
+                Subodh Rijal
+              </p>
+              <p className="text-white xl:text-[#97989F] text-base">
+                January 12, 2025
+              </p>
             </div>
           </div>
         </div>
