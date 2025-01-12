@@ -1,7 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 import { fontFamily } from "tailwindcss/defaultTheme";
 export default {
-  darkMode: ["class"],
+  darkMode: "selector",
   content: ["./index.html", "./src/**/*.{ts,tsx,js,jsx}"],
   theme: {
     extend: {
@@ -20,6 +20,7 @@ export default {
       },
       colors: {
         background: "hsl(var(--background))",
+        customDarkTheme: "#181A2A",
         customBlue: "#c0dbea",
         customPink: "hsla(316, 73%, 85%);",
         foreground: "hsl(var(--foreground))",
