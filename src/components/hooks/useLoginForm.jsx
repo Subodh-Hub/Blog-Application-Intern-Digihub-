@@ -23,11 +23,13 @@ const useLoginForm = () => {
       };
       try {
         const response = await axios.post(URL, payload);
-        navigate("/dashboard");
-        
-      } 
-      catch (error) {
-        toast.error("Wrong credential!!!");
+        if (response) {
+          toast.success("Login Successfull");
+          console.log(response.data);
+          navigate("/dashboard");
+        }
+      } catch (error) {
+        toast.warning("Error with fetching the api!!!");
         setLoading(false);
       }
     },

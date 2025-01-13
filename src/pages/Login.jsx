@@ -11,20 +11,19 @@ import { ToastContainer } from "react-toastify";
 
 const Login = () => {
   const { formik, loading } = useLoginForm();
-  //   console.log(formik.values);
   return (
-    <div className="flex items-center justify-center w-screen h-screen bg-custom-gradient">
+    <div className="flex items-center justify-center w-screen h-screen bg-custom-gradient dark:bg-custom-gradient">
       <div className="form-container">
         <div className="form-details">
           <div className="form-header">
             <h1>Logo Here</h1>
-            <p>Blogging site developed during intern!!!!</p>
+            <p className="dark:text-black">Blogging site developed during intern!!!!</p>
             <h3>Log In</h3>
           </div>
           <div className="form-content">
             <form onSubmit={formik.handleSubmit}>
               <div className="form-component">
-                <label htmlFor="email">Email</label>
+                <label htmlFor="email" className="dark:text-black">Email</label>
                 <input
                   type="email"
                   id="email"
@@ -38,7 +37,7 @@ const Login = () => {
                 ) : null}
               </div>
               <div className="form-component">
-                <label htmlFor="password">Password</label>
+                <label htmlFor="password" className="dark:text-black">Password</label>
                 <input
                   type="password"
                   id="password"
@@ -65,7 +64,7 @@ const Login = () => {
             </form>
           </div>
           <div className="form-footer">
-            <p>
+            <p className="dark:text-black">
               Need an account? <Link to="/signup">Sign Up</Link>
             </p>
           </div>
