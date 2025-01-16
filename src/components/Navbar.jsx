@@ -1,17 +1,23 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { IoMenu, IoClose } from "react-icons/io5";
+import { LiaSignOutAltSolid } from "react-icons/lia";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ModeToggle } from "./ModeToggle";
 import { Link } from "react-router-dom";
-import axios from "@/api/axios";
+import apiClient from "@/api/axiosInterceptors";
+import useAuth from "./hooks/useAuth";
+import { useNavigate } from "react-router-dom";
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { userInf } = useAuth();
   const URL = "/category";
   const [category, setCategory] = useState([]);
+  const navigate = useNavigate();
+
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await axios.get(URL);
+        const response = await apiClient.get(URL);
         setCategory(response.data);
       } catch (error) {
         console.log("Error", error);
@@ -35,23 +41,43 @@ const Navbar = () => {
         <ul className="hidden gap-10 font-sans text-base text-[#3B3C4A] dark:text-white xl:flex">
           <li className="cursor-pointer hover:text-blue-500">Home</li>
           <li className="cursor-pointer hover:text-blue-500">Blog</li>
-          {category.map((el) => (
-            <li className="cursor-pointer hover:text-blue-500" key={el.id}>
-              {el.categoryTitle}{" "}
-              {/* Assuming each category has 'id' and 'categoryTitle' */}
+          {category.map((el, i) => (
+            <li className="cursor-pointer hover:text-blue-500" key={i}>
+              {el.categoryTitle}
             </li>
           ))}
           <li className="cursor-pointer hover:text-blue-500">Contact</li>
         </ul>
-        <div className="flex gap-3 lg:gap-10 xl:gap-10">
+        <div className="flex items-center gap-3 lg:gap-10 xl:gap-10">
           <Avatar className="cursor-pointer">
             <AvatarImage src="https://github.com/shadcn.png" />
             <AvatarFallback>CN</AvatarFallback>
           </Avatar>
+          {userInf && Object.keys(userInf).length > 0 ? (
+            <p className="hidden lg:block dark:text-white">
+              {userInf.firstName}
+            </p>
+          ) : (
+            ""
+          )}
+
           <ModeToggle className="cursor-pointer" />
-          <button className="px-3 text-sm border-[1px] border-black border-solid rounded-lg hover:bg-black hover:text-white dark:bg-blue-600 dark:hover:bg-blue-500 dark:text-white">
-            <Link to="/">Sign In</Link>
-          </button>
+          {userInf && Object.keys(userInf).length > 0 ? (
+            <button
+              className="flex items-center gap-2 px-3 py-2 text-sm border-[1px] border-black border-solid rounded-lg hover:bg-black hover:text-white dark:bg-blue-600 dark:hover:bg-blue-500 dark:text-white"
+              onClick={() => {
+                localStorage.clear();
+                navigate("/login");
+              }}
+            >
+              Sign Out
+              <LiaSignOutAltSolid />
+            </button>
+          ) : (
+            <button className="px-3 py-2 text-sm border-[1px] border-black border-solid rounded-lg hover:bg-black hover:text-white dark:bg-blue-600 dark:hover:bg-blue-500 dark:text-white">
+              <Link to="/login">Sign In</Link>
+            </button>
+          )}
         </div>
       </header>
       {isMenuOpen ? (
@@ -62,10 +88,12 @@ const Navbar = () => {
           <li className="w-full py-5 text-center cursor-pointer hover:bg-zinc-200 dark:hover:bg-blue-900 hover:rounded-3xl">
             Blog
           </li>
-          {category.map((el) => (
-            <li className="w-full py-5 text-center cursor-pointer hover:bg-zinc-200 dark:hover:bg-blue-900 hover:rounded-3xl">
-              {el.categoryTitle}{" "}
-              {/* Assuming each category has 'id' and 'categoryTitle' */}
+          {category.map((el, i) => (
+            <li
+              key={i}
+              className="w-full py-5 text-center cursor-pointer hover:bg-zinc-200 dark:hover:bg-blue-900 hover:rounded-3xl"
+            >
+              {el.categoryTitle}
             </li>
           ))}
           <li className="w-full py-5 text-center cursor-pointer hover:bg-zinc-200 dark:hover:bg-blue-900 hover:rounded-t-3xl">

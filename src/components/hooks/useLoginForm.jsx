@@ -1,13 +1,38 @@
 import { useFormik } from "formik";
 import { loginSchema } from "./loginValidationSchema";
-import axios from "@/api/axios";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { toast } from "react-toastify";
-
+import apiClient from "@/api/axiosInterceptors";
+import AuthContext from "@/context/AuthProvider";
 const URL = "/login";
+
 const useLoginForm = () => {
   const [loading, setLoading] = useState(false);
+  const { setUserInf } = useContext(AuthContext);
+  const getUserURL = "/getUser-auth";
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        if (isLoggedIn) {
+          const response = await apiClient.get(getUserURL);
+          setUserInf(response.data);
+          console.log(response.data);
+        }
+      } catch (error) {
+        if (error.response?.status === 401) {
+          toast.error("Unauthorized. Please log in.");
+        } else {
+          toast.error("Failed to fetch user data.");
+        }
+      }
+    };
+
+    fetchData();
+  }, [isLoggedIn]);
+
   const navigate = useNavigate();
   const formik = useFormik({
     initialValues: {
@@ -22,14 +47,19 @@ const useLoginForm = () => {
         password: values.password,
       };
       try {
-        const response = await axios.post(URL, payload);
-        if (response) {
+        const response = await apiClient.post(URL, payload);
+        const accessToken = response.data.accessToken;
+        if (response.data?.accessToken) {
+          localStorage.setItem("accessToken", accessToken);
           toast.success("Login Successfull");
-          console.log(response.data);
-          navigate("/dashboard");
+          setIsLoggedIn(true);
+          navigate("/");
         }
       } catch (error) {
-        toast.warning("Error with fetching the api!!!");
+        {
+          console.error("Request Error:", error.message);
+        }
+      } finally {
         setLoading(false);
       }
     },

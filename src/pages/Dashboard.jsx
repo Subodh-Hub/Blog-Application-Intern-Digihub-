@@ -1,9 +1,11 @@
 import Hero from "@/components/Hero";
 import Navbar from "@/components/Navbar";
-import { ThemeProvider } from "@/components/ThemeProvider";
-import React from "react";
-
+import { ThemeProvider } from "@/context/ThemeProvider";
+import React, { useState, useEffect, useContext } from "react";
+import apiClient from "@/api/axiosInterceptors";
+import AuthContext from "@/context/AuthProvider";
 const Dashboard = () => {
+  
   return (
     <>
       <ThemeProvider>
