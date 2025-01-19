@@ -13,6 +13,7 @@ export default {
       fontFamily: {
         poppins: ["Poppins", ...fontFamily.sans],
         playwright: ["Playwrite AU SA", ...fontFamily.sans],
+        sans: ['Work Sans', 'sans-serif'],
       },
       backgroundImage: {
         "custom-gradient":

@@ -12,7 +12,7 @@ import {
   CardTitle,
   CardFooter,
 } from "../components/ui/card";
-import character from "@/assets/images/logo/character.png";
+import signupPic from "@/assets/images/logo/signup.png";
 import { ToastContainer } from "react-toastify";
 import { Loader2 } from "lucide-react";
 const SignUp = () => {
@@ -21,11 +21,11 @@ const SignUp = () => {
     <div className="flex items-center justify-center w-screen h-screen bg-custom-gradient">
       <div className="overflow-hidden flex justify-center bg-white w-[75vw] h-fit rounded-3xl">
         <div className="hidden lg:w-1/3 h-100 lg:block bg-customPink">
-          {/* <img
-            src={character}
+          <img
+            src={signupPic}
             alt=""
             className="absolute right-[-100px] z-10 top-80"
-          /> */}
+          />
         </div>
 
         <Card className="items-center border-none md:w-2/3 p-7 lg:px-20 dark:bg-white">

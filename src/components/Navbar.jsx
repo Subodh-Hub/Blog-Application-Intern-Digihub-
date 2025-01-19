@@ -38,7 +38,7 @@ const Navbar = () => {
           {isMenuOpen ? <IoClose size="2rem" /> : <IoMenu size="2rem" />}
         </div>
         <div className="logo font-playwright dark:text-white">DGBlog</div>
-        <ul className="hidden gap-10 font-sans text-base text-[#3B3C4A] dark:text-white xl:flex">
+        <ul className="hidden gap-10 font-sans text-lg text-[#3B3C4A] dark:text-white xl:flex">
           <li className="cursor-pointer hover:text-blue-500">Home</li>
           <li className="cursor-pointer hover:text-blue-500">Blog</li>
           {category.map((el, i) => (
