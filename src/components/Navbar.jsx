@@ -28,7 +28,7 @@ const Navbar = () => {
 
   return (
     <>
-      <header className="relative flex items-center justify-between w-screen px-8 py-6 text-black bg-white md:px-32 xl:px-80 dark:bg-customDarkTheme ">
+      <header className="sticky top-0 z-40 flex items-center justify-between w-screen px-8 py-6 text-black bg-white md:px-32 xl:px-80 dark:bg-customDarkTheme ">
         <div
           className="block cursor-pointer menu xl:hidden dark:text-white"
           onClick={() => {
@@ -117,24 +117,63 @@ const Navbar = () => {
         </div>
       </header>
       {isMenuOpen ? (
-        <ul className="flex flex-col items-center w-screen gap-2 bg-zinc-100 drop-shadow-lg xl:hidden dark:text-white dark:bg-blue-950 rounded-xl">
-          <li className="w-full py-5 text-center cursor-pointer hover:bg-zinc-200 dark:hover:bg-blue-900 hover:rounded-b-3xl">
+        <ul className="fixed z-40 flex flex-col items-center w-screen gap-2 bg-zinc-100 drop-shadow-lg xl:hidden dark:text-white dark:bg-blue-950 rounded-xl">
+          <NavLink
+            className={({ isActive }) =>
+              isActive
+                ? "w-full py-5 text-center rounded-b-3xl bg-zinc-200 text-blue-500"
+                : "w-full py-5 text-center cursor-pointer hover:bg-zinc-200 dark:hover:bg-blue-900 hover:rounded-b-3xl"
+            }
+            to="/"
+            onClick={() => {
+              setIsMenuOpen(false);
+            }}
+          >
             Home
-          </li>
-          <li className="w-full py-5 text-center cursor-pointer hover:bg-zinc-200 dark:hover:bg-blue-900 hover:rounded-3xl">
+          </NavLink>
+
+          <NavLink
+            className={({ isActive }) =>
+              isActive
+                ? "w-full py-5 text-center rounded-3xl bg-zinc-200 text-blue-500"
+                : "w-full py-5 text-center cursor-pointer hover:bg-zinc-200 dark:hover:bg-blue-900 hover:rounded-3xl"
+            }
+            to="/blog"
+            onClick={() => {
+              setIsMenuOpen(false);
+            }}
+          >
             Blog
-          </li>
+          </NavLink>
           {category.map((el, i) => (
-            <li
+            <NavLink
+              className={({ isActive }) =>
+                isActive
+                  ? "w-full py-5 text-center rounded-3xl bg-zinc-200 text-blue-500"
+                  : "w-full py-5 text-center cursor-pointer hover:bg-zinc-200 dark:hover:bg-blue-900 hover:rounded-3xl"
+              }
+              onClick={() => {
+                setIsMenuOpen(false);
+              }}
+              to={`/${el.categoryTitle}/${el.categoryId}`}
               key={i}
-              className="w-full py-5 text-center cursor-pointer hover:bg-zinc-200 dark:hover:bg-blue-900 hover:rounded-3xl"
             >
               {el.categoryTitle}
-            </li>
+            </NavLink>
           ))}
-          <li className="w-full py-5 text-center cursor-pointer hover:bg-zinc-200 dark:hover:bg-blue-900 hover:rounded-t-3xl">
+          <NavLink
+            className={({ isActive }) =>
+              isActive
+                ? "w-full py-5 text-center rounded-t-3xl bg-zinc-200 text-blue-500"
+                : "w-full py-5 text-center cursor-pointer hover:bg-zinc-200 dark:hover:bg-blue-900 hover:rounded-t-3xl"
+            }
+            onClick={() => {
+              setIsMenuOpen(false);
+            }}
+            to="/contact"
+          >
             Contact
-          </li>
+          </NavLink>
         </ul>
       ) : (
         ""

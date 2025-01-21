@@ -14,6 +14,7 @@ export default {
         poppins: ["Poppins", ...fontFamily.sans],
         playwright: ["Playwrite AU SA", ...fontFamily.sans],
         sans: ['Work Sans', 'sans-serif'],
+        serif: ['"Source Serif Pro"', 'serif']
       },
       backgroundImage: {
         "custom-gradient":
