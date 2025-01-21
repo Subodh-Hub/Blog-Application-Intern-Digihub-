@@ -69,9 +69,6 @@ const Login = () => {
             </p>
           </div>
         </div>
-        {/* <div>
-          <img src={cactus} alt="cactus" />
-        </div> */}
         <div className="side-container">
           <img src={character} alt="" className="character-img" />
           <img src={cactus} alt="" className="cactus-img" />

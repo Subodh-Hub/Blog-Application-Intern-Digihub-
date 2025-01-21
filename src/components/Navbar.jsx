@@ -3,7 +3,7 @@ import { IoMenu, IoClose } from "react-icons/io5";
 import { LiaSignOutAltSolid } from "react-icons/lia";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ModeToggle } from "./ModeToggle";
-import { Link } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 import apiClient from "@/api/axiosInterceptors";
 import useAuth from "./hooks/useAuth";
 import { useNavigate } from "react-router-dom";
@@ -39,14 +39,50 @@ const Navbar = () => {
         </div>
         <div className="logo font-playwright dark:text-white">DGBlog</div>
         <ul className="hidden gap-10 font-sans text-lg text-[#3B3C4A] dark:text-white xl:flex">
-          <li className="cursor-pointer hover:text-blue-500">Home</li>
-          <li className="cursor-pointer hover:text-blue-500">Blog</li>
+          <NavLink
+            className={({ isActive }) =>
+              isActive
+                ? "cursor-pointer text-blue-500"
+                : "cursor-pointer hover:text-blue-500"
+            }
+            to="/"
+          >
+            Home
+          </NavLink>
+          <NavLink
+            className={({ isActive }) =>
+              isActive
+                ? "cursor-pointer text-blue-500"
+                : "cursor-pointer hover:text-blue-500"
+            }
+            to="/blog"
+          >
+            Blog
+          </NavLink>
+
           {category.map((el, i) => (
-            <li className="cursor-pointer hover:text-blue-500" key={i}>
+            <NavLink
+              className={({ isActive }) =>
+                isActive
+                  ? "cursor-pointer text-blue-500"
+                  : "cursor-pointer hover:text-blue-500"
+              }
+              to={`/${el.categoryTitle}/${el.categoryId}`}
+              key={i}
+            >
               {el.categoryTitle}
-            </li>
+            </NavLink>
           ))}
-          <li className="cursor-pointer hover:text-blue-500">Contact</li>
+          <NavLink
+            to="/contact"
+            className={({ isActive }) =>
+              isActive
+                ? "cursor-pointer text-blue-500"
+                : "cursor-pointer hover:text-blue-500"
+            }
+          >
+            Contact
+          </NavLink>
         </ul>
         <div className="flex items-center gap-3 lg:gap-10 xl:gap-10">
           <Avatar className="cursor-pointer">

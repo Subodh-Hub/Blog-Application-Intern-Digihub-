@@ -11,27 +11,19 @@ const useLoginForm = () => {
   const [loading, setLoading] = useState(false);
   const { setUserInf } = useContext(AuthContext);
   const getUserURL = "/getUser-auth";
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        if (isLoggedIn) {
-          const response = await apiClient.get(getUserURL);
-          setUserInf(response.data);
-          console.log(response.data);
-        }
-      } catch (error) {
-        if (error.response?.status === 401) {
-          toast.error("Unauthorized. Please log in.");
-        } else {
-          toast.error("Failed to fetch user data.");
-        }
+  const fetchData = async () => {
+    try {
+      const response = await apiClient.get(getUserURL);
+      setUserInf(response.data);
+    } catch (error) {
+      if (error.response?.status === 401) {
+        toast.error("Unauthorized. Please log in.");
+      } else {
+        toast.error("Failed to fetch user data.");
       }
-    };
-
-    fetchData();
-  }, [isLoggedIn]);
+    }
+  };
 
   const navigate = useNavigate();
   const formik = useFormik({
@@ -51,8 +43,8 @@ const useLoginForm = () => {
         const accessToken = response.data.accessToken;
         if (response.data?.accessToken) {
           localStorage.setItem("accessToken", accessToken);
+          fetchData();
           toast.success("Login Successfull");
-          setIsLoggedIn(true);
           navigate("/");
         }
       } catch (error) {

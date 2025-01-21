@@ -12,7 +12,7 @@ import {
   CardTitle,
   CardFooter,
 } from "../components/ui/card";
-import signupPic from "@/assets/images/logo/signup.png";
+import signupPic from "@/assets/images/signup.png";
 import { ToastContainer } from "react-toastify";
 import { Loader2 } from "lucide-react";
 const SignUp = () => {
@@ -20,11 +20,11 @@ const SignUp = () => {
   return (
     <div className="flex items-center justify-center w-screen h-screen bg-custom-gradient">
       <div className="overflow-hidden flex justify-center bg-white w-[75vw] h-fit rounded-3xl">
-        <div className="hidden lg:w-1/3 h-100 lg:block bg-customPink">
+        <div className="relative z-10 hidden lg:w-1/3 h-100 lg:block bg-customPink">
           <img
             src={signupPic}
             alt=""
-            className="absolute right-[-100px] z-10 top-80"
+            className="absolute bottom-3 right-[-40px] z-20"
           />
         </div>
 

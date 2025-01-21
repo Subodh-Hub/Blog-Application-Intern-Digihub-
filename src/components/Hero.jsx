@@ -4,9 +4,9 @@ import React from "react";
 const Hero = () => {
   return (
     <>
-      <div className="flex justify-center dark:bg-customDarkTheme">
-        <div className=" z-10 relative w-[90vw] text-black bg-white h-[85vh] dark:bg-customDarkTheme bg-[url('@/assets/images/hero.jpg')] bg-cover bg-center bg-no-repeat rounded-2xl">
-          <div className="absolute z-40 p-8 bottom-0 xl:absolute xl:bottom-[-60px] xl:left-20 xl:bg-white xl:shadow-xl xl:rounded-lg xl:dark:bg-customDarkTheme dark:text-white">
+      <div className="flex justify-center w-screen dark:bg-customDarkTheme">
+        <div className=" z-10 relative w-full max-w-[90vw] text-black bg-white h-[85vh] dark:bg-customDarkTheme bg-[url('/src/assets/images/hero.jpg')] bg-cover bg-center bg-no-repeat rounded-2xl">
+          <div className="absolute bottom-0 z-40 p-8 w-fit xl:bottom-0 xl:translate-y-8 xl:left-20 xl:bg-white xl:shadow-xl xl:rounded-lg xl:dark:bg-customDarkTheme dark:text-white">
             <p className="bg-[#4B6BFB] text-white px-3 py-1 font-sans rounded-md w-fit text-sm font-semibold">
               Music
             </p>
