@@ -1,14 +1,16 @@
 import React, { useState, useEffect, useContext } from "react";
 import { IoMenu, IoClose } from "react-icons/io5";
-import { LiaSignOutAltSolid } from "react-icons/lia";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ModeToggle } from "./ModeToggle";
 import { NavLink, Link } from "react-router-dom";
 import apiClient from "@/api/axiosInterceptors";
 import useAuth from "./hooks/useAuth";
 import { useNavigate } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
+import ProfileMenu from "./ProfileMenu";
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
   const { userInf } = useAuth();
   const URL = "/category";
   const [category, setCategory] = useState([]);
@@ -25,7 +27,7 @@ const Navbar = () => {
     }
     fetchData();
   }, []);
-
+  console.log(isProfileMenuOpen);
   return (
     <>
       <header className="sticky top-0 z-40 flex items-center justify-between w-screen px-8 py-6 text-black bg-white md:px-32 xl:px-80 dark:bg-customDarkTheme ">
@@ -85,30 +87,28 @@ const Navbar = () => {
           </NavLink>
         </ul>
         <div className="flex items-center gap-3 lg:gap-10 xl:gap-10">
-          <Avatar className="cursor-pointer">
-            <AvatarImage src="https://github.com/shadcn.png" />
-            <AvatarFallback>CN</AvatarFallback>
-          </Avatar>
-          {userInf && Object.keys(userInf).length > 0 ? (
-            <p className="hidden lg:block dark:text-white">
-              {userInf.firstName}
-            </p>
-          ) : (
-            ""
-          )}
+          <div className="w-fit">
+            {isProfileMenuOpen ? (
+              <ProfileMenu fName={userInf.firstName} lName={userInf.lastName} />
+            ) : (
+              ""
+            )}
+            <Avatar
+              className="cursor-pointer"
+              onClick={() => {
+                userInf && Object.keys(userInf).length > 0
+                  ? setIsProfileMenuOpen(!isProfileMenuOpen)
+                  : toast.error("Please Login First");
+              }}
+            >
+              <AvatarImage src="https://github.com/shadcn.png" />
+              <AvatarFallback>CN</AvatarFallback>
+            </Avatar>
+          </div>
 
           <ModeToggle className="cursor-pointer" />
           {userInf && Object.keys(userInf).length > 0 ? (
-            <button
-              className="flex items-center gap-2 px-3 py-2 text-sm border-[1px] border-black border-solid rounded-lg hover:bg-black hover:text-white dark:bg-blue-600 dark:hover:bg-blue-500 dark:text-white"
-              onClick={() => {
-                localStorage.clear();
-                navigate("/login");
-              }}
-            >
-              Sign Out
-              <LiaSignOutAltSolid />
-            </button>
+            ""
           ) : (
             <button className="px-3 py-2 text-sm border-[1px] border-black border-solid rounded-lg hover:bg-black hover:text-white dark:bg-blue-600 dark:hover:bg-blue-500 dark:text-white">
               <Link to="/login">Sign In</Link>
@@ -178,6 +178,7 @@ const Navbar = () => {
       ) : (
         ""
       )}
+      <ToastContainer />
     </>
   );
 };
