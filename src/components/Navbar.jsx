@@ -5,7 +5,6 @@ import { ModeToggle } from "./ModeToggle";
 import { NavLink, Link } from "react-router-dom";
 import apiClient from "@/api/axiosInterceptors";
 import useAuth from "./hooks/useAuth";
-import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import ProfileMenu from "./ProfileMenu";
 const Navbar = () => {
@@ -14,7 +13,6 @@ const Navbar = () => {
   const { userInf } = useAuth();
   const URL = "/category";
   const [category, setCategory] = useState([]);
-  const navigate = useNavigate();
 
   useEffect(() => {
     async function fetchData() {

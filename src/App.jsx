@@ -8,6 +8,11 @@ import DynamicCategory from "./pages/DynamicCategory";
 import SinglePage from "./pages/SinglePage";
 import Profile from "./pages/Menu/Profile";
 import Setting from "./pages/Menu/Setting";
+import Posts from "./pages/Menu/Posts";
+import Comments from "./pages/Menu/Comments";
+import Upvoted from "./pages/Menu/Upvoted";
+import Downvoted from "./pages/Menu/Downvoted";
+import Overview from "./pages/Menu/Overview";
 
 const App = () => {
   return (
@@ -17,7 +22,13 @@ const App = () => {
           <Route path="/" element={<Dashboard />}>
             <Route path="blog" element={<Blog />} />
             <Route path="contact" element={<Contact />} />
-            <Route path="profile" element={<Profile />} />
+            <Route path="profile" element={<Profile />}>
+              <Route path="overview" element={<Overview />} />
+              <Route path="submitted" element={<Posts />} />
+              <Route path="comments" element={<Comments />} />
+              <Route path="upvoted" element={<Upvoted />} />
+              <Route path="downvoted" element={<Downvoted />} />
+            </Route>
             <Route path="setting" element={<Setting />} />
             <Route path="/:name/:id" element={<DynamicCategory />} />
             <Route path="/:name/:id/:postId" element={<SinglePage />} />

@@ -17,13 +17,17 @@ const Login = () => {
         <div className="form-details">
           <div className="form-header">
             <h1>Logo Here</h1>
-            <p className="dark:text-black">Blogging site developed during intern!!!!</p>
+            <p className="dark:text-black">
+              Blogging site developed during intern!!!!
+            </p>
             <h3>Log In</h3>
           </div>
           <div className="form-content">
             <form onSubmit={formik.handleSubmit}>
               <div className="form-component">
-                <label htmlFor="email" className="dark:text-black">Email</label>
+                <label htmlFor="email" className="dark:text-black">
+                  Email
+                </label>
                 <input
                   type="email"
                   id="email"
@@ -37,7 +41,9 @@ const Login = () => {
                 ) : null}
               </div>
               <div className="form-component">
-                <label htmlFor="password" className="dark:text-black">Password</label>
+                <label htmlFor="password" className="dark:text-black">
+                  Password
+                </label>
                 <input
                   type="password"
                   id="password"
@@ -66,6 +72,9 @@ const Login = () => {
           <div className="form-footer">
             <p className="dark:text-black">
               Need an account? <Link to="/signup">Sign Up</Link>
+            </p>
+            <p className="dark:text-black">
+              Go back to <Link to="/">Home</Link>
             </p>
           </div>
         </div>

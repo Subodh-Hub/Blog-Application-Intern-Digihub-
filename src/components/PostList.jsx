@@ -17,14 +17,14 @@ const PostList = ({ post }) => {
 
       {showAll ? (
         <button
-          className="px-5 py-3 w-fit mx-auto outline outline-1 my-5 font-sans text-sm text-[#696A75] outline-[#696A75] rounded-sm dark:bg-[#181A2A]"
+          className="px-5 py-3 w-fit mx-auto outline outline-1 my-5 font-sans text-sm text-[#696A75] outline-[#696A75] hover:outline-white rounded-sm dark:bg-[#181A2A]"
           onClick={() => setShowAll(false)}
         >
           View Less
         </button>
       ) : (
         <button
-          className="px-5 py-3 w-fit mx-auto outline outline-1 my-5 font-sans text-sm text-[#696A75] outline-[#696A75] rounded-sm dark:bg-[#181A2A]"
+          className="px-5 py-3 w-fit mx-auto outline outline-1 my-5 font-sans text-sm text-[#696A75] outline-[#696A75] hover:outline-white rounded-sm dark:bg-[#181A2A]"
           onClick={() => setShowAll(true)}
         >
           View All Post
