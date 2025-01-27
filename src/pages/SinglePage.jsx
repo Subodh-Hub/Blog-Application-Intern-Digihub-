@@ -4,8 +4,10 @@ import { useParams } from "react-router-dom";
 import hero from "@/assets/images/hero.jpg";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { BiUpvote, BiDownvote, BiComment } from "react-icons/bi";
-
+import useAuth from "@/components/hooks/useAuth";
+import { toast, ToastContainer } from "react-toastify";
 const SinglePage = () => {
+  const { userInf } = useAuth();
   const { postId } = useParams();
   const URL = `/post/${postId}`;
 
@@ -85,11 +87,25 @@ const SinglePage = () => {
         </p>
         <div className="flex items-center gap-3">
           <div className="flex items-center gap-3 px-3 py-1 rounded-lg bg-slate-300">
-            <BiUpvote className="text-2xl text-[#4B6BFB] cursor-pointer" />
+            <BiUpvote
+              className="text-2xl text-[#4B6BFB] cursor-pointer"
+              onClick={() => {
+                userInf && Object.keys(userInf).length > 0
+                  ? ""
+                  : toast.error("Please Login first");
+              }}
+            />
             {formatNumber(likeCount)}
           </div>
           <div className="flex items-center gap-3 px-3 py-1 rounded-lg bg-slate-300">
-            <BiDownvote className="text-2xl text-[#4B6BFB] cursor-pointer" />
+            <BiDownvote
+              className="text-2xl text-[#4B6BFB] cursor-pointer"
+              onClick={() => {
+                userInf && Object.keys(userInf).length > 0
+                  ? ""
+                  : toast.error("Please Login first");
+              }}
+            />
             {formatNumber(disLikeCount)}
           </div>
           <div className="flex items-center gap-3 px-3 py-1 rounded-lg bg-slate-300">
@@ -97,7 +113,7 @@ const SinglePage = () => {
           </div>
         </div>
       </main>
-      <hr className="mt-10 w-[95vw] m-auto" />
+      <ToastContainer />
     </div>
   );
 };

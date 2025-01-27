@@ -8,7 +8,7 @@ import {
 
 const Footer = () => {
   return (
-    <div className="py-20 bg-white dark:bg-customDarkTheme">
+    <div className="bg-white dark:bg-customDarkTheme">
       <hr className="bg-slate-400 w-[90vw] m-auto my-20"/>
       <footer className=" w-[90vw] m-auto flex flex-col gap-5 px-4 lg:px-20">
         <div className="flex flex-col flex-wrap items-center justify-center gap-5 md:flex-row lg:justify-between lg:px-20">

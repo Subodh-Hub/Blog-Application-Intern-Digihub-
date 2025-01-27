@@ -25,6 +25,13 @@ const useLoginForm = () => {
     }
   };
 
+  const token = localStorage.getItem("accessToken");
+  useEffect(() => {
+    if (token) {
+      fetchData();
+    }
+  }, [token]);
+
   const navigate = useNavigate();
   const formik = useFormik({
     initialValues: {

@@ -25,7 +25,6 @@ const Navbar = () => {
     }
     fetchData();
   }, []);
-  console.log(isProfileMenuOpen);
   return (
     <>
       <header className="sticky top-0 z-40 flex items-center justify-between w-screen px-8 py-6 text-black bg-white md:px-32 xl:px-80 dark:bg-customDarkTheme ">
@@ -47,17 +46,7 @@ const Navbar = () => {
             }
             to="/"
           >
-            Home
-          </NavLink>
-          <NavLink
-            className={({ isActive }) =>
-              isActive
-                ? "cursor-pointer text-blue-500"
-                : "cursor-pointer hover:text-blue-500"
-            }
-            to="/blog"
-          >
-            Blog
+            Blogs
           </NavLink>
 
           {category.map((el, i) => (
@@ -87,7 +76,11 @@ const Navbar = () => {
         <div className="flex items-center gap-3 lg:gap-10 xl:gap-10">
           <div className="w-fit">
             {isProfileMenuOpen ? (
-              <ProfileMenu fName={userInf.firstName} lName={userInf.lastName} />
+              <ProfileMenu
+                fName={userInf.firstName}
+                lName={userInf.lastName}
+                showProfileMenu={setIsProfileMenuOpen}
+              />
             ) : (
               ""
             )}
@@ -127,22 +120,9 @@ const Navbar = () => {
               setIsMenuOpen(false);
             }}
           >
-            Home
+            Blogs
           </NavLink>
 
-          <NavLink
-            className={({ isActive }) =>
-              isActive
-                ? "w-full py-5 text-center rounded-3xl bg-zinc-200 text-blue-500"
-                : "w-full py-5 text-center cursor-pointer hover:bg-zinc-200 dark:hover:bg-blue-900 hover:rounded-3xl"
-            }
-            to="/blog"
-            onClick={() => {
-              setIsMenuOpen(false);
-            }}
-          >
-            Blog
-          </NavLink>
           {category.map((el, i) => (
             <NavLink
               className={({ isActive }) =>

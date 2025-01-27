@@ -1,14 +1,37 @@
-  import { createContext, useState } from "react";
-  const AuthContext = createContext({});
-  const URL = "/getUser-auth"
-  export const AuthProvider = ({ children }) => {
-    const [userInf, setUserInf] = useState({});
-    
-    return (
-      <AuthContext.Provider value={{ userInf, setUserInf }}>
-        {children}
-      </AuthContext.Provider>
-    );
+import apiClient from "@/api/axiosInterceptors";
+import { createContext, useEffect, useState } from "react";
+import { toast } from "react-toastify";
+const AuthContext = createContext({});
+
+export const AuthProvider = ({ children }) => {
+  const [userInf, setUserInf] = useState({});
+  const URL = "/getUser-auth";
+
+  const fetchData = async () => {
+    try {
+      const response = await apiClient.get(URL);
+      setUserInf(response.data);
+    } catch (error) {
+      if (error.response?.status === 401) {
+        toast.error("Unauthorized. Please log in.");
+      } else {
+        toast.error("Failed to fetch user data.");
+      }
+    }
   };
 
-  export default AuthContext;
+  const token = localStorage.getItem("accessToken");
+  useEffect(() => {
+    if (token) {
+      fetchData();
+    }
+  }, [token]);
+
+  return (
+    <AuthContext.Provider value={{ userInf, setUserInf }}>
+      {children}
+    </AuthContext.Provider>
+  );
+};
+
+export default AuthContext;

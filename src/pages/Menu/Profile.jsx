@@ -1,8 +1,9 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useOutlet, NavLink } from "react-router-dom";
 import { FaPlus } from "react-icons/fa";
-import Overview from "./Overview";
+import useAuth from "@/components/hooks/useAuth";
 const Profile = () => {
+  const { userInf } = useAuth();
   const outlet = useOutlet();
   return (
     <div className="bg-white mt-7 dark:bg-customDarkTheme">
@@ -14,36 +15,64 @@ const Profile = () => {
           </Avatar>
           <div>
             <h3 className="text-3xl font-semibold text-zinc-600 font-poppins dark:text-gray-300">
-              Subodh Rijal
+              {userInf &&
+                Object.keys(userInf).length > 0 &&
+                `${
+                  userInf.firstName.charAt(0).toUpperCase() +
+                  userInf.firstName.slice(1)
+                } ${userInf.lastName}`}
             </h3>
             <p></p>
           </div>
         </div>
         <ul className="flex flex-wrap items-center gap-4 mt-8 text-lg text-[#3B3C4A] dark:text-white">
-          <NavLink to="/profile/overview" className={({isActive})=>isActive ? "cursor-pointer bg-gray-300 text-blue-500 dark:bg-slate-700 px-2 py-1 rounded-full" : "cursor-pointer hover:text-blue-500"}>
+          <NavLink
+            to="/profile/overview"
+            className={({ isActive }) =>
+              isActive
+                ? "cursor-pointer bg-gray-300 text-blue-500 dark:bg-slate-700 px-2 py-1 rounded-full"
+                : "cursor-pointer hover:text-blue-500"
+            }
+          >
             Overview
           </NavLink>
           <NavLink
             to="/profile/submitted"
-            className={({isActive})=>isActive ? "cursor-pointer  text-blue-500 bg-gray-300 dark:bg-slate-700 px-2 py-1 rounded-full" : "cursor-pointer  hover:text-blue-500"}
+            className={({ isActive }) =>
+              isActive
+                ? "cursor-pointer  text-blue-500 bg-gray-300 dark:bg-slate-700 px-2 py-1 rounded-full"
+                : "cursor-pointer  hover:text-blue-500"
+            }
           >
             Posts
           </NavLink>
           <NavLink
             to="/profile/comments"
-            className={({isActive})=>isActive ? "cursor-pointer  text-blue-500 bg-gray-300 dark:bg-slate-700 px-2 py-1 rounded-full" : "cursor-pointer  hover:text-blue-500"}
+            className={({ isActive }) =>
+              isActive
+                ? "cursor-pointer  text-blue-500 bg-gray-300 dark:bg-slate-700 px-2 py-1 rounded-full"
+                : "cursor-pointer  hover:text-blue-500"
+            }
           >
             Comments
           </NavLink>
           <NavLink
             to="/profile/upvoted"
-            className={({isActive})=>isActive ? "cursor-pointer  text-blue-500 bg-gray-300 dark:bg-slate-700 px-2 py-1 rounded-full" : "cursor-pointer  hover:text-blue-500"}
+            className={({ isActive }) =>
+              isActive
+                ? "cursor-pointer  text-blue-500 bg-gray-300 dark:bg-slate-700 px-2 py-1 rounded-full"
+                : "cursor-pointer  hover:text-blue-500"
+            }
           >
             Upvoted
           </NavLink>
           <NavLink
             to="/profile/downvoted"
-            className={({isActive})=>isActive ? "cursor-pointer  text-blue-500 bg-gray-300 dark:bg-slate-700 px-2 py-1 rounded-full" : "cursor-pointer hover:text-blue-500"}
+            className={({ isActive }) =>
+              isActive
+                ? "cursor-pointer  text-blue-500 bg-gray-300 dark:bg-slate-700 px-2 py-1 rounded-full"
+                : "cursor-pointer hover:text-blue-500"
+            }
           >
             Downvoted
           </NavLink>
