@@ -6,6 +6,8 @@ import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { BiUpvote, BiDownvote, BiComment } from "react-icons/bi";
 import useAuth from "@/components/hooks/useAuth";
 import { toast, ToastContainer } from "react-toastify";
+import { set } from "react-hook-form";
+import CommentsList from "@/components/CommentsList";
 const SinglePage = () => {
   const { userInf } = useAuth();
   const { postId } = useParams();
@@ -13,11 +15,16 @@ const SinglePage = () => {
 
   const likeCountURL = `like/${postId}/likeCount`;
   const disLikeCountURL = `like/${postId}/disLikeCount`;
+  const commentURL = `comment/${postId}/commentCount`;
 
   const [data, setData] = useState({});
+  const [showComments, setShowComments] = useState(false);
   const [loading, setLoading] = useState(true);
   const [likeCount, setLikeCount] = useState(0);
   const [disLikeCount, setDisLikeCount] = useState(0);
+  const [commentsCount, setCommentsCount] = useState(0);
+
+  console.log("showComments", showComments);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -26,19 +33,50 @@ const SinglePage = () => {
         const res = await apiClient.get(URL);
         const res1 = await apiClient.get(likeCountURL);
         const res2 = await apiClient.get(disLikeCountURL);
+        const res3 = await apiClient.get(commentURL);
         setData(res.data);
         setLikeCount(res1.data);
         setDisLikeCount(res2.data);
-        console.log("likeDislikeCount", res1.data);
+        setCommentsCount(res3.data);
         setLoading(false);
-        console.log(res.data);
       } catch (error) {
         console.error(error);
       }
     };
 
     fetchData();
-  }, [postId]);
+  }, [postId, likeCount, disLikeCount]);
+
+  const setLike = async () => {
+    try {
+      const res = await apiClient.post(`like/likeOrDislike/${postId}`, {
+        like: true,
+        postId: postId,
+      });
+      if (res.data) {
+        const res1 = await apiClient.get(likeCountURL);
+        setLikeCount(res1.data);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const setDisLike = async () => {
+    try {
+      const res = await apiClient.post(`like/likeOrDislike/${postId}`, {
+        disLike: true,
+        postId: postId,
+      });
+
+      if (res.data) {
+        const res2 = await apiClient.get(disLikeCountURL);
+        setDisLikeCount(res2.data);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   if (loading) {
     return <div>Loading...</div>;
@@ -91,7 +129,7 @@ const SinglePage = () => {
               className="text-2xl text-[#4B6BFB] cursor-pointer"
               onClick={() => {
                 userInf && Object.keys(userInf).length > 0
-                  ? ""
+                  ? setLike()
                   : toast.error("Please Login first");
               }}
             />
@@ -102,16 +140,25 @@ const SinglePage = () => {
               className="text-2xl text-[#4B6BFB] cursor-pointer"
               onClick={() => {
                 userInf && Object.keys(userInf).length > 0
-                  ? ""
+                  ? setDisLike()
                   : toast.error("Please Login first");
               }}
             />
             {formatNumber(disLikeCount)}
           </div>
           <div className="flex items-center gap-3 px-3 py-1 rounded-lg bg-slate-300">
-            <BiComment className="text-2xl text-[#4B6BFB] cursor-pointer" />
+            <BiComment
+              className="text-2xl text-[#4B6BFB] cursor-pointer"
+              onClick={() => {
+                userInf && Object.keys(userInf).length > 0
+                  ? setShowComments(!showComments)
+                  : toast.error("Please Login first");
+              }}
+            />
+            {formatNumber(commentsCount)}
           </div>
         </div>
+        {showComments && <CommentsList postId={postId} />}
       </main>
       <ToastContainer />
     </div>
