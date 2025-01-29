@@ -6,9 +6,8 @@ const Overview = () => {
     <div className="flex flex-col gap-3 text-base font-poppins">
       <p>
         First Name:{" "}
-        <strong>
-          {userInf.firstName.charAt(0).toUpperCase() +
-            userInf.firstName.slice(1)}
+        <strong className="capitalize">
+          {userInf.firstName}
         </strong>
       </p>
       <p>
@@ -16,11 +15,8 @@ const Overview = () => {
         <strong>{userInf.middleName}</strong>
       </p>
 
-      <p>
-        Last Name:{" "}
-        <strong>
-          {userInf.lastName.charAt(0).toUpperCase() + userInf.lastName.slice(1)}
-        </strong>
+      <p className="capitalize">
+        Last Name: <strong>{userInf.lastName}</strong>
       </p>
       <p>
         Email: <strong>{userInf.email}</strong>

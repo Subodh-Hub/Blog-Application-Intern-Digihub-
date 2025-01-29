@@ -6,7 +6,6 @@ import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { BiUpvote, BiDownvote, BiComment } from "react-icons/bi";
 import useAuth from "@/components/hooks/useAuth";
 import { toast, ToastContainer } from "react-toastify";
-import { set } from "react-hook-form";
 import CommentsList from "@/components/CommentsList";
 const SinglePage = () => {
   const { userInf } = useAuth();
@@ -23,8 +22,6 @@ const SinglePage = () => {
   const [likeCount, setLikeCount] = useState(0);
   const [disLikeCount, setDisLikeCount] = useState(0);
   const [commentsCount, setCommentsCount] = useState(0);
-
-  console.log("showComments", showComments);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -77,6 +74,7 @@ const SinglePage = () => {
       console.error(error);
     }
   };
+  const { category, title, user, content, addDate } = data;
 
   if (loading) {
     return <div>Loading...</div>;
@@ -92,8 +90,6 @@ const SinglePage = () => {
     return number;
   };
 
-  const { category, title, user, content, addDate } = data;
-  console.log(user);
   return (
     <div className="items-center dark:bg-customDarkTheme">
       <main className="w-[90vw] m-auto flex flex-col gap-10 md:px-30 xl:w-[80vw] pt-10">

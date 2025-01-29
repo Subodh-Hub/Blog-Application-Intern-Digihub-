@@ -1,8 +1,30 @@
+import apiClient from "@/api/axiosInterceptors";
 import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
+import { useEffect, useState } from "react";
 import { BiUpvote, BiDownvote, BiComment, BiTrash } from "react-icons/bi";
 
 const ProfilePost = ({ post }) => {
   console.log("post", post);
+  const [like, setLike] = useState(0);
+  const [disLike, setDisLike] = useState(0);
+  const likeCountURL = `like/${post.postId}/likeCount`;
+  const disLikeCountURL = `like/${post.postId}/disLikeCount`;
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res1 = await apiClient.get(likeCountURL);
+        const res2 = await apiClient.get(disLikeCountURL);
+        setLike(res1.data);
+        setDisLike(res2.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   return (
     <div>
       <div className="flex items-center gap-3 my-5 justify-left font-poppins">
@@ -16,7 +38,8 @@ const ProfilePost = ({ post }) => {
         <p>
           {post.user.firstName.charAt(0).toUpperCase()}
           {post.user.firstName.slice(1)}{" "}
-          {post.user.lastName.charAt(0).toUpperCase()}{post.user.lastName.slice(1)}
+          {post.user.lastName.charAt(0).toUpperCase()}
+          {post.user.lastName.slice(1)}
         </p>
       </div>
       <div className="flex flex-col gap-2 mt-2">
@@ -27,16 +50,19 @@ const ProfilePost = ({ post }) => {
         <div className="flex items-center gap-3 mt-2">
           <div className="flex items-center gap-3 px-3 py-1 rounded-lg bg-slate-300">
             <BiUpvote className="text-2xl text-[#4B6BFB] cursor-pointer" />
+            {like}
           </div>
           <div className="flex items-center gap-3 px-3 py-1 rounded-lg bg-slate-300">
             <BiDownvote className="text-2xl text-[#4B6BFB] cursor-pointer" />
+            {disLike}
           </div>
           <div className="flex items-center gap-3 px-3 py-1 rounded-lg bg-slate-300">
             <BiComment className="text-2xl text-[#4B6BFB] cursor-pointer" />
+            {post.comments.length}
           </div>
         </div>
         <div className="flex items-center gap-3 px-3 py-1 rounded-lg bg-slate-300">
-          <BiTrash className="text-2xl text-[#4B6BFB] cursor-pointer" />
+          <BiTrash className="text-2xl text-[#4B6BFB] cursor-pointer hover:text-red-500" />
         </div>
       </div>
       <hr className="mt-1" />

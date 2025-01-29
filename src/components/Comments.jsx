@@ -2,11 +2,9 @@ import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
 import React from "react";
 
 const Comments = ({ comment }) => {
-  console.log("comment", comment);
   return (
     <>
-      Comments
-      <div className="flex flex-col gap-2 my-3 font-poppins">
+      <div className="flex flex-col gap-2 my-7 font-poppins">
         <div className="flex items-center gap-2">
           <Avatar className="cursor-pointer ">
             <AvatarImage
