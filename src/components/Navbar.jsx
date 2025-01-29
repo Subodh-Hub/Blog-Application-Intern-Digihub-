@@ -27,7 +27,7 @@ const Navbar = () => {
   }, []);
   return (
     <>
-      <header className="sticky top-0 z-40 flex items-center justify-between w-screen px-8 py-6 text-black bg-white md:px-32 xl:px-80 dark:bg-customDarkTheme ">
+      <header className="sticky top-0 z-40 flex items-center justify-between w-screen px-8 py-6 text-black bg-white shadow-md md:px-32 xl:px-80 dark:bg-customDarkTheme ">
         <div
           className="block cursor-pointer menu xl:hidden dark:text-white"
           onClick={() => {

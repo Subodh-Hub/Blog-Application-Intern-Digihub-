@@ -7,73 +7,42 @@ import { BiUpvote, BiDownvote, BiComment } from "react-icons/bi";
 import useAuth from "@/components/hooks/useAuth";
 import { toast, ToastContainer } from "react-toastify";
 import CommentsList from "@/components/CommentsList";
+import { usePostStats } from "@/context/PostStatusContext";
 const SinglePage = () => {
   const { userInf } = useAuth();
   const { postId } = useParams();
-  const URL = `/post/${postId}`;
+  const {
+    likeCount,
+    disLikeCount,
+    commentsCount,
+    fetchStats,
+    updateLike,
+    updateDisLike,
+  } = usePostStats();
 
-  const likeCountURL = `like/${postId}/likeCount`;
-  const disLikeCountURL = `like/${postId}/disLikeCount`;
-  const commentURL = `comment/${postId}/commentCount`;
+  const URL = `/post/${postId}`;
 
   const [data, setData] = useState({});
   const [showComments, setShowComments] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [likeCount, setLikeCount] = useState(0);
-  const [disLikeCount, setDisLikeCount] = useState(0);
-  const [commentsCount, setCommentsCount] = useState(0);
+  fetchStats(postId);
 
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const res = await apiClient.get(URL);
-        const res1 = await apiClient.get(likeCountURL);
-        const res2 = await apiClient.get(disLikeCountURL);
-        const res3 = await apiClient.get(commentURL);
+        const res = await apiClient.get(`/post/${postId}`);
         setData(res.data);
-        setLikeCount(res1.data);
-        setDisLikeCount(res2.data);
-        setCommentsCount(res3.data);
+
         setLoading(false);
       } catch (error) {
-        console.error(error);
+        console.error("Error fetching post data:", error);
       }
     };
 
     fetchData();
-  }, [postId, likeCount, disLikeCount]);
+  }, [postId]);
 
-  const setLike = async () => {
-    try {
-      const res = await apiClient.post(`like/likeOrDislike/${postId}`, {
-        like: true,
-        postId: postId,
-      });
-      if (res.data) {
-        const res1 = await apiClient.get(likeCountURL);
-        setLikeCount(res1.data);
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const setDisLike = async () => {
-    try {
-      const res = await apiClient.post(`like/likeOrDislike/${postId}`, {
-        disLike: true,
-        postId: postId,
-      });
-
-      if (res.data) {
-        const res2 = await apiClient.get(disLikeCountURL);
-        setDisLikeCount(res2.data);
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
   const { category, title, user, content, addDate } = data;
 
   if (loading) {
@@ -105,7 +74,7 @@ const SinglePage = () => {
               <AvatarImage src="https://github.com/shadcn.png" />
               <AvatarFallback>CN</AvatarFallback>
             </Avatar>
-            <p className="text-[#97989F] text-base hover:cursor-pointer">
+            <p className="text-[#97989F] text-base hover:cursor-pointer capitalize">
               {user.firstName} {user.lastName}
             </p>
             <p className="text-[#97989F] text-base hover:cursor-pointer ml-5">
@@ -125,7 +94,7 @@ const SinglePage = () => {
               className="text-2xl text-[#4B6BFB] cursor-pointer"
               onClick={() => {
                 userInf && Object.keys(userInf).length > 0
-                  ? setLike()
+                  ? updateLike(postId)
                   : toast.error("Please Login first");
               }}
             />
@@ -136,7 +105,7 @@ const SinglePage = () => {
               className="text-2xl text-[#4B6BFB] cursor-pointer"
               onClick={() => {
                 userInf && Object.keys(userInf).length > 0
-                  ? setDisLike()
+                  ? updateDisLike(postId)
                   : toast.error("Please Login first");
               }}
             />

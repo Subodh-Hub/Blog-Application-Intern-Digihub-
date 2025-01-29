@@ -1,8 +1,8 @@
 import { useFormik } from "formik";
 import { signUpSchema } from "./signUpValidationSchema";
-import axios from "@/api/axios";
 import { toast } from "react-toastify";
 import { useState } from "react";
+import apiClient from "@/api/axiosInterceptors";
 
 const useSignUp = () => {
   const URL = "/signup";
@@ -31,11 +31,10 @@ const useSignUp = () => {
       };
 
       try {
-        const response = await axios.post(URL, payload);
+        const response = await apiClient.post(URL, payload);
         if (response) {
           toast.success("Signup successfull!!!");
-        }
-        else if(response.message==="Email already exits"){
+        } else if (response.message === "Email already exits") {
           toast.warning("Email already exist!!!");
         }
         console.log("Form data", response);
