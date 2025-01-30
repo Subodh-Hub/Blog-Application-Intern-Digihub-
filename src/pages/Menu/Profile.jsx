@@ -1,8 +1,9 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { useOutlet, NavLink } from "react-router-dom";
+import { useOutlet, NavLink, useNavigate } from "react-router-dom";
 import { FaPlus } from "react-icons/fa";
 import useAuth from "@/components/hooks/useAuth";
 const Profile = () => {
+  const navigate = useNavigate();
   const { userInf } = useAuth();
   const outlet = useOutlet();
   return (
@@ -77,7 +78,12 @@ const Profile = () => {
             Downvoted
           </NavLink>
         </ul>
-        <div className="px-3 py-1 mt-4 border-zinc-500 border-[1px] w-fit rounded-full flex gap-2 items-center justify-center cursor-pointer dark:hover:border-white">
+        <div
+          className="px-3 py-1 mt-4 border-zinc-500 border-[1px] w-fit rounded-full flex gap-2 items-center justify-center cursor-pointer dark:hover:border-white"
+          onClick={() => {
+            navigate("/createPost");
+          }}
+        >
           <FaPlus />
           Create Post
         </div>

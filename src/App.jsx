@@ -12,6 +12,7 @@ import Comments from "./pages/Menu/Comments";
 import Upvoted from "./pages/Menu/Upvoted";
 import Downvoted from "./pages/Menu/Downvoted";
 import Overview from "./pages/Menu/Overview";
+import CreatePost from "./pages/Menu/CreatePost";
 
 const App = () => {
   return (
@@ -20,6 +21,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Dashboard />}>
             <Route path="contact" element={<Contact />} />
+            <Route path="/createPost" element = {<CreatePost />} />
             <Route path="profile" element={<Profile />}>
               <Route path="overview" element={<Overview />} />
               <Route path="submitted" element={<Posts />} />
