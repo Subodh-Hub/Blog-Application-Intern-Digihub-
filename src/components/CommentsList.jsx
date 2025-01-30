@@ -23,12 +23,12 @@ const CommentsList = ({ postId }) => {
     initialValues: {
       content: "",
     },
-    onSubmit: async (values) => {
+    onSubmit: async (values, { resetForm }) => {
       try {
         const res = await apiClient.post(commentURL, values);
         console.log(res.data);
         fetchData();
-        resetForm(); 
+        resetForm();
         console.log("values", values);
       } catch (error) {
         console.error(error);

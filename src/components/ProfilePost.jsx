@@ -1,28 +1,14 @@
-import apiClient from "@/api/axiosInterceptors";
+import { usePostStats } from "@/context/PostStatusContext";
 import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { BiUpvote, BiDownvote, BiComment, BiTrash } from "react-icons/bi";
 
 const ProfilePost = ({ post }) => {
-  console.log("post", post);
-  const [like, setLike] = useState(0);
-  const [disLike, setDisLike] = useState(0);
-  const likeCountURL = `like/${post.postId}/likeCount`;
-  const disLikeCountURL = `like/${post.postId}/disLikeCount`;
+  console.log('post',post);
+  const { likeCount, disLikeCount, commentsCount, fetchStats } = usePostStats();
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res1 = await apiClient.get(likeCountURL);
-        const res2 = await apiClient.get(disLikeCountURL);
-        setLike(res1.data);
-        setDisLike(res2.data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    fetchData();
+    fetchStats(post.postId);
   }, []);
 
   return (
@@ -48,21 +34,21 @@ const ProfilePost = ({ post }) => {
       </div>
       <div className="flex items-center justify-between mt-2">
         <div className="flex items-center gap-3 mt-2">
-          <div className="flex items-center gap-3 px-3 py-1 rounded-lg bg-slate-300">
-            <BiUpvote className="text-2xl text-[#4B6BFB] cursor-pointer" />
-            {like}
+          <div className="flex items-center gap-3 px-3 py-1 rounded-lg bg-slate-300 dark:bg-slate-500">
+            <BiUpvote className="text-2xl text-[#4B6BFB] cursor-pointer dark:text-slate-200 dark:hover:text-white" />
+            {likeCount}
           </div>
-          <div className="flex items-center gap-3 px-3 py-1 rounded-lg bg-slate-300">
-            <BiDownvote className="text-2xl text-[#4B6BFB] cursor-pointer" />
-            {disLike}
+          <div className="flex items-center gap-3 px-3 py-1 rounded-lg bg-slate-300 dark:bg-slate-500">
+            <BiDownvote className="text-2xl text-[#4B6BFB] cursor-pointer dark:text-slate-200 dark:hover:text-white" />
+            {disLikeCount}
           </div>
-          <div className="flex items-center gap-3 px-3 py-1 rounded-lg bg-slate-300">
-            <BiComment className="text-2xl text-[#4B6BFB] cursor-pointer" />
-            {post.comments.length}
+          <div className="flex items-center gap-3 px-3 py-1 rounded-lg bg-slate-300 dark:bg-slate-500">
+            <BiComment className="text-2xl text-[#4B6BFB] cursor-pointer dark:text-slate-200 dark:hover:text-white" />
+            {commentsCount}
           </div>
         </div>
-        <div className="flex items-center gap-3 px-3 py-1 rounded-lg bg-slate-300">
-          <BiTrash className="text-2xl text-[#4B6BFB] cursor-pointer hover:text-red-500" />
+        <div className="flex items-center gap-3 px-3 py-1 rounded-lg bg-slate-300 dark:bg-slate-500">
+          <BiTrash className="text-2xl text-[#4B6BFB] cursor-pointer hover:text-red-500 dark:text-slate-200 " />
         </div>
       </div>
       <hr className="mt-1" />
