@@ -53,8 +53,8 @@ const Navbar = () => {
             <NavLink
               className={({ isActive }) =>
                 isActive
-                  ? "cursor-pointer text-blue-500"
-                  : "cursor-pointer hover:text-blue-500"
+                  ? "cursor-pointer text-blue-500 capitalize"
+                  : "cursor-pointer hover:text-blue-500 capitalize"
               }
               to={`/${el.categoryTitle}/${el.categoryId}`}
               key={i}

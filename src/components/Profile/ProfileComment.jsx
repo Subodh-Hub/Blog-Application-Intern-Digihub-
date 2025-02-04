@@ -13,16 +13,16 @@ const ProfileComment = ({ comment }) => {
           />
           <AvatarFallback>CN</AvatarFallback>
         </Avatar>
-        <h3 className="text-sm font-medium text-black capitalize hover:cursor-pointer">
+        <h3 className="text-base font-medium text-black capitalize hover:cursor-pointer">
           {comment.post.user.firstName} {comment.post.user.lastName}
         </h3>
-        <p className="text-xs font-thin text-gray-900">{comment.post.title}</p>
+        <p className="text-sm font-thin text-gray-900">{comment.post.title}</p>
       </div>
       <div className="ml-9">
-        <h3 className="text-base font-medium text-black capitalize hover:cursor-pointer">
+        <h3 className="text-lg font-medium text-black capitalize hover:cursor-pointer">
           {comment.user.firstName} {comment.user.lastName}
         </h3>
-        <p className="text-sm font-thin text-gray-800 font-popins">
+        <p className="text-base font-thin text-gray-800 font-popins">
           {comment.content}
         </p>
       </div>

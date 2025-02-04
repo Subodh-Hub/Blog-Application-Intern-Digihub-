@@ -6,7 +6,7 @@ import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { BiUpvote, BiDownvote, BiComment } from "react-icons/bi";
 import useAuth from "@/components/hooks/useAuth";
 import { toast, ToastContainer } from "react-toastify";
-import CommentsList from "@/components/CommentsList";
+import CommentsList from "@/components/CommentsList.jsx";
 import { usePostStats } from "@/context/PostStatusContext";
 const SinglePage = () => {
   const { userInf } = useAuth();

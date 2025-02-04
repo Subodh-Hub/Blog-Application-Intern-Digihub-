@@ -21,7 +21,7 @@ const Post = ({ post }) => {
         <img src={hero} alt="blog image" className="w-fit" />
       </div>
       <div className="w-[360px] h-[200px] m-auto flex flex-col gap-4 mt-5 items-start">
-        <div className="bg-[#F6F8FF] rounded-md px-3 py-1 w-fit text-[#4B6BFB] font-thin text-md dark:bg-[#1B1E34]">
+        <div className="bg-[#F6F8FF] rounded-md px-3 py-1 w-fit text-[#4B6BFB] font-thin text-md dark:bg-[#1B1E34] capitalize">
           {category?.categoryTitle || "No Category"}
         </div>
         <h3

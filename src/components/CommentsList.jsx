@@ -1,7 +1,7 @@
 import apiClient from "@/api/axiosInterceptors";
 import Comments from "@/components/Comments";
 import { useFormik } from "formik";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { IoMdSend } from "react-icons/io";
 import * as Yup from "yup";
 

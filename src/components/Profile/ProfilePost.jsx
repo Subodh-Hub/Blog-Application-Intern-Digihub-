@@ -11,9 +11,34 @@ const ProfilePost = ({ post }) => {
     fetchStats(post.postId);
   }, []);
 
+  function daysAgo(dateString) {
+    const givenDate = new Date(dateString);
+    const currentDate = new Date();
+
+    // Set the time of both dates to midnight to ignore time differences
+    givenDate.setHours(0, 0, 0, 0);
+    currentDate.setHours(0, 0, 0, 0);
+
+    // Calculate the difference in milliseconds
+    const diffTime = currentDate - givenDate;
+
+    // Convert milliseconds to days
+    const diffDays = diffTime / (1000 * 60 * 60 * 24);
+
+    if (diffDays < 1) {
+        return "Today";
+    } else if (diffDays === 1) {
+        return "1 day ago";
+    } else {
+        return `${Math.floor(diffDays)} days ago`;
+    }
+}
+
   return (
     <div>
-      <div className="flex items-center gap-3 my-5 justify-left font-poppins">
+      <div className="flex items-center justify-between my-5">
+        
+      <div className="flex items-center gap-3 justify-left">
         <Avatar className="w-10 h-10 rounded-full cursor-pointer ">
           <AvatarImage
             src="https://github.com/shadcn.png"
@@ -21,12 +46,13 @@ const ProfilePost = ({ post }) => {
           />
           <AvatarFallback>CN</AvatarFallback>
         </Avatar>
-        <p>
-          {post.user.firstName.charAt(0).toUpperCase()}
-          {post.user.firstName.slice(1)}{" "}
-          {post.user.lastName.charAt(0).toUpperCase()}
-          {post.user.lastName.slice(1)}
+        <p className="text-base capitalize">
+          {post.user.firstName} {post.user.lastName}
         </p>
+      </div>
+      <p className="text-xs text-slate-500">
+        {daysAgo(post.addDate)}
+      </p>
       </div>
       <div className="flex flex-col gap-2 mt-2">
         <p className="text-2xl font-semibold">{post.title}</p>

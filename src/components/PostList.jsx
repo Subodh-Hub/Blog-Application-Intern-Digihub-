@@ -1,6 +1,9 @@
 import Post from "./Post";
 import { useState } from "react";
+import PropTypes from "prop-types";
+
 const PostList = ({ post }) => {
+  console.log(post);
   const [showAll, setShowAll] = useState(false);
 
   return (
@@ -18,20 +21,28 @@ const PostList = ({ post }) => {
       {showAll ? (
         <button
           className="px-5 py-3 w-fit mx-auto outline outline-1 my-5 font-sans text-sm text-[#696A75] outline-[#696A75] hover:outline-black dark:hover:outline-white rounded-sm dark:bg-[#181A2A]"
-          onClick={() => setShowAll(false)}
+          onClick={() => {
+            setShowAll(false);
+          }}
         >
           View Less
         </button>
-      ) : (
-        <button
+      ) : post.length>9&&(
+      <button
           className="px-5 py-3 w-fit mx-auto outline outline-1 my-5 font-sans text-sm text-[#696A75] outline-[#696A75] hover:outline-black dark:hover:outline-white rounded-sm dark:bg-[#181A2A]"
-          onClick={() => setShowAll(true)}
+          onClick={() => {
+            setShowAll(true);
+          }}
         >
           View All Post
         </button>
       )}
     </div>
   );
+};
+
+PostList.propTypes = {
+  post: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 export default PostList;

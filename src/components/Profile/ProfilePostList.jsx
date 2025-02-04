@@ -1,5 +1,7 @@
 import React from "react";
+import PropTypes from "prop-types";
 import ProfilePost from "./ProfilePost";
+
 
 const ProfilePostList = ({ post }) => {
   return (
@@ -9,6 +11,10 @@ const ProfilePostList = ({ post }) => {
       ))}
     </div>
   );
+};
+
+ProfilePostList.propTypes = {
+  post: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 export default ProfilePostList;

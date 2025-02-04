@@ -29,9 +29,7 @@ const Dashboard = () => {
       <ThemeProvider>
         <Navbar />
         {location.pathname === "/" ? <Hero /> : ""}
-
         {outlet ? outlet : <PostList post={data} />}
-
         <Footer />
       </ThemeProvider>
     </>
