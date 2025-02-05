@@ -14,6 +14,7 @@ export const AuthProvider = ({ children }) => {
     } catch (error) {
       if (error.response?.status === 401) {
         toast.error("Unauthorized. Please log in.");
+        localStorage.removeItem("accessToken");
       } else {
         toast.error("Failed to fetch user data.");
       }
@@ -28,7 +29,7 @@ export const AuthProvider = ({ children }) => {
   }, [token]);
 
   return (
-    <AuthContext.Provider value={{ userInf, setUserInf }}>
+    <AuthContext.Provider value={{ userInf, setUserInf,fetchData }}>
       {children}
     </AuthContext.Provider>
   );

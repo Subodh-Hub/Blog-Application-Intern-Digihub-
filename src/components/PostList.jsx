@@ -3,7 +3,6 @@ import { useState } from "react";
 import PropTypes from "prop-types";
 
 const PostList = ({ post }) => {
-  console.log(post);
   const [showAll, setShowAll] = useState(false);
 
   return (

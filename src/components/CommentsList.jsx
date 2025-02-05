@@ -1,5 +1,6 @@
 import apiClient from "@/api/axiosInterceptors";
 import Comments from "@/components/Comments";
+import { usePostStats } from "@/context/PostStatusContext";
 import { useFormik } from "formik";
 import { useEffect, useState } from "react";
 import { IoMdSend } from "react-icons/io";
@@ -42,6 +43,8 @@ const CommentsList = ({ postId }) => {
   useEffect(() => {
     fetchData();
   }, [postId]);
+  const {fetchStats} = usePostStats();
+  
   return (
     <div>
       Comments
@@ -61,7 +64,7 @@ const CommentsList = ({ postId }) => {
             type="submit"
             className="p-2 bg-gray-100 border-[1px] rounded-r-full border-solid hover:bg-gray-200 hover:scale-150 focus:outline-none"
           >
-            <IoMdSend />
+            <IoMdSend onClick={fetchStats(postId)}/>
           </button>
         </div>
         {formik.errors.content ? (

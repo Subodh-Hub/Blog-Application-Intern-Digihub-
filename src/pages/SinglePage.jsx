@@ -8,6 +8,7 @@ import useAuth from "@/components/hooks/useAuth";
 import { toast, ToastContainer } from "react-toastify";
 import CommentsList from "@/components/CommentsList.jsx";
 import { usePostStats } from "@/context/PostStatusContext";
+import parse from "html-react-parser";
 const SinglePage = () => {
   const { userInf } = useAuth();
   const { postId } = useParams();
@@ -20,15 +21,9 @@ const SinglePage = () => {
     updateDisLike,
   } = usePostStats();
 
-  const URL = `/post/${postId}`;
-
   const [data, setData] = useState({});
   const [showComments, setShowComments] = useState(false);
   const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    fetchStats(postId);
-  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -36,7 +31,6 @@ const SinglePage = () => {
       try {
         const res = await apiClient.get(`/post/${postId}`);
         setData(res.data);
-
         setLoading(false);
       } catch (error) {
         console.error("Error fetching post data:", error);
@@ -88,16 +82,16 @@ const SinglePage = () => {
         <div className="w-[100%] m-auto rounded-2xl overflow-hidden ">
           <img src={hero} alt="" className="object-cover w-full h-full" />
         </div>
-        <p className="text-lg serif text-[#3B3C4A] dark:text-[#BABABF]">
-          {content}
-        </p>
+        <div className="text-lg serif text-[#3B3C4A] dark:text-[#BABABF]">
+          {parse(content)}
+        </div>
         <div className="flex items-center gap-3">
           <div className="flex items-center gap-3 px-3 py-1 rounded-lg bg-slate-300 dark:bg-slate-500">
             <BiUpvote
               className="text-2xl text-[#4B6BFB] cursor-pointer dark:text-slate-200 dark:hover:text-white"
-              onClick={() => {
+              onClick={async () => {
                 userInf && Object.keys(userInf).length > 0
-                  ? updateLike(postId)
+                  ? (await updateLike(postId), fetchStats(postId))
                   : toast.error("Please Login first");
               }}
             />
@@ -106,9 +100,9 @@ const SinglePage = () => {
           <div className="flex items-center gap-3 px-3 py-1 rounded-lg bg-slate-300 dark:bg-slate-500">
             <BiDownvote
               className="text-2xl text-[#4B6BFB] cursor-pointer dark:text-slate-200 dark:hover:text-white"
-              onClick={() => {
+              onClick={async () => {
                 userInf && Object.keys(userInf).length > 0
-                  ? updateDisLike(postId)
+                  ? (await updateDisLike(postId), fetchStats(postId))
                   : toast.error("Please Login first");
               }}
             />
@@ -119,7 +113,7 @@ const SinglePage = () => {
               className="text-2xl text-[#4B6BFB] cursor-pointer dark:text-slate-200 dark:hover:text-white"
               onClick={() => {
                 userInf && Object.keys(userInf).length > 0
-                  ? setShowComments(!showComments)
+                  ? (setShowComments(!showComments), fetchStats(postId))
                   : toast.error("Please Login first");
               }}
             />

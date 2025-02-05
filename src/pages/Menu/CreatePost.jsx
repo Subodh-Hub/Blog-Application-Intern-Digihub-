@@ -1,9 +1,10 @@
 import apiClient from "@/api/axiosInterceptors";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useState } from "react";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import { toast } from "react-toastify";
+import { Editor } from "@tinymce/tinymce-react";
 
 const CreatePost = () => {
   const formik = useFormik({
@@ -23,7 +24,7 @@ const CreatePost = () => {
         .then((res) => {
           toast.success("Post created successfully");
           resetForm();
-          console.log(response);
+          console.log(res);
         })
 
         .catch((error) => {
@@ -84,14 +85,25 @@ const CreatePost = () => {
           >
             Content
           </label>
-          <textarea
-            type=""
-            name="content"
-            id="content"
-            className="w-full px-4 py-2 transition-all border border-gray-300 rounded-md shadow-md dark:text-black focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
+          <Editor
+            apiKey="u7038p4mhwnn5b23g58f080sbij9bx1rdz4r05u9z9stl1tq"
             value={formik.values.content}
+            init={{
+              height: 300,
+              menubar: false,
+              plugins: [
+                "advlist autolink lists link image charmap preview anchor",
+                "searchreplace visualblocks code fullscreen",
+                "insertdatetime media table paste help wordcount",
+              ],
+              toolbar:
+                "undo redo | formatselect | bold italic backcolor | \
+                alignleft aligncenter alignright alignjustify | \
+                bullist numlist outdent indent | removeformat | help",
+            }}
+            onEditorChange={(content) =>
+              formik.setFieldValue("content", content)
+            }
           />
           {formik.touched.content && formik.errors.content ? (
             <div className="text-sm text-red-500">{formik.errors.content}</div>

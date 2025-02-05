@@ -1,4 +1,3 @@
-import React from "react";
 import useLoginForm from "../components/hooks/useLoginForm";
 import character from "@/assets/images/logo/character.png";
 import cactus from "@/assets/images/logo/cactus.png";
