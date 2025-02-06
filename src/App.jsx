@@ -14,6 +14,8 @@ import Downvoted from "./pages/Menu/Downvoted";
 import Overview from "./pages/Menu/Overview";
 import CreatePost from "./pages/Menu/CreatePost";
 import AdminDashboard from "./pages/AdminDashboard";
+import UpdateProfile from "./components/Setting/UpdateProfile";
+import ChangePassword from "./components/Setting/ChangePassword";
 
 const App = () => {
   return (
@@ -31,7 +33,10 @@ const App = () => {
               <Route path="upvoted" element={<Upvoted />} />
               <Route path="downvoted" element={<Downvoted />} />
             </Route>
-            <Route path="setting" element={<Setting />} />
+            <Route path="setting" element={<Setting />}>
+              <Route path="updateProfile" element={<UpdateProfile />} />
+              <Route path="changePassword" element={<ChangePassword />} />
+            </Route>
             <Route path="/:name/:id" element={<DynamicCategory />} />
             <Route path="/:name/:id/:postId" element={<SinglePage />} />
           </Route>

@@ -41,7 +41,7 @@ const Post = ({ post }) => {
               <AvatarFallback>CN</AvatarFallback>
             </Avatar>
           </div>
-          <p className="text-white xl:text-[#97989F] text-base hover:cursor-pointer">
+          <p className="text-white xl:text-[#97989F] text-base hover:cursor-pointer capitalize">
             {user.firstName}
           </p>
           <p className="text-white xl:text-[#97989F] text-base hover:cursor-pointer">

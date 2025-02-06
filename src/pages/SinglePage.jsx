@@ -4,11 +4,20 @@ import { useParams } from "react-router-dom";
 import hero from "@/assets/images/hero.jpg";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { BiUpvote, BiDownvote, BiComment } from "react-icons/bi";
+import { BsThreeDotsVertical } from "react-icons/bs";
 import useAuth from "@/components/hooks/useAuth";
 import { toast, ToastContainer } from "react-toastify";
 import CommentsList from "@/components/CommentsList.jsx";
 import { usePostStats } from "@/context/PostStatusContext";
 import parse from "html-react-parser";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 const SinglePage = () => {
   const { userInf } = useAuth();
   const { postId } = useParams();
@@ -40,7 +49,7 @@ const SinglePage = () => {
     fetchData();
   }, [postId]);
 
-  const { category, title, user, content, addDate } = data;
+  const { category, title, user, content, addDate, deletable } = data;
 
   if (loading) {
     return <div>Loading...</div>;
@@ -60,9 +69,26 @@ const SinglePage = () => {
     <div className="items-center dark:bg-customDarkTheme">
       <main className="w-[90vw] m-auto flex flex-col gap-10 md:px-30 xl:w-[80vw] pt-10">
         <div className="flex flex-col items-start gap-3">
-          <p className="bg-[#4B6BFB] text-white px-3 py-1 font-sans rounded-md w-fit text-sm font-semibold">
-            {category.categoryTitle}
-          </p>
+          <div className="flex items-center justify-between w-full">
+            <p className="bg-[#4B6BFB] text-white px-3 py-1 font-sans rounded-md w-fit text-sm font-semibold capitalize">
+              {category.categoryTitle}
+            </p>
+            {deletable ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger>
+                  <BsThreeDotsVertical className="cursor-pointer" />
+                </DropdownMenuTrigger>
+                <DropdownMenuContent  className="dark:bg-blue-950">
+                  <DropdownMenuItem>Edit</DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem>Delete</DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              ""
+            )}
+          </div>
+
           <h2 className="text-4xl font-semibold">
             {title.charAt(0).toUpperCase() + title.slice(1)}
           </h2>

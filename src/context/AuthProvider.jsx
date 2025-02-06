@@ -22,6 +22,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   const token = localStorage.getItem("accessToken");
+ 
   useEffect(() => {
     if (token) {
       fetchData();

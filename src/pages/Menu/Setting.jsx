@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Accordion,
   AccordionContent,
@@ -6,8 +6,11 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
-
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import SettingSidebar from "@/components/SettingSidebar";
+import { useOutlet } from "react-router-dom";
 const Setting = () => {
+  const outlet = useOutlet();
   return (
     <div className="bg-white mt-7 dark:bg-customDarkTheme">
       <div className="w-[90vw] m-auto md:px-20 xl:px-60">
@@ -18,11 +21,30 @@ const Setting = () => {
           <div className="relative z-10 w-full border-2 border-solid rounded-lg h-60">
             <div className="absolute bottom-0 z-20 w-40 h-40 transform -translate-x-1/2 translate-y-1/2 border-2 border-solid rounded-full left-1/2">
               <Avatar className="w-full h-full rounded-full cursor-pointer">
-                <AvatarImage src="https://github.com/shadcn.png" className="rounded-full"/>
+                <AvatarImage
+                  src="https://github.com/shadcn.png"
+                  className="rounded-full"
+                />
                 <AvatarFallback>CN</AvatarFallback>
               </Avatar>
             </div>
           </div>
+
+          <div className="relative hidden xl:block">
+            <SidebarProvider
+              defaultOpen={true}
+              style={{
+                "--sidebar-width": "15rem",
+              }}
+            >
+              <SettingSidebar />
+              <main>
+                <SidebarTrigger />
+                {outlet}
+              </main>
+            </SidebarProvider>
+          </div>
+
           <ul className="px-5 mt-20 xl:hidden">
             <li>
               <Accordion type="single" collapsible>
@@ -46,10 +68,11 @@ const Setting = () => {
               </Accordion>
             </li>
           </ul>
-          <ul className="hidden w-1/4 mt-20 shadow-lg xl:block">
+
+          {/* <ul className="hidden w-1/4 mt-20 shadow-lg xl:block">
             <li>Update Profile</li>
             <li>Change Password</li>
-          </ul>
+          </ul> */}
         </div>
       </div>
     </div>

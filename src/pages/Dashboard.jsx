@@ -24,6 +24,7 @@ const Dashboard = () => {
 
     fetchData();
   }, []);
+  
   return (
     <>
       <ThemeProvider>
