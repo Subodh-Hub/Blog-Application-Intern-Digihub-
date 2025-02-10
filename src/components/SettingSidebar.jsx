@@ -93,15 +93,12 @@ const SettingSidebar = () => {
               </DropdownMenuTrigger>
               <DropdownMenuContent
                 side="top"
-                className="w-[--radix-popper-anchor-width]"
+                className="w-[--radix-popper-anchor-width] bg-white border border-gray-200 rounded-lg shadow-lg"
               >
-                <DropdownMenuItem>
+                <DropdownMenuItem className="w-full px-4 py-2 text-center cursor-pointer hover:bg-gray-100">
                   <span>Account</span>
                 </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <span>Billing</span>
-                </DropdownMenuItem>
-                <DropdownMenuItem>
+                <DropdownMenuItem className="w-full px-4 py-2 text-center cursor-pointer hover:bg-gray-100">
                   <span>Sign out</span>
                 </DropdownMenuItem>
               </DropdownMenuContent>

@@ -9,6 +9,8 @@ import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import SettingSidebar from "@/components/SettingSidebar";
 import { useOutlet } from "react-router-dom";
+import UpdateProfile from "@/components/Setting/UpdateProfile";
+import ChangePassword from "@/components/Setting/ChangePassword";
 const Setting = () => {
   const outlet = useOutlet();
   return (
@@ -18,7 +20,7 @@ const Setting = () => {
           <h3 className="py-3 text-4xl font-semibold text-center font-poppins">
             Setting
           </h3>
-          <div className="relative z-10 w-full border-2 border-solid rounded-lg h-60">
+          <div className="relative z-10 m-auto bg-center bg-no-repeat bg-cover border-2 border-solid rounded-lg md:w-full xl:w-[80%] h-60 bg-day-mode dark:bg-night-mode">
             <div className="absolute bottom-0 z-20 w-40 h-40 transform -translate-x-1/2 translate-y-1/2 border-2 border-solid rounded-full left-1/2">
               <Avatar className="w-full h-full rounded-full cursor-pointer">
                 <AvatarImage
@@ -38,7 +40,7 @@ const Setting = () => {
               }}
             >
               <SettingSidebar />
-              <main>
+              <main className="mt-[150px] w-full">
                 <SidebarTrigger />
                 {outlet}
               </main>
@@ -51,7 +53,7 @@ const Setting = () => {
                 <AccordionItem value="item-1">
                   <AccordionTrigger>Update Profile</AccordionTrigger>
                   <AccordionContent>
-                    Yes. It adheres to the WAI-ARIA design pattern.
+                    <UpdateProfile />
                   </AccordionContent>
                 </AccordionItem>
               </Accordion>
@@ -62,7 +64,7 @@ const Setting = () => {
                 <AccordionItem value="item-1">
                   <AccordionTrigger>Change Password</AccordionTrigger>
                   <AccordionContent>
-                    Yes. It adheres to the WAI-ARIA design pattern.
+                    <ChangePassword />
                   </AccordionContent>
                 </AccordionItem>
               </Accordion>

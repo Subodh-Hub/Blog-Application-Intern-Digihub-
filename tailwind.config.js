@@ -13,12 +13,14 @@ export default {
       fontFamily: {
         poppins: ["Poppins", ...fontFamily.sans],
         playwright: ["Playwrite AU SA", ...fontFamily.sans],
-        sans: ['Work Sans', 'sans-serif'],
-        serif: ['"Source Serif Pro"', 'serif']
+        sans: ["Work Sans", "sans-serif"],
+        serif: ['"Source Serif Pro"', "serif"],
       },
       backgroundImage: {
         "custom-gradient":
           "linear-gradient(90deg, rgba(0, 131, 176,0.4) 0%, rgba(219,0,158,0.4) 100%)",
+        "day-mode": "url('/src/assets/images/day_mode.jpeg')",
+        "night-mode": "url('/src/assets/images/night_mode.jpeg')",
       },
       colors: {
         background: "hsl(var(--background))",

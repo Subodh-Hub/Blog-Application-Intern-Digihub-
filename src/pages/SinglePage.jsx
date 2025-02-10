@@ -36,6 +36,7 @@ const SinglePage = () => {
 
   useEffect(() => {
     const fetchData = async () => {
+      fetchStats(postId);
       setLoading(true);
       try {
         const res = await apiClient.get(`/post/${postId}`);
@@ -78,7 +79,7 @@ const SinglePage = () => {
                 <DropdownMenuTrigger>
                   <BsThreeDotsVertical className="cursor-pointer" />
                 </DropdownMenuTrigger>
-                <DropdownMenuContent  className="dark:bg-blue-950">
+                <DropdownMenuContent className="dark:bg-blue-950">
                   <DropdownMenuItem>Edit</DropdownMenuItem>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem>Delete</DropdownMenuItem>
