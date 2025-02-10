@@ -52,7 +52,7 @@ const ChangePassword = () => {
   return (
     <div className="flex justify-center">
       <form
-        className="flex flex-col items-center w-full gap-4 px-20"
+        className="flex flex-col items-center w-full gap-4 lg:px-20"
         onSubmit={formik.handleSubmit}
       >
         <div className="relative w-full">
