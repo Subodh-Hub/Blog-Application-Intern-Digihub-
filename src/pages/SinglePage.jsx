@@ -106,8 +106,8 @@ const SinglePage = () => {
             </p>
           </div>
         </div>
-        <div className="w-[100%] m-auto rounded-2xl overflow-hidden ">
-          <img src={hero} alt="" className="object-cover w-full h-full" />
+        <div className="w-[100%] h-[80vh] m-auto rounded-2xl overflow-hidden ">
+          <img src={hero} alt="" className="object-cover object-center w-full h-full " />
         </div>
         <div className="text-lg serif text-[#3B3C4A] dark:text-[#BABABF]">
           {parse(content)}

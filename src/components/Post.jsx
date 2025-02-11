@@ -16,7 +16,14 @@ const Post = ({ post }) => {
   } = post;
   const navigate = useNavigate();
   return (
-    <main className="w-full max-w-[392px] bg-white border-[1px] border-solid border-[#E8E8EA] rounded-xl drop-shadow-sm p-3 dark:bg-[#181A2A] dark:border-gray-700">
+    <main
+      className="w-full cursor-pointer max-w-[392px] bg-white border-[1px] border-solid border-[#E8E8EA] rounded-xl drop-shadow-sm p-3 dark:bg-[#181A2A] dark:border-gray-700 hover:scale-105 trnasition-hover ease-in-out duration-100"
+      onClick={() =>
+        navigate(
+          `/${category?.categoryTitle}/${category?.categoryId}/${postId}`
+        )
+      }
+    >
       <div className="w-[95%] h-[240px] object-cover object-center bg-no-repeat rounded-md m-auto overflow-hidden">
         <img src={hero} alt="blog image" className="w-fit" />
       </div>
@@ -24,15 +31,8 @@ const Post = ({ post }) => {
         <div className="bg-[#F6F8FF] rounded-md px-3 py-1 w-fit text-[#4B6BFB] font-thin text-md dark:bg-[#1B1E34] capitalize">
           {category?.categoryTitle || "No Category"}
         </div>
-        <h3
-          className="text-2xl font-semibold leading-7 cursor-pointer U line-clamp-3"
-          onClick={() =>
-            navigate(
-              `/${category?.categoryTitle}/${category?.categoryId}/${postId}`
-            )
-          }
-        >
-           {title.charAt(0).toUpperCase() + title.slice(1)}
+        <h3 className="text-2xl font-semibold leading-7 U line-clamp-3">
+          {title.charAt(0).toUpperCase() + title.slice(1)}
         </h3>
         <div className="flex items-center gap-3 justify-left">
           <div className="object-cover w-10 h-10 overflow-hidden rounded-full">

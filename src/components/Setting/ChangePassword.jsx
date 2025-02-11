@@ -63,7 +63,7 @@ const ChangePassword = () => {
             value={formik.values.oldPassword}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            className="w-full p-2 pr-10 border rounded-md"
+            className="w-full p-2 pr-10 border rounded-md dark:text-black"
           />
           <button
             type="button"
@@ -88,7 +88,7 @@ const ChangePassword = () => {
             value={formik.values.newPassword}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            className="w-full p-2 pr-10 border rounded-md"
+            className="w-full p-2 pr-10 border rounded-md dark:text-black"
           />
           <button
             type="button"
@@ -113,7 +113,7 @@ const ChangePassword = () => {
             value={formik.values.confirmPassword}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            className="w-full p-2 pr-10 border rounded-md"
+            className="w-full p-2 pr-10 border rounded-md dark:text-black"
           />
           <button
             type="button"

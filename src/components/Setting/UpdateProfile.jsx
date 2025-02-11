@@ -12,7 +12,7 @@ const UpdateProfile = () => {
     fName: Yup.string().required("First name is required"),
     lName: Yup.string().required("Last name required"),
     phoneNumber: Yup.string()
-      .matches(/^\d+$/, "Phone number must be numeric")
+      .matches(/^\+?\d+$/, "Phone number must be numeric")
       .min(10, "Phone number must be at least 10 digits")
       .required("Phone number is required"),
   });
@@ -26,19 +26,26 @@ const UpdateProfile = () => {
     },
     enableReinitialize: true,
     validationSchema: validationSchema,
-    onSubmit: (values, { resetForm }) => {
-      console.log("values", values);
+    onSubmit: (values, { resetForm, setSubmitting }) => {
+      const payload = {
+        firstName: values.fName,
+        middleName: values.mName,
+        lastName: values.lName,
+        phone: values.phoneNumber,
+      };
+      console.log("values", payload);
       apiClient
-        .put(URL, values)
+        .put(URL, payload)
         .then((response) => {
-          toast.success("Password Changed Sucessfully");
-          resetForm();
+          toast.success("Profile Update Sucessfully");
+          resetForm({ values });
         })
         .catch((err) => {
           const errorMessage = err.response.data.message;
           toast.error(errorMessage);
-        });
-      console.log('values',values);
+        })
+        .finally(setSubmitting(false));
+      console.log("values", values);
     },
   });
   return (
@@ -47,11 +54,12 @@ const UpdateProfile = () => {
         className="flex flex-col items-center w-full gap-4 lg:px-20"
         onSubmit={formik.handleSubmit}
       >
-        <div>
+        <div className="w-full">
           <label htmlFor="fName">First Name</label>
           <input
             type="text"
             name="fName"
+            className="w-full p-2 pr-10 border rounded-md dark:text-black"
             value={formik.values.fName}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
@@ -60,11 +68,13 @@ const UpdateProfile = () => {
             <p className="text-red-500">{formik.errors.fName}</p>
           ) : null}
         </div>
-        <div>
+
+        <div className="w-full">
           <label htmlFor="mName">Middle Name</label>
           <input
             type="text"
             name="mName"
+            className="w-full p-2 pr-10 border rounded-md dark:text-black"
             value={formik.values.mName}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
@@ -73,11 +83,13 @@ const UpdateProfile = () => {
             <p className="text-red-500">{formik.errors.mName}</p>
           ) : null}
         </div>
-        <div>
+
+        <div className="w-full">
           <label htmlFor="lName">Last Name</label>
           <input
             type="text"
             name="lName"
+            className="w-full p-2 pr-10 border rounded-md dark:text-black"
             value={formik.values.lName}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
@@ -87,11 +99,12 @@ const UpdateProfile = () => {
           ) : null}
         </div>
 
-        <div>
+        <div className="w-full">
           <label htmlFor="phoneNumber">Phone Number</label>
           <input
             type="text"
             name="phoneNumber"
+            className="w-full p-2 pr-10 border rounded-md dark:text-black"
             value={formik.values.phoneNumber}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
@@ -103,7 +116,14 @@ const UpdateProfile = () => {
 
         <button
           type="submit"
-          className="mt-4 border-[1px] border-gray-500 text-gray-500 border-solid px-5 py-2 rounded-full w-fit m-auto dark:bg-blue-600 dark:text-white hover:bg-black hover:text-white dark:hover:bg-blue-400 transition-all ease-in-out duration-300 font-semibold"
+          disabled={!formik.dirty}
+          className={`mt-4 border-[1px] border-gray-500 text-gray-500 border-solid px-5 py-2 rounded-full w-fit m-auto dark:bg-blue-600 dark:text-white hover:bg-black hover:text-white dark:hover:bg-blue-400 transition-all ease-in-out duration-300 font-semibold ${
+            !formik.dirty ? "opacity-50 cursor-not-allowed" : ""
+          }`}
+          onSubmit={(event) => {
+            event.preventDefault(); // Prevent page reload
+            formik.handleSubmit(event);
+          }}
         >
           Submit
         </button>
