@@ -1,14 +1,33 @@
-import { usePostStats } from "@/context/PostStatusContext";
 import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
-import { useEffect } from "react";
 import { BiUpvote, BiDownvote, BiComment, BiTrash } from "react-icons/bi";
 import he from "he";
+import { useEffect, useState } from "react";
+import apiClient from "@/api/axiosInterceptors";
+import { useNavigate } from "react-router-dom";
 
 const ProfilePost = ({ post }) => {
-  console.log("post", post);
-  const { likeCount, disLikeCount, commentsCount, fetchStats } = usePostStats();
+  const navigate = useNavigate();
+  const [likeCount, setLikeCount] = useState(0);
+  const [disLikeCount, setDisLikeCount] = useState(0);
+  const [commentsCount, setCommentsCount] = useState(0);
+  console.log(post);
 
   useEffect(() => {
+    const fetchStats = async (postId) => {
+      try {
+        const likeRes = await apiClient.get(`like/${postId}/likeCount`);
+        const dislikeRes = await apiClient.get(`like/${postId}/disLikeCount`);
+        const commentRes = await apiClient.get(
+          `comment/${postId}/commentCount`
+        );
+
+        setLikeCount(likeRes.data);
+        setDisLikeCount(dislikeRes.data);
+        setCommentsCount(commentRes.data);
+      } catch (error) {
+        console.error("Error fetching post stats:", error);
+      }
+    };
     fetchStats(post.postId);
   }, []);
 
@@ -53,21 +72,23 @@ const ProfilePost = ({ post }) => {
         <p className="text-xs text-slate-500">{daysAgo(post.addDate)}</p>
       </div>
       <div className="flex flex-col gap-2 mt-2">
-        <p className="text-2xl font-semibold">{post.title}</p>
-        <p className="line-clamp-1">{he.decode(post.content.replace(/<\/?[^>]+(>|$)/g, ""))}</p>
+        <p className="text-2xl font-semibold cursor-pointer" onClick={()=>{navigate(`/${post.category.categoryTitle}/${post.category.categoryId}/${post.postId}`)}}>{post.title}</p>
+        <p className="line-clamp-1">
+          {he.decode(post.content.replace(/<\/?[^>]+(>|$)/g, ""))}
+        </p>
       </div>
       <div className="flex items-center justify-between mt-2">
         <div className="flex items-center gap-3 mt-2">
           <div className="flex items-center gap-3 px-3 py-1 rounded-lg bg-slate-300 dark:bg-slate-500">
-            <BiUpvote className="text-2xl text-[#4B6BFB] cursor-pointer dark:text-slate-200 dark:hover:text-white" />
+            <BiUpvote className="text-2xl text-[#4B6BFB] dark:text-slate-200 dark:hover:text-white" />
             {likeCount}
           </div>
           <div className="flex items-center gap-3 px-3 py-1 rounded-lg bg-slate-300 dark:bg-slate-500">
-            <BiDownvote className="text-2xl text-[#4B6BFB] cursor-pointer dark:text-slate-200 dark:hover:text-white" />
+            <BiDownvote className="text-2xl text-[#4B6BFB] dark:text-slate-200 dark:hover:text-white" />
             {disLikeCount}
           </div>
           <div className="flex items-center gap-3 px-3 py-1 rounded-lg bg-slate-300 dark:bg-slate-500">
-            <BiComment className="text-2xl text-[#4B6BFB] cursor-pointer dark:text-slate-200 dark:hover:text-white" />
+            <BiComment className="text-2xl text-[#4B6BFB] dark:text-slate-200 dark:hover:text-white" />
             {commentsCount}
           </div>
         </div>

@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
 import hero from "@/assets/images/hero.jpg";
 import { useNavigate } from "react-router-dom";
+import apiClient from "@/api/axiosInterceptors";
 
 const Post = ({ post }) => {
   const {
@@ -15,9 +16,24 @@ const Post = ({ post }) => {
     comments,
   } = post;
   const navigate = useNavigate();
+  const URL = `/post/image/${imageName}`;
+  const [image, setImage] = useState("");
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await apiClient.get(URL);
+        setImage(res.request.responseURL);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   return (
     <main
-      className="w-full cursor-pointer max-w-[392px] bg-white border-[1px] border-solid border-[#E8E8EA] rounded-xl drop-shadow-sm p-3 dark:bg-[#181A2A] dark:border-gray-700 hover:scale-105 trnasition-hover ease-in-out duration-100"
+      className="w-full cursor-pointer max-w-[392px] bg-white border-[1px] border-solid border-[#E8E8EA] rounded-xl drop-shadow-sm p-3 dark:bg-[#181A2A] dark:border-gray-700 hover:scale-105 transition-hover ease-in-out duration-100 hover:shadow-xl"
       onClick={() =>
         navigate(
           `/${category?.categoryTitle}/${category?.categoryId}/${postId}`
@@ -25,7 +41,7 @@ const Post = ({ post }) => {
       }
     >
       <div className="w-[95%] h-[240px] object-cover object-center bg-no-repeat rounded-md m-auto overflow-hidden">
-        <img src={hero} alt="blog image" className="w-fit" />
+        <img src={image} alt="blog image" className="w-fit" />
       </div>
       <div className="w-[360px] h-[200px] m-auto flex flex-col gap-4 mt-5 items-start">
         <div className="bg-[#F6F8FF] rounded-md px-3 py-1 w-fit text-[#4B6BFB] font-thin text-md dark:bg-[#1B1E34] capitalize">

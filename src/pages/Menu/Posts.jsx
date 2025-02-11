@@ -7,14 +7,16 @@ const Posts = () => {
   const URL = "/authUser/posts";
   const [responseData, setResponseData] = useState(null);
   useEffect(() => {
-    async function fetchData() {
-      try {
-        const response = await apiClient.get(URL);
-        setResponseData(response.data);
-      } catch (error) {
-        console.log("Error", error);
-      }
-    }
+    const fetchData = () => {
+      apiClient
+        .get(URL)
+        .then((response) => {
+          setResponseData(response.data);
+        })
+        .catch((error) => {
+          console.log("Error", error);
+        });
+    };
     fetchData();
   }, []);
 

@@ -11,7 +11,6 @@ const Upvoted = () => {
     try {
       const response = await apiClient.get(url);
       setFetchedData(response?.data);
-      console.log(response?.data);
     } catch (error) {
       console.error(error);
     }

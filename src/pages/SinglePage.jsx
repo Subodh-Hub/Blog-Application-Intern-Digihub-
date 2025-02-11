@@ -1,7 +1,6 @@
 import apiClient from "@/api/axiosInterceptors";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import hero from "@/assets/images/hero.jpg";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { BiUpvote, BiDownvote, BiComment } from "react-icons/bi";
 import { BsThreeDotsVertical } from "react-icons/bs";
@@ -33,18 +32,27 @@ const SinglePage = () => {
   const [data, setData] = useState({});
   const [showComments, setShowComments] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [image, setImage] = useState("");
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchData = () => {
       fetchStats(postId);
       setLoading(true);
-      try {
-        const res = await apiClient.get(`/post/${postId}`);
-        setData(res.data);
-        setLoading(false);
-      } catch (error) {
-        console.error("Error fetching post data:", error);
-      }
+
+      apiClient
+        .get(`/post/${postId}`)
+        .then((res) => {
+          setData(res.data);
+          setLoading(false);
+          return apiClient.get(`/post/image/${res.data.imageName}`);
+        })
+        .then((imageRes) => {
+          setImage(imageRes.request.responseURL);
+        })
+        .catch((error) => {
+          console.error("Error fetching post data or image:", error);
+          setLoading(false);
+        });
     };
 
     fetchData();
@@ -107,7 +115,11 @@ const SinglePage = () => {
           </div>
         </div>
         <div className="w-[100%] h-[80vh] m-auto rounded-2xl overflow-hidden ">
-          <img src={hero} alt="" className="object-cover object-center w-full h-full " />
+          <img
+            src={image}
+            alt=""
+            className="object-cover object-center w-full h-full "
+          />
         </div>
         <div className="text-lg serif text-[#3B3C4A] dark:text-[#BABABF]">
           {parse(content)}

@@ -1,13 +1,18 @@
-import React from "react";
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import ProfilePost from "./ProfilePost";
 
 
 const ProfilePostList = ({ post }) => {
+
+
   return (
     <div>
       {post.map((el, key) => (
-        <ProfilePost key={key} post={el} />
+        <ProfilePost
+          key={key}
+          post={el}
+        />
       ))}
     </div>
   );

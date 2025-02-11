@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { IoMenu, IoClose } from "react-icons/io5";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ModeToggle } from "./ModeToggle";
@@ -8,6 +9,7 @@ import useAuth from "./hooks/useAuth";
 import { toast, ToastContainer } from "react-toastify";
 import ProfileMenu from "./ProfileMenu";
 const Navbar = () => {
+  const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
   const { userInf } = useAuth();
@@ -36,7 +38,12 @@ const Navbar = () => {
         >
           {isMenuOpen ? <IoClose size="2rem" /> : <IoMenu size="2rem" />}
         </div>
-        <div className="logo font-playwright dark:text-white">DGBlog</div>
+        <div
+          className="cursor-pointer logo font-playwright dark:text-white"
+          onClick={() => navigate("/")}
+        >
+          DGBlog
+        </div>
         <ul className="hidden gap-10 font-sans text-lg text-[#3B3C4A] dark:text-white xl:flex">
           <NavLink
             className={({ isActive }) =>
