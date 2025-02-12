@@ -23,14 +23,12 @@ const SinglePage = () => {
   const {
     likeCount,
     disLikeCount,
-    commentsCount,
     fetchStats,
     updateLike,
     updateDisLike,
   } = usePostStats();
 
   const [data, setData] = useState({});
-  const [showComments, setShowComments] = useState(false);
   const [loading, setLoading] = useState(true);
   const [image, setImage] = useState("");
 
@@ -147,19 +145,8 @@ const SinglePage = () => {
             />
             {formatNumber(disLikeCount)}
           </div>
-          <div className="flex items-center gap-3 px-3 py-1 rounded-lg bg-slate-300 dark:bg-slate-500">
-            <BiComment
-              className="text-2xl text-[#4B6BFB] cursor-pointer dark:text-slate-200 dark:hover:text-white"
-              onClick={() => {
-                userInf && Object.keys(userInf).length > 0
-                  ? (setShowComments(!showComments), fetchStats(postId))
-                  : toast.error("Please Login first");
-              }}
-            />
-            {formatNumber(commentsCount)}
-          </div>
         </div>
-        {showComments && <CommentsList postId={postId} />}
+        <CommentsList postId={postId} />
       </main>
       <ToastContainer />
     </div>

@@ -27,6 +27,7 @@ const Navbar = () => {
     }
     fetchData();
   }, []);
+
   return (
     <>
       <header className="sticky top-0 z-40 flex items-center justify-between w-screen px-8 py-6 text-black bg-white shadow-md md:px-32 xl:px-80 dark:bg-customDarkTheme ">
@@ -81,6 +82,8 @@ const Navbar = () => {
           </NavLink>
         </ul>
         <div className="flex items-center gap-3 lg:gap-10 xl:gap-10">
+
+          
           <div className="w-fit">
             {isProfileMenuOpen ? (
               <ProfileMenu

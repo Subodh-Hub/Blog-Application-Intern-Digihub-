@@ -6,6 +6,7 @@ const AuthContext = createContext({});
 export const AuthProvider = ({ children }) => {
   const [userInf, setUserInf] = useState({});
   const URL = "/getUser-auth";
+  const [token, setToken] = useState(localStorage.getItem("accessToken"));
 
   const fetchData = async () => {
     try {
@@ -21,16 +22,17 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const token = localStorage.getItem("accessToken");
- 
   useEffect(() => {
     if (token) {
       fetchData();
+    }else{
+      setUserInf(null)
     }
   }, [token]);
 
+
   return (
-    <AuthContext.Provider value={{ userInf, setUserInf,fetchData }}>
+    <AuthContext.Provider value={{ userInf, setUserInf, fetchData, setToken ,}}>
       {children}
     </AuthContext.Provider>
   );

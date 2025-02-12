@@ -5,8 +5,13 @@ import { useFormik } from "formik";
 import { useEffect, useState } from "react";
 import { IoMdSend } from "react-icons/io";
 import * as Yup from "yup";
+import useAuth from "./hooks/useAuth";
+import { toast } from "react-toastify";
 
 const CommentsList = ({ postId }) => {
+  const [visibleComment, setVisibleComment] = useState(3);
+  const { userInf } = useAuth();
+  const { commentsCount, fetchStats } = usePostStats();
   const [data, setData] = useState({});
   const URL = `comment/comments-post/${postId}`;
   const commentURL = `/comment/post/${postId}/comment`;
@@ -27,7 +32,6 @@ const CommentsList = ({ postId }) => {
     onSubmit: async (values, { resetForm }) => {
       try {
         const res = await apiClient.post(commentURL, values);
-        console.log(res.data);
         fetchData();
         resetForm();
         console.log("values", values);
@@ -40,14 +44,17 @@ const CommentsList = ({ postId }) => {
     }),
   });
 
+  const handleShowMore = () => {
+    setVisibleComment((prevCount) => prevCount + 3);
+  };
+
   useEffect(() => {
     fetchData();
   }, [postId]);
-  const {fetchStats} = usePostStats();
-  
+
   return (
     <div>
-      Comments
+      Comments: <strong>{commentsCount}</strong>
       <form onSubmit={formik.handleSubmit}>
         <div className="flex items-center p-1 space-x-2 overflow-hidden bg-gray-100 rounded-full shadow-md full">
           <input
@@ -64,7 +71,14 @@ const CommentsList = ({ postId }) => {
             type="submit"
             className="p-2 bg-gray-100 border-[1px] rounded-r-full border-solid hover:bg-gray-200 hover:scale-150 focus:outline-none"
           >
-            <IoMdSend onClick={fetchStats(postId)}/>
+            <IoMdSend
+              onClick={() =>
+                userInf && Object.keys(userInf).length > 0
+                  ? fetchStats(postId)
+                  : toast.error("Please Login first")
+              }
+              className="text-black"
+            />
           </button>
         </div>
         {formik.errors.content ? (
@@ -72,10 +86,27 @@ const CommentsList = ({ postId }) => {
         ) : null}
       </form>
       {data.length > 0 ? (
-        data.map((comment, index) => <Comments key={index} comment={comment} />)
+        data
+          .slice(0, visibleComment)
+          .map((comment, index) => <Comments key={index} comment={comment} />)
       ) : (
         <p>No comments available</p>
       )}
+      {data.length > 3 &&
+        (visibleComment < data.length ? (
+          <button className="text-blue-500" onClick={handleShowMore}>
+            Show More
+          </button>
+        ) : (
+          <button
+            className="text-blue-500"
+            onClick={() => {
+              setVisibleComment(3);
+            }}
+          >
+            View Less
+          </button>
+        ))}
     </div>
   );
 };
