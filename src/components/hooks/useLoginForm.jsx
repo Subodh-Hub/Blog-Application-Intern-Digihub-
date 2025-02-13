@@ -10,7 +10,7 @@ import { jwtDecode } from "jwt-decode";
 const useLoginForm = () => {
   const URL = "/login";
   const [loading, setLoading] = useState(false);
-  const { userInf, fetchData } = useAuth();
+  const { fetchData,userInf } = useAuth();
 
   const navigate = useNavigate();
   const formik = useFormik({

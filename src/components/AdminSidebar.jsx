@@ -17,7 +17,7 @@ import {
 const data = {
   navMain: [
     {
-      title: "Getting Started",
+      title: "Admin Dashboard",
       url: "#",
       items: [
         {
@@ -31,7 +31,7 @@ const data = {
       ],
     },
     {
-      title: "Building Your Application",
+      title: "Add Admin",
       url: "#",
       items: [
         {
@@ -86,7 +86,7 @@ const data = {
       ],
     },
     {
-      title: "API Reference",
+      title: "Admin Profile",
       url: "#",
       items: [
         {

@@ -10,7 +10,6 @@ const ProfilePost = ({ post }) => {
   const [likeCount, setLikeCount] = useState(0);
   const [disLikeCount, setDisLikeCount] = useState(0);
   const [commentsCount, setCommentsCount] = useState(0);
-  console.log(post);
 
   useEffect(() => {
     const fetchStats = async (postId) => {
@@ -72,9 +71,20 @@ const ProfilePost = ({ post }) => {
         <p className="text-xs text-slate-500">{daysAgo(post.addDate)}</p>
       </div>
       <div className="flex flex-col gap-2 mt-2">
-        <p className="text-2xl font-semibold cursor-pointer" onClick={()=>{navigate(`/${post.category.categoryTitle}/${post.category.categoryId}/${post.postId}`)}}>{post.title}</p>
+        <p
+          className="text-2xl font-semibold cursor-pointer"
+          onClick={() => {
+            navigate(
+              `/${post.category.categoryTitle}/${post.category.categoryId}/${post.postId}`
+            );
+          }}
+        >
+          {post.title}
+        </p>
         <p className="line-clamp-1">
-          {he.decode(post.content.replace(/<\/?[^>]+(>|$)/g, ""))}
+          {post.content
+            ? he.decode(post.content.replace(/<\/?[^>]+(>|$)/g, ""))
+            : ""}
         </p>
       </div>
       <div className="flex items-center justify-between mt-2">

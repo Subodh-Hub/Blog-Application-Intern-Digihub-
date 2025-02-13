@@ -16,9 +16,10 @@ const CommentsList = ({ postId }) => {
   const URL = `comment/comments-post/${postId}`;
   const commentURL = `/comment/post/${postId}/comment`;
 
-  const fetchData = async () => {
+  const fetchComment = async () => {
     try {
       const res = await apiClient.get(URL);
+      fetchStats(postId);
       setData(res.data);
     } catch (error) {
       console.error(error);
@@ -32,7 +33,8 @@ const CommentsList = ({ postId }) => {
     onSubmit: async (values, { resetForm }) => {
       try {
         const res = await apiClient.post(commentURL, values);
-        fetchData();
+        fetchStats(postId);
+        fetchComment();
         resetForm();
         console.log("values", values);
       } catch (error) {
@@ -49,46 +51,54 @@ const CommentsList = ({ postId }) => {
   };
 
   useEffect(() => {
-    fetchData();
+    fetchComment();
   }, [postId]);
 
   return (
     <div>
       Comments: <strong>{commentsCount}</strong>
-      <form onSubmit={formik.handleSubmit}>
-        <div className="flex items-center p-1 space-x-2 overflow-hidden bg-gray-100 rounded-full shadow-md full">
-          <input
-            name="content"
-            id="content"
-            type="text"
-            className="w-full px-3 py-2 text-sm text-gray-700 placeholder-gray-400 bg-gray-100 rounded-l-full outline-none x-4 h focus:ring-2 focus:ring-blue-500"
-            value={formik.values.content}
-            onChange={formik.handleChange}
-            placeholder="Add a comment"
-          />
-
-          <button
-            type="submit"
-            className="p-2 bg-gray-100 border-[1px] rounded-r-full border-solid hover:bg-gray-200 hover:scale-150 focus:outline-none"
-          >
-            <IoMdSend
-              onClick={() =>
-                userInf && Object.keys(userInf).length > 0
-                  ? fetchStats(postId)
-                  : toast.error("Please Login first")
-              }
-              className="text-black"
+      {userInf && Object.keys(userInf).length > 0 ? (
+        <form onSubmit={formik.handleSubmit}>
+          <div className="flex items-center p-1 space-x-2 overflow-hidden bg-gray-100 rounded-full shadow-md full">
+            <input
+              name="content"
+              id="content"
+              type="text"
+              className="w-full px-3 py-2 text-sm text-gray-700 placeholder-gray-400 bg-gray-100 rounded-l-full outline-none x-4 h focus:ring-2 focus:ring-blue-500"
+              value={formik.values.content}
+              onChange={formik.handleChange}
+              placeholder="Add a comment"
             />
-          </button>
-        </div>
-        {formik.errors.content ? (
-          <div className="text-red-500">{formik.errors.content}</div>
-        ) : null}
-      </form>
+
+            <button
+              type="submit"
+              className="p-2 bg-gray-100 border-[1px] rounded-r-full border-solid hover:bg-gray-200 hover:scale-150 focus:outline-none"
+            >
+              <IoMdSend
+                onClick={() => fetchStats(postId)}
+                className="text-black"
+              />
+            </button>
+          </div>
+          {formik.errors.content ? (
+            <div className="text-red-500">{formik.errors.content}</div>
+          ) : null}
+        </form>
+      ) : (
+        <strong className="block my-5 text-2xl">
+          Please login inorder to comment on the post!!!!
+        </strong>
+      )}
       {data.length > 0 ? (
         data
           .slice(0, visibleComment)
-          .map((comment, index) => <Comments key={index} comment={comment} />)
+          .map((comment, index) => (
+            <Comments
+              key={index}
+              comment={comment}
+              fetchComment={fetchComment}
+            />
+          ))
       ) : (
         <p>No comments available</p>
       )}

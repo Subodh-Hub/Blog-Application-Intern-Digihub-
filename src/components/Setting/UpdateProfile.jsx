@@ -3,10 +3,18 @@ import * as Yup from "yup";
 import apiClient from "@/api/axiosInterceptors";
 import { toast } from "react-toastify";
 import useAuth from "../hooks/useAuth";
+import { useState } from "react";
 
 const UpdateProfile = () => {
   const { userInf } = useAuth();
   const URL = "/update-user";
+
+  const [initialValues, setInitialValues] = useState({
+    fName: userInf?.firstName || "",
+    mName: userInf?.middleName || "",
+    lName: userInf?.lastName || "",
+    phoneNumber: userInf?.phone || "",
+  });
 
   const validationSchema = Yup.object({
     fName: Yup.string().required("First name is required"),
@@ -18,12 +26,7 @@ const UpdateProfile = () => {
   });
 
   const formik = useFormik({
-    initialValues: {
-      fName: userInf?.firstName || "",
-      mName: userInf?.middleName || "",
-      lName: userInf?.lastName || "",
-      phoneNumber: userInf?.phone || "",
-    },
+    initialValues: initialValues,
     enableReinitialize: true,
     validationSchema: validationSchema,
     onSubmit: (values, { resetForm, setSubmitting }) => {
@@ -33,11 +36,11 @@ const UpdateProfile = () => {
         lastName: values.lName,
         phone: values.phoneNumber,
       };
-      console.log("values", payload);
       apiClient
         .put(URL, payload)
         .then((response) => {
           toast.success("Profile Update Sucessfully");
+          setInitialValues(values);
           resetForm({ values });
         })
         .catch((err) => {
@@ -45,7 +48,6 @@ const UpdateProfile = () => {
           toast.error(errorMessage);
         })
         .finally(setSubmitting(false));
-      console.log("values", values);
     },
   });
   return (
@@ -116,16 +118,14 @@ const UpdateProfile = () => {
 
         <button
           type="submit"
-          disabled={!formik.dirty}
+          disabled={!formik.dirty || formik.isSubmitting}
           className={`mt-4 border-[1px] border-gray-500 text-gray-500 border-solid px-5 py-2 rounded-full w-fit m-auto dark:bg-blue-600 dark:text-white hover:bg-black hover:text-white dark:hover:bg-blue-400 transition-all ease-in-out duration-300 font-semibold ${
-            !formik.dirty ? "opacity-50 cursor-not-allowed" : ""
+            !formik.dirty || formik.isSubmitting
+              ? "opacity-50 cursor-not-allowed"
+              : ""
           }`}
-          onSubmit={(event) => {
-            event.preventDefault(); // Prevent page reload
-            formik.handleSubmit(event);
-          }}
         >
-          Submit
+          {formik.isSubmitting ? "Submitting..." : "Submit"}
         </button>
       </form>
     </div>

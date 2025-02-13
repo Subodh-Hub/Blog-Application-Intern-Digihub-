@@ -4,6 +4,8 @@ import hero from "@/assets/images/hero.jpg";
 import { useNavigate } from "react-router-dom";
 import apiClient from "@/api/axiosInterceptors";
 
+import parse from "html-react-parser";
+
 const Post = ({ post }) => {
   const {
     postId,
@@ -30,6 +32,32 @@ const Post = ({ post }) => {
 
     fetchData();
   }, []);
+
+  function formatDate(dateString) {
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = date.toLocaleString("default", { month: "short" });
+    const day = date.getDate();
+
+    // Function to add the appropriate suffix to the day
+    function getDayWithSuffix(day) {
+      if (day > 3 && day < 21) return day + "<sup>th</sup>"; // Covers 11th, 12th, 13th, etc.
+      switch (day % 10) {
+        case 1:
+          return day + "<sup>st</sup>";
+        case 2:
+          return day + "<sup>nd</sup>";
+        case 3:
+          return day + "<sup>rd</sup>";
+        default:
+          return day + "<sup>th</sup>";
+      }
+    }
+
+    const dayWithSuffix = getDayWithSuffix(day);
+
+    return `${dayWithSuffix}  ${month} ${year}`;
+  }
 
   return (
     <main
@@ -61,7 +89,7 @@ const Post = ({ post }) => {
             {user.firstName}
           </p>
           <p className="text-white xl:text-[#97989F] text-base hover:cursor-pointer">
-            {addDate}
+            {parse(formatDate(addDate))}
           </p>
         </div>
       </div>

@@ -68,7 +68,7 @@ const ChangePassword = () => {
           <button
             type="button"
             onClick={() => togglePassword("oldPassword")}
-            className="absolute text-gray-500 right-3 top-9"
+            className="absolute text-gray-500 right-3 top-7 xl:top-9"
           >
             {showPassword.oldPassword ? (
               <EyeClosed size={20} />
@@ -93,7 +93,7 @@ const ChangePassword = () => {
           <button
             type="button"
             onClick={() => togglePassword("newPassword")}
-            className="absolute text-gray-500 right-3 top-9"
+            className="absolute text-gray-500 right-3 top-7 xl:top-9"
           >
             {showPassword.newPassword ? (
               <EyeClosed size={20} />
@@ -118,7 +118,7 @@ const ChangePassword = () => {
           <button
             type="button"
             onClick={() => togglePassword("confirmPassword")}
-            className="absolute text-gray-500 right-3 top-9"
+            className="absolute text-gray-500 right-3 top-7 xl:top-9"
           >
             {showPassword.confirmPassword ? (
               <EyeClosed size={20} />

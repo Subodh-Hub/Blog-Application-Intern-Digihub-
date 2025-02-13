@@ -5,36 +5,10 @@ import * as Yup from "yup";
 import { useFormik } from "formik";
 import { toast } from "react-toastify";
 import { Editor } from "@tinymce/tinymce-react";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 const CreatePost = () => {
-  const formik = useFormik({
-    initialValues: {
-      title: "",
-      content: "",
-      category: "",
-    },
-    validationSchema: Yup.object({
-      title: Yup.string().required("Title is required"),
-      content: Yup.string().required("Content is required"),
-      category: Yup.string().required("Category is required"),
-    }),
-    onSubmit: async (values, { resetForm }) => {
-      await apiClient
-        .post(`/category/${values.category}/posts`, values)
-        .then((res) => {
-          toast.success("Post created successfully");
-          resetForm();
-          console.log(res);
-        })
-
-        .catch((error) => {
-          const errorMessage = error.response.data.message || error.message;
-          console.log(error);
-          toast.warning(errorMessage);
-        });
-    },
-  });
-
   const URL = "/category";
   const [category, setCategory] = useState([]);
   useEffect(() => {
@@ -48,6 +22,43 @@ const CreatePost = () => {
     };
     fetchData();
   }, []);
+
+  const formik = useFormik({
+    initialValues: {
+      title: "",
+      content: "",
+      category: "",
+      picture: "",
+    },
+    validationSchema: Yup.object({
+      title: Yup.string().required("Title is required"),
+      content: Yup.string().required("Content is required"),
+      category: Yup.string().required("Category is required"),
+      picture: Yup.mixed().required("Image is required"),
+    }),
+    onSubmit: async (values, { resetForm }) => {
+      const formData = new FormData();
+      formData.append("title", values.title);
+      formData.append("content", values.content);
+      formData.append("category", values.category);
+      if (values.picture) {
+        formData.append("picture", values.picture);
+      }
+      await apiClient
+        .post(`/category/${values.category}/posts`, formData)
+        .then((res) => {
+          toast.success("Post created successfully");
+          resetForm();
+          console.log(res);
+        })
+
+        .catch((error) => {
+          const errorMessage = error.response.data.message || error.message;
+          console.log(error);
+          toast.warning(errorMessage);
+        });
+    },
+  });
 
   return (
     <div className="bg-white mt-7 dark:bg-customDarkTheme w-[90vw] m-auto md:px-20 xl:px-60">
@@ -109,6 +120,21 @@ const CreatePost = () => {
             <div className="text-sm text-red-500">{formik.errors.content}</div>
           ) : null}
         </div>
+        <div className="grid w-full max-w-sm items-center gap-1.5">
+          <Label htmlFor="picture">Picture</Label>
+          <Input
+            id="picture"
+            type="file"
+            name="picture"
+            accept="image/*"
+            onChange={(event) => {
+              if (event.currentTarget.files.length > 0) {
+                formik.setFieldValue("picture", event.currentTarget.files[0]);
+              }
+            }}
+            onBlur={formik.handleBlur}
+          />
+        </div>
         <div>
           <label
             htmlFor="category"
@@ -128,7 +154,7 @@ const CreatePost = () => {
               Choose a category
             </option>
             {category.map((el, i) => (
-              <option key={i} value={el.categoryId}>
+              <option key={i} value={el.categoryId} className="capitalize">
                 {el.categoryTitle}
               </option>
             ))}

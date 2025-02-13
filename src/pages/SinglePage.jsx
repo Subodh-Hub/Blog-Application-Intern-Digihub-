@@ -20,13 +20,8 @@ import {
 const SinglePage = () => {
   const { userInf } = useAuth();
   const { postId } = useParams();
-  const {
-    likeCount,
-    disLikeCount,
-    fetchStats,
-    updateLike,
-    updateDisLike,
-  } = usePostStats();
+  const { likeCount, disLikeCount, fetchStats, updateLike, updateDisLike } =
+    usePostStats();
 
   const [data, setData] = useState({});
   const [loading, setLoading] = useState(true);
@@ -72,6 +67,29 @@ const SinglePage = () => {
     return number;
   };
 
+  function daysAgo(dateString) {
+    const givenDate = new Date(dateString);
+    const currentDate = new Date();
+
+    // Set the time of both dates to midnight to ignore time differences
+    givenDate.setHours(0, 0, 0, 0);
+    currentDate.setHours(0, 0, 0, 0);
+
+    // Calculate the difference in milliseconds
+    const diffTime = currentDate - givenDate;
+
+    // Convert milliseconds to days
+    const diffDays = diffTime / (1000 * 60 * 60 * 24);
+
+    if (diffDays < 1) {
+      return "Today";
+    } else if (diffDays === 1) {
+      return "1 day ago";
+    } else {
+      return `${Math.floor(diffDays)} days ago`;
+    }
+  }
+
   return (
     <div className="items-center dark:bg-customDarkTheme">
       <main className="w-[90vw] m-auto flex flex-col gap-10 md:px-30 xl:w-[80vw] pt-10">
@@ -108,7 +126,7 @@ const SinglePage = () => {
               {user.firstName} {user.lastName}
             </p>
             <p className="text-[#97989F] text-base hover:cursor-pointer ml-5">
-              {addDate}
+              {daysAgo(addDate)}
             </p>
           </div>
         </div>
@@ -120,7 +138,7 @@ const SinglePage = () => {
           />
         </div>
         <div className="text-lg serif text-[#3B3C4A] dark:text-[#BABABF]">
-          {parse(content)}
+          {content ? parse(content) : <p>No content available</p>}
         </div>
         <div className="flex items-center gap-3">
           <div className="flex items-center gap-3 px-3 py-1 rounded-lg bg-slate-300 dark:bg-slate-500">
