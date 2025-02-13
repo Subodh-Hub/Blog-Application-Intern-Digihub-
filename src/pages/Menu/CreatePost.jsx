@@ -28,24 +28,24 @@ const CreatePost = () => {
       title: "",
       content: "",
       category: "",
-      picture: "",
+      image: "",
     },
     validationSchema: Yup.object({
       title: Yup.string().required("Title is required"),
       content: Yup.string().required("Content is required"),
       category: Yup.string().required("Category is required"),
-      picture: Yup.mixed().required("Image is required"),
+      image: Yup.mixed().required("Image is required"),
     }),
     onSubmit: async (values, { resetForm }) => {
       const formData = new FormData();
       formData.append("title", values.title);
       formData.append("content", values.content);
-      formData.append("category", values.category);
-      if (values.picture) {
-        formData.append("picture", values.picture);
+      formData.append("categoryId", values.category);
+      if (values.image) {
+        formData.append("image", values.image);
       }
       await apiClient
-        .post(`/category/${values.category}/posts`, formData)
+        .post(`/category/image/posts`, formData)
         .then((res) => {
           toast.success("Post created successfully");
           resetForm();
@@ -121,15 +121,15 @@ const CreatePost = () => {
           ) : null}
         </div>
         <div className="grid w-full max-w-sm items-center gap-1.5">
-          <Label htmlFor="picture">Picture</Label>
+          <Label htmlFor="image">Picture</Label>
           <Input
-            id="picture"
+            id="image"
             type="file"
-            name="picture"
+            name="image"
             accept="image/*"
             onChange={(event) => {
               if (event.currentTarget.files.length > 0) {
-                formik.setFieldValue("picture", event.currentTarget.files[0]);
+                formik.setFieldValue("image", event.currentTarget.files[0]);
               }
             }}
             onBlur={formik.handleBlur}

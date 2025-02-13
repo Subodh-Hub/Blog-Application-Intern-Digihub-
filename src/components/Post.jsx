@@ -69,7 +69,7 @@ const Post = ({ post }) => {
       }
     >
       <div className="w-[95%] h-[240px] object-cover object-center bg-no-repeat rounded-md m-auto overflow-hidden">
-        <img src={image} alt="blog image" className="w-fit" />
+        <img src={image} alt="blog image" className="w-[100%]" />
       </div>
       <div className="w-[360px] h-[200px] m-auto flex flex-col gap-4 mt-5 items-start">
         <div className="bg-[#F6F8FF] rounded-md px-3 py-1 w-fit text-[#4B6BFB] font-thin text-md dark:bg-[#1B1E34] capitalize">

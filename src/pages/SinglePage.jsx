@@ -1,6 +1,6 @@
 import apiClient from "@/api/axiosInterceptors";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { BiUpvote, BiDownvote, BiComment } from "react-icons/bi";
 import { BsThreeDotsVertical } from "react-icons/bs";
@@ -17,9 +17,22 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 const SinglePage = () => {
+  const navigate = useNavigate();
   const { userInf } = useAuth();
   const { postId } = useParams();
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
   const { likeCount, disLikeCount, fetchStats, updateLike, updateDisLike } =
     usePostStats();
 
@@ -50,6 +63,16 @@ const SinglePage = () => {
 
     fetchData();
   }, [postId]);
+
+  const deleteURL = `/posts-delete/${data.postId}`;
+  const deletePost = () => {
+    apiClient.delete(deleteURL).then((res) => {
+      toast.success("Post deleted successfully!!!");
+      setTimeout(() => {
+        navigate("/");
+      }, 500);
+    });
+  };
 
   const { category, title, user, content, addDate, deletable } = data;
 
@@ -99,14 +122,45 @@ const SinglePage = () => {
               {category.categoryTitle}
             </p>
             {deletable ? (
-              <DropdownMenu>
+              <DropdownMenu modal={false}>
                 <DropdownMenuTrigger>
                   <BsThreeDotsVertical className="cursor-pointer" />
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="dark:bg-blue-950">
                   <DropdownMenuItem>Edit</DropdownMenuItem>
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem>Delete</DropdownMenuItem>
+                  <AlertDialog
+                    open={isDialogOpen}
+                    onOpenChange={setIsDialogOpen}
+                  >
+                    <AlertDialogTrigger asChild>
+                      <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+                        Delete
+                      </DropdownMenuItem>
+                    </AlertDialogTrigger>
+                    <AlertDialogContent>
+                      <AlertDialogHeader>
+                        <AlertDialogTitle>
+                          Are you absolutely sure?
+                        </AlertDialogTitle>
+                        <AlertDialogDescription>
+                          This action cannot be undone. This will permanently
+                          delete your account and remove your data from our
+                          servers.
+                        </AlertDialogDescription>
+                      </AlertDialogHeader>
+                      <AlertDialogFooter>
+                        <AlertDialogCancel
+                          onClick={() => setIsDialogOpen(false)}
+                        >
+                          Cancel
+                        </AlertDialogCancel>
+                        <AlertDialogAction onClick={deletePost}>
+                          Continue
+                        </AlertDialogAction>
+                      </AlertDialogFooter>
+                    </AlertDialogContent>
+                  </AlertDialog>
                 </DropdownMenuContent>
               </DropdownMenu>
             ) : (
