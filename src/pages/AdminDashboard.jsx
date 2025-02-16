@@ -1,15 +1,18 @@
 import AdminSidebar from "@/components/AdminSidebar";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { ThemeProvider } from "@/context/ThemeProvider";
 
 const AdminDashboard = ({ children }) => {
   return (
-    <SidebarProvider defaultOpen={true}>
-      <AdminSidebar />
-      <main>
-        <SidebarTrigger />
-        {children}
-      </main>
-    </SidebarProvider>
+    <ThemeProvider>
+      <SidebarProvider defaultOpen={true}>
+        <AdminSidebar />
+        <main>
+          <SidebarTrigger />
+          {children}
+        </main>
+      </SidebarProvider>
+    </ThemeProvider>
   );
 };
 
