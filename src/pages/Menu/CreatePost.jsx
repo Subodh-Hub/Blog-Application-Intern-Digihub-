@@ -44,12 +44,12 @@ const CreatePost = () => {
       if (values.image) {
         formData.append("image", values.image);
       }
+
       await apiClient
         .post(`/category/image/posts`, formData)
         .then((res) => {
           toast.success("Post created successfully");
           resetForm();
-          console.log(res);
         })
 
         .catch((error) => {

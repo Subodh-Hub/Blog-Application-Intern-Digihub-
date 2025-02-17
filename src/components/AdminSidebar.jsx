@@ -25,12 +25,12 @@ import { ModeToggle } from "./ModeToggle";
 const items = [
   {
     title: "Admin Dashboard",
-    url: "#",
+    url: "/adminDashboard",
     icon: CircleGauge,
   },
   {
     title: "Create Admin",
-    url: "#",
+    url: "/adminDashboard/createAdmin",
     icon: Shield,
   },
   {

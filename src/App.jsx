@@ -16,13 +16,16 @@ import CreatePost from "./pages/Menu/CreatePost";
 import AdminDashboard from "./pages/AdminDashboard";
 import UpdateProfile from "./components/Setting/UpdateProfile";
 import ChangePassword from "./components/Setting/ChangePassword";
+import CreateAdmin from "./pages/AdminDashboard/CreateAdmin";
 
 const App = () => {
   return (
     <>
       <BrowserRouter>
         <Routes>
-          <Route path="/adminDashboard" element={<AdminDashboard />} />
+          <Route path="/adminDashboard" element={<AdminDashboard />}>
+            <Route path="createAdmin" element={<CreateAdmin />} />
+          </Route>
           <Route path="/" element={<Dashboard />}>
             <Route path="contact" element={<Contact />} />
             <Route path="/createPost" element={<CreatePost />} />

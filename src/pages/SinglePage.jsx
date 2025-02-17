@@ -62,7 +62,7 @@ const SinglePage = () => {
     };
 
     fetchData();
-  }, [postId]);
+  }, [postId, likeCount, disLikeCount]);
 
   const deleteURL = `/posts-delete/${data.postId}`;
   const deletePost = () => {
@@ -195,9 +195,15 @@ const SinglePage = () => {
           {content ? parse(content) : <p>No content available</p>}
         </div>
         <div className="flex items-center gap-3">
-          <div className="flex items-center gap-3 px-3 py-1 rounded-lg bg-slate-300 dark:bg-slate-500">
+          <div
+            className={`flex items-center gap-3 px-3 py-1 rounded-lg bg-slate-300 dark:bg-slate-500 ${
+              data.likedByUser ? "bg-slate-500 text-white" : ""
+            }`}
+          >
             <BiUpvote
-              className="text-2xl text-[#4B6BFB] cursor-pointer dark:text-slate-200 dark:hover:text-white"
+              className={`text-2xl text-[#4B6BFB] cursor-pointer dark:text-slate-200 dark:hover:text-white ${
+                data.likedByUser ? "text-white" : ""
+              }`}
               onClick={async () => {
                 userInf && Object.keys(userInf).length > 0
                   ? (await updateLike(postId), fetchStats(postId))
@@ -206,9 +212,15 @@ const SinglePage = () => {
             />
             {formatNumber(likeCount)}
           </div>
-          <div className="flex items-center gap-3 px-3 py-1 rounded-lg bg-slate-300 dark:bg-slate-500">
+          <div
+            className={`flex items-center gap-3 px-3 py-1 rounded-lg bg-slate-300 dark:bg-slate-500  ${
+              data.disLikedByUser ? "bg-slate-500 text-white font-semibold" : ""
+            }`}
+          >
             <BiDownvote
-              className="text-2xl text-[#4B6BFB] cursor-pointer dark:text-slate-200 dark:hover:text-white"
+              className={`text-2xl text-[#4B6BFB] cursor-pointer dark:text-slate-200 dark:hover:text-white  ${
+                data.disLikedByUser ? " text-white font-semibold" : ""
+              }`}
               onClick={async () => {
                 userInf && Object.keys(userInf).length > 0
                   ? (await updateDisLike(postId), fetchStats(postId))
