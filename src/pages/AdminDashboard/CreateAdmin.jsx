@@ -3,12 +3,12 @@ import { Label } from "@radix-ui/react-label";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import apiClient from "@/api/axiosInterceptors";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import { Eye, EyeClosed } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 const CreateAdmin = () => {
-  const createAdminURL = "/create-Admin";
+  const createAdminURL = "/admin/createAdmin";
   const [showPassword, setShowPassword] = useState({
     password: false,
     confirmPassword: false,
@@ -25,6 +25,7 @@ const CreateAdmin = () => {
     middleName: "",
     lastName: "",
     email: "",
+    phone:"",
     password: "",
     confirmPassword: "",
     image: "",
@@ -79,12 +80,16 @@ const CreateAdmin = () => {
       formData.append("middleName", values.middleName);
       formData.append("lastName", values.lastName);
       formData.append("email", values.email);
+      formData.append("phone", values.phone);
       formData.append("password", values.password);
       formData.append("confirmPassword", values.confirmPassword);
-      if (values.image) {
+      if (values.image instanceof File) {
         formData.append("image", values.image);
       }
-      console.log("form data", formData);
+      else {
+        console.error("Invalid image file:", values.image);
+      }
+
       await apiClient
         .post(createAdminURL, formData, {
           headers: { "Content-Type": "multipart/form-data" },
@@ -94,7 +99,8 @@ const CreateAdmin = () => {
           resetForm();
         })
         .catch((err) => {
-          toast.error(err.message);
+          console.log('err',err.response.data.message);
+          toast.error(err.response?.data?.message || "Something went wrong");
         });
     },
   });
@@ -104,14 +110,14 @@ const CreateAdmin = () => {
       <h1 className="font-semibold text-center text-7xl">Create Admin</h1>
       <form
         onSubmit={formik.handleSubmit}
-        className="w-[50%] m-auto flex flex-col gap-5"
+        className="lg:w-[50%] px-5 m-auto flex flex-col gap-5"
       >
         <div>
           <label htmlFor="firstName">First Name: </label>
           <input
             type="text"
             name="firstName"
-            values={formik.values.firstName}
+            value={formik.values.firstName}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             className="w-full p-2 pr-10 border rounded-md dark:text-black"
@@ -126,7 +132,7 @@ const CreateAdmin = () => {
           <input
             type="text"
             name="middleName"
-            values={formik.values.middleName}
+            value={formik.values.middleName}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             className="w-full p-2 pr-10 border rounded-md dark:text-black"
@@ -138,7 +144,7 @@ const CreateAdmin = () => {
           <input
             type="text"
             name="lastName"
-            values={formik.values.lastName}
+            value={formik.values.lastName}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             className="w-full p-2 pr-10 border rounded-md dark:text-black"
@@ -153,7 +159,7 @@ const CreateAdmin = () => {
           <input
             type="email"
             name="email"
-            values={formik.values.email}
+            value={formik.values.email}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             className="w-full p-2 pr-10 border rounded-md dark:text-black"
@@ -168,7 +174,7 @@ const CreateAdmin = () => {
           <input
             type="text"
             name="phone"
-            values={formik.values.phone}
+            value={formik.values.phone}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             className="w-full p-2 pr-10 border rounded-md dark:text-black"
@@ -209,7 +215,7 @@ const CreateAdmin = () => {
           <input
             type={showPassword.confirmPassword ? "text" : "password"}
             name="confirmPassword"
-            values={formik.values.confirmPassword}
+            value={formik.values.confirmPassword}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             className="w-full p-2 pr-10 border rounded-md dark:text-black"
@@ -219,7 +225,7 @@ const CreateAdmin = () => {
             onClick={() => togglePassword("confirmPassword")}
             className="absolute text-gray-500 right-3 top-7 xl:top-9"
           >
-            {showPassword.password ? (
+            {showPassword.confirmPassword ? (
               <EyeClosed size={20} />
             ) : (
               <Eye size={20} />
@@ -254,6 +260,7 @@ const CreateAdmin = () => {
           Create Admin
         </Button>
       </form>
+      <ToastContainer />
     </div>
   );
 };

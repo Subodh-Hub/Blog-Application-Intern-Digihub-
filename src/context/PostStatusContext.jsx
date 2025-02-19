@@ -22,10 +22,11 @@ export const PostStatsProvider = ({ children }) => {
     }
   };
 
-  const updateLike = async (postId) => {
+  const updateLike = async (postId,likedByUser ) => {
+
     try {
       const res = await apiClient.post(`like/likeOrDislike/${postId}`, {
-        like: true,
+        like: !likedByUser,
         postId,
       });
       if (res.data) {
@@ -37,10 +38,10 @@ export const PostStatsProvider = ({ children }) => {
     }
   };
 
-  const updateDisLike = async (postId) => {
+  const updateDisLike = async (postId,disLikedByUser) => {
     try {
       const res = await apiClient.post(`like/likeOrDislike/${postId}`, {
-        disLike: true,
+        disLike: !disLikedByUser,
         postId,
       });
       if (res.data) {

@@ -13,10 +13,11 @@ import Upvoted from "./pages/Menu/Upvoted";
 import Downvoted from "./pages/Menu/Downvoted";
 import Overview from "./pages/Menu/Overview";
 import CreatePost from "./pages/Menu/CreatePost";
-import AdminDashboard from "./pages/AdminDashboard";
+import AdminDashboard from "./pages/AdminDashboard/AdminDashboard";
 import UpdateProfile from "./components/Setting/UpdateProfile";
 import ChangePassword from "./components/Setting/ChangePassword";
 import CreateAdmin from "./pages/AdminDashboard/CreateAdmin";
+import AdminPostOverview from "./pages/AdminDashboard/AdminPostOverview";
 
 const App = () => {
   return (
@@ -25,6 +26,7 @@ const App = () => {
         <Routes>
           <Route path="/adminDashboard" element={<AdminDashboard />}>
             <Route path="createAdmin" element={<CreateAdmin />} />
+            <Route path="adminPostOverview" element={<AdminPostOverview />} />
           </Route>
           <Route path="/" element={<Dashboard />}>
             <Route path="contact" element={<Contact />} />

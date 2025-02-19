@@ -206,7 +206,7 @@ const SinglePage = () => {
               }`}
               onClick={async () => {
                 userInf && Object.keys(userInf).length > 0
-                  ? (await updateLike(postId), fetchStats(postId))
+                  ? (await updateLike(postId,data.likedByUser), fetchStats(postId))
                   : toast.error("Please Login first");
               }}
             />
@@ -223,7 +223,7 @@ const SinglePage = () => {
               }`}
               onClick={async () => {
                 userInf && Object.keys(userInf).length > 0
-                  ? (await updateDisLike(postId), fetchStats(postId))
+                  ? (await updateDisLike(postId,data.disLikedByUser), fetchStats(postId))
                   : toast.error("Please Login first");
               }}
             />

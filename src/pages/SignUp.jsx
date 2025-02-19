@@ -18,8 +18,8 @@ import { Loader2 } from "lucide-react";
 const SignUp = () => {
   const { formik, loading } = useSignUp();
   return (
-    <div className="flex items-center justify-center w-screen h-screen bg-custom-gradient">
-      <div className="overflow-hidden flex justify-center bg-white w-[75vw] h-fit rounded-3xl">
+    <div className="flex items-center justify-center w-screen py-10 h-fit bg-custom-gradient">
+      <div className="flex justify-center bg-white w-[75vw] h-fit rounded-3xl">
         <div className="relative z-10 hidden lg:w-1/3 h-100 lg:block bg-customPink">
           <img
             src={signupPic}
@@ -38,7 +38,7 @@ const SignUp = () => {
             <Form>
               <form
                 onSubmit={formik.handleSubmit}
-                className="flex flex-col justify-center gap-3 item-center dark:text-black"
+                className="flex flex-col justify-center gap-4 item-center dark:text-black"
               >
                 <div className="flex flex-col space-y-1.5">
                   <Label htmlFor="firstName">First Name</Label>

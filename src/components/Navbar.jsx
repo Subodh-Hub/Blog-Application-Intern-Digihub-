@@ -15,18 +15,28 @@ const Navbar = () => {
   const { userInf } = useAuth();
   const URL = "/category";
   const [category, setCategory] = useState([]);
-
+  const [imageUrl, setImageUrl] = useState("");
   useEffect(() => {
     async function fetchData() {
       try {
         const response = await apiClient.get(URL);
+        if (userInf?.imageName) {
+          const imageResponse = await apiClient.get(
+            `/user/image/${userInf.imageName}`
+          );
+          setImageUrl(imageResponse.request.responseURL);
+        }
         setCategory(response.data);
       } catch (error) {
         console.log("Error", error);
       }
     }
     fetchData();
-  }, []);
+  }, [userInf]);
+
+  const avatarSrc = userInf?.imageName
+    ? `${imageUrl}`
+    : `https://github.com/shadcn.png`;
 
   return (
     <>
@@ -82,8 +92,6 @@ const Navbar = () => {
           </NavLink>
         </ul>
         <div className="flex items-center gap-3 lg:gap-10 xl:gap-10">
-
-          
           <div className="w-fit">
             {isProfileMenuOpen ? (
               <ProfileMenu
@@ -95,15 +103,18 @@ const Navbar = () => {
               ""
             )}
             <Avatar
-              className="cursor-pointer"
+              className="w-12 h-12 rounded-full cursor-pointer"
               onClick={() => {
                 userInf && Object.keys(userInf).length > 0
                   ? setIsProfileMenuOpen(!isProfileMenuOpen)
                   : toast.error("Please Login First");
               }}
             >
-              <AvatarImage src="https://github.com/shadcn.png" />
-              <AvatarFallback>CN</AvatarFallback>
+              <AvatarImage
+                src={avatarSrc}
+                className="object-cover w-full h-full rounded-full"
+              />
+              {/* <AvatarFallback>CN</AvatarFallback> */}
             </Avatar>
           </div>
 

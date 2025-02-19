@@ -35,7 +35,7 @@ const items = [
   },
   {
     title: "Post Overview",
-    url: "#",
+    url: "/adminDashboard/adminPostOverview",
     icon: StickyNote,
   },
   {
