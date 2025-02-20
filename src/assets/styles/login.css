@@ -1,128 +1,140 @@
 .form-container {
-  border-radius: 40px;
-  overflow: hidden;
-  height: 80vh;
-  width: 75vw;
-  position: relative;
-  background-color: #ffffff;
-  border-radius: 40px;
+    border-radius: 40px;
+    overflow: hidden;
+    height: 80vh;
+    width: 75vw;
+    position: relative;
+    background-color: #ffffff;
+    border-radius: 40px;
 }
 .form-container .form-details {
-  width: 80%;
-  height: 100%;
-  position: absolute;
-  top: 14%;
-  left: 8%;
-  padding: 0 0 10px 0;
+    width: 80%;
+    height: 100%;
+    position: absolute;
+    top: 14%;
+    left: 8%;
+    padding: 0 0 10px 0;
 }
 .form-container .form-details .form-header h1 {
-  font-family: "Poppins", sans-serif;
-  color: #d885a3;
-  font-weight: 600;
-  font-size: 1.7rem;
+    font-family: 'Poppins', sans-serif;
+    color: #d885a3;
+    font-weight: 600;
+    font-size: 1.7rem;
 }
 .form-container .form-details .form-header p {
-  margin: 7px 0;
-  font-family: "Poppins", sans-serif;
+    margin: 7px 0;
+    font-family: 'Poppins', sans-serif;
 }
 .form-container .form-details .form-header h3 {
-  font-family: "Poppins", sans-serif;
-  color: #000000;
-  font-weight: 600;
-  font-size: 2.5rem;
+    font-family: 'Poppins', sans-serif;
+    color: #000000;
+    font-weight: 600;
+    font-size: 2.5rem;
 }
 .form-container .form-details .form-content {
-  margin-top: 15px;
+    margin-top: 15px;
 }
 .form-container .form-details .form-content .form-component {
-  margin-bottom: 20px;
+    margin-bottom: 20px;
 }
 .form-container .form-details .form-content .form-component label {
-  display: block;
-  font-family: "Poppins", sans-serif;
+    display: block;
+    font-family: 'Poppins', sans-serif;
 }
-.form-container .form-details .form-content .form-component input[type=email],
-.form-container .form-details .form-content .form-component input[type=password] {
-  width: 40%;
-  height: 50px;
-  background-color: #c0dbea;
-  border-radius: 7px;
-  padding: 0 10px;
-  margin-top: 10px;
+.form-container .form-details .form-content .form-component input[type='email'],
+.form-container
+    .form-details
+    .form-content
+    .form-component
+    input[type='password'] {
+    width: 40%;
+    height: 50px;
+    background-color: #c0dbea;
+    border-radius: 7px;
+    padding: 0 10px;
+    margin-top: 10px;
 }
 .form-container .form-details .form-content .btn-submit {
-  margin: 40px 0;
-  background-color: #d885a3;
-  font-family: "Poppins", sans-serif;
-  font-size: 0.93rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  color: #ffffff;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 110px;
-  padding: 7px 15px;
-  border-radius: 30px;
-  position: relative;
-  left: 150px;
+    margin: 40px 0;
+    background-color: #d885a3;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.93rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: #ffffff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 110px;
+    padding: 7px 15px;
+    border-radius: 30px;
+    position: relative;
+    left: 150px;
 }
 .form-container .form-details .form-footer {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-  margin-top: 20px;
-  gap: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    margin-top: 20px;
+    gap: 10px;
 }
 .form-container .form-details .form-footer p {
-  font-family: "Poppins", sans-serif;
+    font-family: 'Poppins', sans-serif;
 }
 .form-container .form-details .form-footer p a {
-  color: #d885a3;
-  font-weight: 600;
-  text-decoration: none;
-  cursor: pointer;
+    color: #d885a3;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
 }
 .form-container .side-container {
-  position: absolute;
-  right: 0;
-  top: 0;
-  border-radius: 40px;
-  width: 35%;
-  height: 100%;
-  background-color: #c0dbea;
-  right: 0;
-  z-index: 1;
+    position: absolute;
+    right: 0;
+    top: 0;
+    border-radius: 40px;
+    width: 35%;
+    height: 100%;
+    background-color: #c0dbea;
+    right: 0;
+    z-index: 1;
 }
 .form-container .side-container .cactus-img {
-  position: relative;
-  top: -40%;
-  left: 30%;
-  height: 55%;
-  width: 35%;
-  z-index: 2;
+    position: relative;
+    top: -40%;
+    left: 30%;
+    height: 55%;
+    width: 35%;
+    z-index: 2;
 }
 .form-container .side-container .character-img {
-  position: relative;
-  -o-object-fit: cover;
-     object-fit: cover;
-  top: 30%;
-  left: -48%;
-  width: 500px;
-  height: 500px;
-  z-index: 3;
+    position: relative;
+    -o-object-fit: cover;
+    object-fit: cover;
+    top: 30%;
+    left: -48%;
+    width: 500px;
+    height: 500px;
+    z-index: 3;
 }
 
 @media screen and (max-width: 769px) {
-  .side-container {
-    display: none;
-  }
-  .form-container .form-details .form-content .form-component input[type=email],
-  .form-container .form-details .form-content .form-component input[type=password] {
-    width: 100%;
-  }
-  .form-container .form-details .form-content .btn-submit {
-    left: 30%;
-  }
-}/*# sourceMappingURL=login.css.map */
+    .side-container {
+        display: none;
+    }
+    .form-container
+        .form-details
+        .form-content
+        .form-component
+        input[type='email'],
+    .form-container
+        .form-details
+        .form-content
+        .form-component
+        input[type='password'] {
+        width: 100%;
+    }
+    .form-container .form-details .form-content .btn-submit {
+        left: 30%;
+    }
+} /*# sourceMappingURL=login.css.map */

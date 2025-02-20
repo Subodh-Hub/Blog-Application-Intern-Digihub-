@@ -1,25 +1,19 @@
-import React, { useEffect } from "react";
-import PropTypes from "prop-types";
-import ProfilePost from "./ProfilePost";
-
+import React, { useEffect } from 'react'
+import PropTypes from 'prop-types'
+import ProfilePost from './ProfilePost'
 
 const ProfilePostList = ({ post }) => {
-
-
-  return (
-    <div>
-      {post.map((el, key) => (
-        <ProfilePost
-          key={key}
-          post={el}
-        />
-      ))}
-    </div>
-  );
-};
+    return (
+        <div>
+            {post.map((el, key) => (
+                <ProfilePost key={key} post={el} />
+            ))}
+        </div>
+    )
+}
 
 ProfilePostList.propTypes = {
-  post: PropTypes.arrayOf(PropTypes.object).isRequired,
-};
+    post: PropTypes.arrayOf(PropTypes.object).isRequired,
+}
 
-export default ProfilePostList;
+export default ProfilePostList
