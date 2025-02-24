@@ -10,10 +10,12 @@ import {
 import { useEffect, useState } from 'react'
 import apiClient from '@/api/axiosInterceptors.jsx'
 import { Progress } from '@/components/ui/progress'
+import { Avatar, AvatarFallback, AvatarImage } from '@radix-ui/react-avatar'
 
 function MostLikedPostTable() {
     const topPostUrl = '/admin/topPost'
     const [topPosts, setTopPosts] = useState([])
+
     useEffect(() => {
         apiClient.get(topPostUrl).then((response) => {
             setTopPosts(response.data)
@@ -27,11 +29,12 @@ function MostLikedPostTable() {
     }
     const maxLikes = Math.max(...topPosts.map((post) => post.likeCount), 1)
     return (
-        <div className="my-5">
+        <div className="w-1/2">
+            <h1 className="text-4xl font-semibold text-center mb-7">
+                Top Liked Post
+            </h1>
             <Table>
-                <TableCaption className="text-xl mt-7">
-                    Most Upvoted Post
-                </TableCaption>
+                <TableCaption className="mt-7">Most Upvoted Post</TableCaption>
                 <TableHeader>
                     <TableRow>
                         <TableHead className="w-[100px]">Post Id</TableHead>
@@ -48,12 +51,30 @@ function MostLikedPostTable() {
                             <TableCell className="font-medium">
                                 {el.post.postId}
                             </TableCell>
-                            <TableCell className="capitalize">
-                                {el.post.user.firstName +
-                                    ' ' +
-                                    el.post.user.middleName +
-                                    ' ' +
-                                    el.post.user.lastName}
+                            <TableCell className="grid items-center justify-center grid-cols-[auto_1fr] gap-3">
+                            
+                                <Avatar className="rounded-full w-9 h-9">
+                                    <AvatarImage
+                                        src={
+                                            el.post.user.imageName
+                                                ? `http://localhost:8080/user/image/${el.post.user.imageName}`
+                                                : 'https://github.com/shadcn.png'
+                                        }
+                                        className="object-cover w-full h-full rounded-full"
+                                        alt="@shadcn"
+                                    />
+                                    <AvatarFallback className="capitalize">
+                                        {el.post.user.firstName.slice(0, 1) +
+                                            el.post.user.lastName.slice(0, 1)}
+                                    </AvatarFallback>
+                                </Avatar>
+                                <h3 className='text-center capitalize w-fit'>
+                                    {el.post.user.firstName +
+                                        ' ' +
+                                        el.post.user.middleName +
+                                        ' ' +
+                                        el.post.user.lastName}
+                                </h3>
                             </TableCell>
                             <TableCell>{el.post.title}</TableCell>
                             <TableCell className="capitalize ">
@@ -65,7 +86,7 @@ function MostLikedPostTable() {
                             </TableCell>
                             <TableCell>{el.post.addDate}</TableCell>
 
-                            <TableCell className="flex items-left flex-col gap-2">
+                            <TableCell className="">
                                 {el.likeCount}
                                 <Progress
                                     value={(el.likeCount / maxLikes) * 100}

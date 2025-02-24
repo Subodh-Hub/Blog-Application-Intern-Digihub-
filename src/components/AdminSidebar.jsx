@@ -5,7 +5,6 @@ import {
     Key,
     Settings,
     GalleryVerticalEnd,
-    Search,
 } from 'lucide-react'
 import {
     Sidebar,
@@ -35,11 +34,6 @@ const items = [
         icon: Shield,
     },
 
-    {
-        title: 'Search',
-        url: '#',
-        icon: Search,
-    },
     {
         title: 'Settings',
         url: '#',

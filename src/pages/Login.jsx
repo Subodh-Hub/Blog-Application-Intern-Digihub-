@@ -5,11 +5,19 @@ import '@/assets/styles/login.css'
 import { FaAngleRight } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
 import { Button } from '@/components/ui/button'
-import { Loader2 } from 'lucide-react'
+import { Eye, EyeClosed, Loader2 } from 'lucide-react'
 import { ToastContainer } from 'react-toastify'
+import { useState } from 'react'
 
 const Login = () => {
     const { formik, loading } = useLoginForm()
+    const [showPassword, setShowPassword] = useState(false)
+    const togglePassword = (field) => {
+        setShowPassword({
+            ...showPassword,
+            [field]: !showPassword[field],
+        })
+    }
     return (
         <div className="flex items-center justify-center w-screen h-screen bg-custom-gradient dark:bg-custom-gradient">
             <div className="form-container">
@@ -44,7 +52,7 @@ const Login = () => {
                                     </p>
                                 ) : null}
                             </div>
-                            <div className="form-component">
+                            <div className="relative form-component">
                                 <label
                                     htmlFor="password"
                                     className="dark:text-black"
@@ -52,13 +60,24 @@ const Login = () => {
                                     Password
                                 </label>
                                 <input
-                                    type="password"
+                                    type={showPassword.password ? 'text' : 'password'}
                                     id="password"
                                     name="password"
                                     value={formik.values.password}
                                     onChange={formik.handleChange}
                                     onBlur={formik.handleBlur}
                                 />
+                                <button
+                                    type="button"
+                                    onClick={() => togglePassword('password')}
+                                    className="absolute z-50 text-black right-3 top-12"
+                                >
+                                    {showPassword.password ? (
+                                        <EyeClosed size={20} />
+                                    ) : (
+                                        <Eye size={20} />
+                                    )}
+                                </button>
                                 {formik.touched.password &&
                                 formik.errors.password ? (
                                     <p className="text-sm text-red-500">

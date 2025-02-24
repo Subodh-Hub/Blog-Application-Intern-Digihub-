@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import useSignUp from '../components/hooks/useSignUp'
 import { Button } from '@/components/ui/button'
@@ -14,12 +14,23 @@ import {
 } from '../components/ui/card'
 import signupPic from '@/assets/images/signup.png'
 import { ToastContainer } from 'react-toastify'
-import { Loader2 } from 'lucide-react'
+import { Eye, EyeClosed, Loader2 } from 'lucide-react'
 const SignUp = () => {
     const { formik, loading } = useSignUp()
+    const [showPassword, setShowPassword] = useState({
+        password: false,
+        confirmPassword: false,
+    })
+
+    const togglePassword = (field) => {
+        setShowPassword({
+            ...showPassword,
+            [field]: !showPassword[field],
+        })
+    }
     return (
         <div className="flex items-center justify-center w-screen py-10 h-fit bg-custom-gradient">
-            <div className="flex justify-center bg-white w-[75vw] h-fit rounded-3xl">
+            <div className="flex justify-center bg-white w-[75vw] h-fit rounded-3xl overflow-hidden">
                 <div className="relative z-10 hidden lg:w-1/3 h-100 lg:block bg-customPink">
                     <img
                         src={signupPic}
@@ -128,10 +139,10 @@ const SignUp = () => {
                                         </p>
                                     ) : null}
                                 </div>
-                                <div className="flex flex-col space-y-1.5">
+                                <div className="flex flex-col space-y-1.5 relative">
                                     <Label htmlFor="password">Password</Label>
                                     <Input
-                                        type="password"
+                                        type={showPassword.password ? 'text' : 'password'}
                                         id="password"
                                         name="password"
                                         className="bg-[#c0dbea] border-none"
@@ -139,6 +150,19 @@ const SignUp = () => {
                                         onChange={formik.handleChange}
                                         onBlur={formik.handleBlur}
                                     />
+                                    <button
+                                        type="button"
+                                        onClick={() =>
+                                            togglePassword('password')
+                                        }
+                                        className="absolute z-50 text-black right-3 top-9"
+                                    >
+                                        {showPassword.password ? (
+                                            <EyeClosed size={20} />
+                                        ) : (
+                                            <Eye size={20} />
+                                        )}
+                                    </button>
                                     {formik.touched.password &&
                                     formik.errors.password ? (
                                         <p className="text-sm text-red-500">
@@ -146,12 +170,12 @@ const SignUp = () => {
                                         </p>
                                     ) : null}
                                 </div>
-                                <div className="flex flex-col space-y-1.5">
+                                <div className="flex flex-col space-y-1.5 relative">
                                     <Label htmlFor="confirmPassword">
                                         Confirm Password
                                     </Label>
                                     <Input
-                                        type="password"
+                                        type={showPassword.confirmPassword?"text":"password"}
                                         id="confirmPassword"
                                         name="confirmPassword"
                                         className="bg-[#c0dbea] border-none"
@@ -159,6 +183,19 @@ const SignUp = () => {
                                         onChange={formik.handleChange}
                                         onBlur={formik.handleBlur}
                                     />
+                                    <button
+                                        type="button"
+                                        onClick={() =>
+                                            togglePassword('confirmPassword')
+                                        }
+                                        className="absolute z-50 text-black right-3 top-9"
+                                    >
+                                        {showPassword.confirmPassword ? (
+                                            <EyeClosed size={20} />
+                                        ) : (
+                                            <Eye size={20} />
+                                        )}
+                                    </button>
                                     {formik.touched.confirmPassword &&
                                     formik.errors.confirmPassword ? (
                                         <p className="text-sm text-red-500">

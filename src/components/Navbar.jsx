@@ -57,7 +57,7 @@ const Navbar = () => {
                     className="cursor-pointer logo font-playwright dark:text-white"
                     onClick={() => navigate('/')}
                 >
-                    DGBlog
+                    <h1>DGBlog</h1>
                 </div>
                 <ul className="hidden gap-10 font-sans text-lg text-[#3B3C4A] dark:text-white xl:flex">
                     <NavLink

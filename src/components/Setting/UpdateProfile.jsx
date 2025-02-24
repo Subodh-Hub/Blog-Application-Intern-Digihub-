@@ -10,7 +10,7 @@ const UpdateProfile = () => {
     const URL = '/update-user'
 
     const [initialValues, setInitialValues] = useState({
-        fName: userInf?.firstName || '',
+        fName: userInf?.firstName ||'',
         mName: userInf?.middleName || '',
         lName: userInf?.lastName || '',
         phoneNumber: userInf?.phone || '',

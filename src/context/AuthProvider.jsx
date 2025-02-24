@@ -7,6 +7,7 @@ export const AuthProvider = ({ children }) => {
     const [userInf, setUserInf] = useState({})
     const URL = '/getUser-auth'
     const [token, setToken] = useState(localStorage.getItem('accessToken'))
+    const [refetch, setrefetch] = useState(false)
 
     const fetchData = async () => {
         try {
@@ -28,10 +29,10 @@ export const AuthProvider = ({ children }) => {
         } else {
             setUserInf(null)
         }
-    }, [token])
+    }, [token, refetch])
 
     return (
-        <AuthContext.Provider value={{ userInf, setUserInf, fetchData }}>
+        <AuthContext.Provider value={{ userInf, setUserInf, fetchData,setrefetch }}>
             {children}
         </AuthContext.Provider>
     )

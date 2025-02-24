@@ -1,6 +1,7 @@
 import apiClient from '@/api/axiosInterceptors'
 import React, { useState, useEffect } from 'react'
 import { PieChart, Pie, Tooltip, Cell, ResponsiveContainer } from 'recharts'
+import { Separator } from "@/components/ui/separator"
 
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042']
 
@@ -44,7 +45,7 @@ const MostUsedCategoryPost = () => {
                 </PieChart>
             </ResponsiveContainer>
             {/*custom index for piechart*/}
-            <div className="flex justify-center gap-4 mt-4 pb-5">
+            <div className="flex justify-center gap-4 pb-5 mt-4">
                 {chartData.map((el, index) => (
                     <div key={index} className="flex items-center gap-2">
                         <div
@@ -53,7 +54,9 @@ const MostUsedCategoryPost = () => {
                                 backgroundColor: COLORS[index % COLORS.length],
                             }}
                         ></div>
-                        <span className="text-sm font-medium">{el.name}</span>
+                        <span className="text-sm">{el.name}: <strong>{el.value}</strong></span>
+                        <Separator  orientation="vertical" />
+
                     </div>
                 ))}
             </div>

@@ -32,6 +32,8 @@ const App = () => {
                         />
                     </Route>
                     <Route path="/" element={<Dashboard />}>
+
+                    
                         <Route path=":name/:id" element={<DynamicCategory />} />
                         <Route path="contact" element={<Contact />} />
                         <Route path="/createPost" element={<CreatePost />} />

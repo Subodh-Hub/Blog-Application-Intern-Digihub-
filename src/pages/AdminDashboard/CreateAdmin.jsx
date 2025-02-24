@@ -7,6 +7,14 @@ import { toast, ToastContainer } from 'react-toastify'
 import { Eye, EyeClosed } from 'lucide-react'
 import { useState } from 'react'
 import { Button } from '@/components/ui/button'
+import {
+    Breadcrumb,
+    BreadcrumbItem,
+    BreadcrumbLink,
+    BreadcrumbList,
+    BreadcrumbPage,
+    BreadcrumbSeparator,
+} from '@/components/ui/breadcrumb'
 const CreateAdmin = () => {
     const createAdminURL = '/admin/createAdmin'
     const [showPassword, setShowPassword] = useState({
@@ -114,6 +122,21 @@ const CreateAdmin = () => {
 
     return (
         <div className="my-5">
+            <Breadcrumb className="lg:ml-20 my-7">
+                <BreadcrumbList>
+                    <BreadcrumbItem>
+                        <BreadcrumbLink href="/adminDashboard">
+                            Dashboard
+                        </BreadcrumbLink>
+                    </BreadcrumbItem>
+                    <BreadcrumbSeparator />
+                    <BreadcrumbItem>
+                        <BreadcrumbLink href="/adminDashboard/creteAdmin">
+                            <BreadcrumbPage>Create Admin</BreadcrumbPage>
+                        </BreadcrumbLink>
+                    </BreadcrumbItem>
+                </BreadcrumbList>
+            </Breadcrumb>
             <h1 className="font-semibold text-center text-7xl">Create Admin</h1>
             <form
                 onSubmit={formik.handleSubmit}

@@ -13,7 +13,6 @@ import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuItem,
-    DropdownMenuLabel,
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
@@ -28,6 +27,7 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger,
 } from '@/components/ui/alert-dialog'
+import EditPost from '@/components/EditPost'
 const SinglePage = () => {
     const navigate = useNavigate()
     const { userInf } = useAuth()
@@ -73,6 +73,8 @@ const SinglePage = () => {
             }, 500)
         })
     }
+
+    
 
     const { category, title, user, content, addDate, deletable } = data
 
@@ -127,7 +129,7 @@ const SinglePage = () => {
                                     <BsThreeDotsVertical className="cursor-pointer" />
                                 </DropdownMenuTrigger>
                                 <DropdownMenuContent className="dark:bg-blue-950">
-                                    <DropdownMenuItem>Edit</DropdownMenuItem>
+                                    <EditPost isDialogOpen={isDialogOpen} data={data} setIsDialogOpen={setIsDialogOpen}/>
                                     <DropdownMenuSeparator />
                                     <AlertDialog
                                         open={isDialogOpen}

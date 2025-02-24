@@ -7,7 +7,7 @@
     background-color: #ffffff;
     border-radius: 40px;
     .form-details {
-        width: 80%;
+        width: 50%;
         height: 100%;
         position: absolute;
         top: 14%;
@@ -33,94 +33,97 @@
         }
         .form-content {
             margin-top: 15px;
-            .form-component {
-                margin-bottom: 20px;
-                label {
-                    display: block;
-                    font-family: 'Poppins', sans-serif;
-                }
-                input[type='email'],
-                input[type='password'] {
-                    width: 40%;
-                    height: 50px;
-                    background-color: #c0dbea;
-                    border-radius: 7px;
-                    padding: 0 10px;
-                    margin-top: 10px;
-                }
-            }
-            .btn-submit {
-                margin: 40px 0;
-                background-color: #d885a3;
+            padding-right: 200px;
+            width: 100%;
+            label {
+                display: block;
                 font-family: 'Poppins', sans-serif;
-                font-size: 0.93rem;
-                font-weight: 600;
-                text-transform: uppercase;
-                color: #ffffff;
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                width: 110px;
-                padding: 7px 15px;
-                border-radius: 30px;
-                position: relative;
-                left: 150px;
+            }
+            input[type='email'],
+            input[type='password'] ,
+            input[type='text'] {
+                width: 100%;
+                height: 50px;
+                background-color: #c0dbea;
+                border-radius: 7px;
+                padding: 0 10px;
+                margin-top: 10px;
             }
         }
-        .form-footer {
+        .btn-submit {
+            margin: 40px 0;
+            background-color: #d885a3;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.93rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: #ffffff;
             display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
-            align-items: flex-start;
-            margin-top: 20px;
-            gap: 10px;
-            p {
-                font-family: 'Poppins', sans-serif;
-                a {
-                    color: #d885a3;
-                    font-weight: 600;
-                    text-decoration: none;
-                    cursor: pointer;
-                }
-            }
+            justify-content: space-between;
+            align-items: center;
+            width: 110px;
+            padding: 7px 15px;
+            border-radius: 30px;
+            position: relative;
+            left: 150px;
         }
     }
-    .side-container {
-        position: absolute;
-        right: 0;
-        top: 0;
-        border-radius: 40px;
-        width: 35%;
-        height: 100%;
-        background-color: #c0dbea;
-        right: 0;
-        z-index: 1;
-        .cactus-img {
-            position: relative;
-            top: -40%;
-            left: 30%;
-            height: 55%;
-            width: 35%;
-            z-index: 2;
-        }
-        .character-img {
-            position: relative;
-            object-fit: cover;
-            top: 30%;
-            left: -48%;
-            width: 500px;
-            height: 500px;
-            z-index: 3;
+    .form-footer {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+        margin-top: 20px;
+        gap: 10px;
+        p {
+            font-family: 'Poppins', sans-serif;
+            a {
+                color: #d885a3;
+                font-weight: 600;
+                text-decoration: none;
+                cursor: pointer;
+            }
         }
     }
 }
+.side-container {
+    position: absolute;
+    right: 0;
+    top: 0;
+    border-radius: 40px;
+    width: 35%;
+    height: 100%;
+    background-color: #c0dbea;
+    right: 0;
+    z-index: 1;
+    .cactus-img {
+        position: relative;
+        top: -40%;
+        left: 30%;
+        height: 55%;
+        width: 35%;
+        z-index: 2;
+    }
+    .character-img {
+        position: relative;
+        object-fit: cover;
+        top: 30%;
+        left: -48%;
+        width: 500px;
+        height: 500px;
+        z-index: 3;
+    }
+}
+
 @media screen and (max-width: 769px) {
     .side-container {
         display: none;
     }
     .form-container {
         .form-details {
+            width: 100%;
             .form-content {
+                padding-right: 50px;
                 .form-component {
                     input[type='email'],
                     input[type='password'] {
