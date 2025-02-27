@@ -35,6 +35,10 @@ export const PostStatsProvider = ({ children }) => {
             if (res.data) {
                 const likeRes = await apiClient.get(`like/${postId}/likeCount`)
                 setLikeCount(likeRes.data)
+                const dislikeRes = await apiClient.get(
+                    `like/${postId}/disLikeCount`
+                )
+                setDisLikeCount(dislikeRes.data)
             }
         } catch (error) {
             console.error('Error updating like count:', error)
@@ -52,6 +56,8 @@ export const PostStatsProvider = ({ children }) => {
                     `like/${postId}/disLikeCount`
                 )
                 setDisLikeCount(dislikeRes.data)
+                const likeRes = await apiClient.get(`like/${postId}/likeCount`)
+                setLikeCount(likeRes.data)
             }
         } catch (error) {
             console.error('Error updating dislike count:', error)

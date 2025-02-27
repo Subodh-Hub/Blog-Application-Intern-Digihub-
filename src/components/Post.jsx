@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import { Avatar, AvatarFallback, AvatarImage } from '@radix-ui/react-avatar'
+
 import hero from '@/assets/images/hero.jpg'
 import { useNavigate } from 'react-router-dom'
 import apiClient from '@/api/axiosInterceptors'
 
 import parse from 'html-react-parser'
+import useAuth from './hooks/useAuth'
+import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
 
 const Post = ({ post }) => {
     const {
@@ -20,17 +22,25 @@ const Post = ({ post }) => {
     const navigate = useNavigate()
     const URL = `/post/image/${imageName}`
     const [image, setImage] = useState('')
+    const [avatarImage, setAvatarImage] = useState('')
+    const { userInf } = useAuth()
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const res = await apiClient.get(URL)
-                setImage(res.request.responseURL)
-            } catch (error) {
-                console.error(error)
-            }
+        apiClient
+            .get(URL)
+            .then((res) => setImage(res.request.responseURL))
+            .catch((err) => {
+                console.log('error', err)
+            })
+        if (user.imageName) {
+            apiClient
+                .get(`/user/image/${user.imageName}`)
+                .then((res) => {
+                    setAvatarImage(res.request.responseURL)
+                })
+                .catch((error) => {
+                    console.error(error)
+                })
         }
-
-        fetchData()
     }, [])
 
     function formatDate(dateString) {
@@ -59,6 +69,15 @@ const Post = ({ post }) => {
         return `${dayWithSuffix}  ${month} ${year}`
     }
 
+    console.log('avatarImage', avatarImage)
+    const avatarSrc = userInf?.imageName
+        ? `${avatarImage}`
+        : `https://github.com/shadcn.png`
+    const avatarFallback =
+        user.firstName.charAt(0).toUpperCase() +
+        user.middleName.charAt(0).toUpperCase() +
+        user.lastName.charAt(0).toUpperCase()
+
     return (
         <main
             className="w-full cursor-pointer max-w-[392px] bg-white border-[1px] border-solid border-[#E8E8EA] rounded-xl drop-shadow-sm p-3 dark:bg-[#181A2A] dark:border-gray-700 hover:scale-105 transition-hover ease-in-out duration-100 hover:shadow-xl"
@@ -79,12 +98,10 @@ const Post = ({ post }) => {
                     {title.charAt(0).toUpperCase() + title.slice(1)}
                 </h3>
                 <div className="flex items-center gap-3 justify-left">
-                    <div className="object-cover w-10 h-10 overflow-hidden rounded-full">
-                        <Avatar className="cursor-pointer">
-                            <AvatarImage src="https://github.com/shadcn.png" />
-                            <AvatarFallback>CN</AvatarFallback>
-                        </Avatar>
-                    </div>
+                    <Avatar className="bg-gray-200 cursor-pointer w-9 h-9">
+                        <AvatarImage src={avatarSrc} className="object-cover" />
+                        <AvatarFallback>{avatarFallback}</AvatarFallback>
+                    </Avatar>
                     <p className="text-white xl:text-[#97989F] text-base hover:cursor-pointer capitalize">
                         {user.firstName}
                     </p>

@@ -36,6 +36,7 @@ import {
     AlertDialogTrigger,
 } from '@/components/ui/alert-dialog'
 import EditPost from '@/components/EditPost'
+import usePostStore from '@/components/stores/PostStore'
 const SinglePage = () => {
     const navigate = useNavigate()
     const { userInf } = useAuth()
@@ -44,38 +45,32 @@ const SinglePage = () => {
         edit: false,
         delete: false,
     })
-    const { likeCount, disLikeCount, fetchStats, updateLike, updateDisLike } =
+    const [image, setImage] = useState('')
+    const { likeCount, disLikeCount, updateLike, updateDisLike } =
         usePostStats()
 
-    const [data, setData] = useState({})
-    const [loading, setLoading] = useState(true)
-    const [image, setImage] = useState('')
+    const { post, loading, fetchPost, toggleLike, toggleDislike } =
+        usePostStore()
 
     useEffect(() => {
-        const fetchData = () => {
-            fetchStats(postId)
-            setLoading(true)
-
+        fetchPost(postId)
+    }, [postId])
+    
+    useEffect(() => {
+        if (post && !loading && post.imageName) { 
             apiClient
-                .get(`/post/${postId}`)
+                .get(`/post/image/${post.imageName}`)
                 .then((res) => {
-                    setData(res.data)
-                    setLoading(false)
-                    return apiClient.get(`/post/image/${res.data.imageName}`)
+                    setImage(res.request.responseURL);
                 })
-                .then((imageRes) => {
-                    setImage(imageRes.request.responseURL)
-                })
-                .catch((error) => {
-                    console.error('Error fetching post data or image:', error)
-                    setLoading(false)
-                })
+                .catch((err) => {
+                    console.log(err);
+                });
         }
+    }, [post, loading]);
 
-        fetchData()
-    }, [postId, likeCount, disLikeCount])
+    const deleteURL = `/posts-delete/${postId}`
 
-    const deleteURL = `/posts-delete/${data.postId}`
     const deletePost = () => {
         apiClient.delete(deleteURL).then((res) => {
             toast.success('Post deleted successfully!!!')
@@ -85,11 +80,7 @@ const SinglePage = () => {
         })
     }
 
-    const { category, title, user, content, addDate, deletable } = data
-
-    if (loading) {
-        return <div>Loading...</div>
-    }
+    const { category, title, user, content, addDate, deletable } = post || {}
 
     const formatNumber = (number) => {
         if (number >= 1000000) {
@@ -124,13 +115,35 @@ const SinglePage = () => {
         }
     }
 
+    // dialog for the edit and delete post
     const toggleDialog = (dialog, value) => {
         setIsDialogOpen((prevState) => ({
             ...prevState,
-            [dialog]: value, // Toggle the dialog state
+            [dialog]: value,
         }))
     }
 
+    const handleLike = () => {
+        if (userInf && Object.keys(userInf).length > 0) {
+            toggleLike()
+            updateLike(postId, post?.likedByUser) // Update backend
+        } else {
+            toast.error('Please Login first')
+        }
+    }
+    const handleDislike = () => {
+        if (userInf && Object.keys(userInf).length > 0) {
+            toggleDislike()
+            updateDisLike(postId, post?.disLikedByUser) // Update backend
+        } else {
+            toast.error('Please Login first')
+        }
+    }
+
+    if (loading) {
+        return <div>Loading...</div>
+    }
+    if (!post) return <p>No post found.</p>
 
     return (
         <div className="items-center dark:bg-customDarkTheme">
@@ -146,8 +159,6 @@ const SinglePage = () => {
                                     <BsThreeDotsVertical className="cursor-pointer" />
                                 </DropdownMenuTrigger>
                                 <DropdownMenuContent className="dark:bg-blue-950">
-
-
                                     <Dialog
                                         open={isDialogOpen.edit}
                                         onOpenChange={(value) =>
@@ -168,9 +179,8 @@ const SinglePage = () => {
                                                 <DialogTitle>
                                                     Edit Post
                                                 </DialogTitle>
-                                                
-                                                   <EditPost data={data}/>
-                                            
+
+                                                <EditPost data={post} />
                                             </DialogHeader>
                                         </DialogContent>
                                     </Dialog>
@@ -259,47 +269,31 @@ const SinglePage = () => {
                 <div className="flex items-center gap-3">
                     <div
                         className={`flex items-center gap-3 px-3 py-1 rounded-lg bg-slate-300 dark:bg-slate-500 ${
-                            data.likedByUser ? 'bg-slate-500 text-white' : ''
+                            post.likedByUser ? 'bg-slate-500 text-white' : ''
                         }`}
                     >
                         <BiUpvote
                             className={`text-2xl text-[#4B6BFB] cursor-pointer dark:text-slate-200 dark:hover:text-white ${
-                                data.likedByUser ? 'text-white' : ''
+                                post.likedByUser ? 'text-white' : ''
                             }`}
-                            onClick={async () => {
-                                userInf && Object.keys(userInf).length > 0
-                                    ? (await updateLike(
-                                          postId,
-                                          data.likedByUser
-                                      ),
-                                      fetchStats(postId))
-                                    : toast.error('Please Login first')
-                            }}
+                            onClick={handleLike}
                         />
                         {formatNumber(likeCount)}
                     </div>
                     <div
                         className={`flex items-center gap-3 px-3 py-1 rounded-lg bg-slate-300 dark:bg-slate-500  ${
-                            data.disLikedByUser
+                            post.disLikedByUser
                                 ? 'bg-slate-500 text-white font-semibold'
                                 : ''
                         }`}
                     >
                         <BiDownvote
                             className={`text-2xl text-[#4B6BFB] cursor-pointer dark:text-slate-200 dark:hover:text-white  ${
-                                data.disLikedByUser
+                                post.disLikedByUser
                                     ? ' text-white font-semibold'
                                     : ''
                             }`}
-                            onClick={async () => {
-                                userInf && Object.keys(userInf).length > 0
-                                    ? (await updateDisLike(
-                                          postId,
-                                          data.disLikedByUser
-                                      ),
-                                      fetchStats(postId))
-                                    : toast.error('Please Login first')
-                            }}
+                            onClick={handleDislike}
                         />
                         {formatNumber(disLikeCount)}
                     </div>

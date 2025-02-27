@@ -152,8 +152,8 @@ const Navbar = () => {
                         <NavLink
                             className={({ isActive }) =>
                                 isActive
-                                    ? 'w-full py-5 text-center rounded-3xl bg-zinc-200 text-blue-500'
-                                    : 'w-full py-5 text-center cursor-pointer hover:bg-zinc-200 dark:hover:bg-blue-900 hover:rounded-3xl'
+                                    ? 'w-full py-5 text-center rounded-3xl bg-zinc-200 text-blue-500 capitalize'
+                                    : 'w-full py-5 text-center cursor-pointer hover:bg-zinc-200 dark:hover:bg-blue-900 hover:rounded-3xl capitalize'
                             }
                             onClick={() => {
                                 setIsMenuOpen(false)
@@ -169,6 +169,7 @@ const Navbar = () => {
                             isActive
                                 ? 'w-full py-5 text-center rounded-t-3xl bg-zinc-200 text-blue-500'
                                 : 'w-full py-5 text-center cursor-pointer hover:bg-zinc-200 dark:hover:bg-blue-900 hover:rounded-t-3xl'
+                                
                         }
                         onClick={() => {
                             setIsMenuOpen(false)
