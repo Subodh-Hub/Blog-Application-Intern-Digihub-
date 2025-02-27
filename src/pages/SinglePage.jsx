@@ -17,6 +17,14 @@ import {
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from '@/components/ui/dialog'
+import {
     AlertDialog,
     AlertDialogAction,
     AlertDialogCancel,
@@ -32,7 +40,10 @@ const SinglePage = () => {
     const navigate = useNavigate()
     const { userInf } = useAuth()
     const { postId } = useParams()
-    const [isDialogOpen, setIsDialogOpen] = useState(false)
+    const [isDialogOpen, setIsDialogOpen] = useState({
+        edit: false,
+        delete: false,
+    })
     const { likeCount, disLikeCount, fetchStats, updateLike, updateDisLike } =
         usePostStats()
 
@@ -74,8 +85,6 @@ const SinglePage = () => {
         })
     }
 
-    
-
     const { category, title, user, content, addDate, deletable } = data
 
     if (loading) {
@@ -115,6 +124,14 @@ const SinglePage = () => {
         }
     }
 
+    const toggleDialog = (dialog, value) => {
+        setIsDialogOpen((prevState) => ({
+            ...prevState,
+            [dialog]: value, // Toggle the dialog state
+        }))
+    }
+
+
     return (
         <div className="items-center dark:bg-customDarkTheme">
             <main className="w-[90vw] m-auto flex flex-col gap-10 md:px-30 xl:w-[80vw] pt-10">
@@ -129,11 +146,41 @@ const SinglePage = () => {
                                     <BsThreeDotsVertical className="cursor-pointer" />
                                 </DropdownMenuTrigger>
                                 <DropdownMenuContent className="dark:bg-blue-950">
-                                    <EditPost isDialogOpen={isDialogOpen} data={data} setIsDialogOpen={setIsDialogOpen}/>
+
+
+                                    <Dialog
+                                        open={isDialogOpen.edit}
+                                        onOpenChange={(value) =>
+                                            toggleDialog('edit', value)
+                                        }
+                                    >
+                                        <DialogTrigger asChild>
+                                            <DropdownMenuItem
+                                                onSelect={(e) =>
+                                                    e.preventDefault()
+                                                }
+                                            >
+                                                Edit
+                                            </DropdownMenuItem>
+                                        </DialogTrigger>
+                                        <DialogContent>
+                                            <DialogHeader>
+                                                <DialogTitle>
+                                                    Edit Post
+                                                </DialogTitle>
+                                                
+                                                   <EditPost data={data}/>
+                                            
+                                            </DialogHeader>
+                                        </DialogContent>
+                                    </Dialog>
+
                                     <DropdownMenuSeparator />
                                     <AlertDialog
-                                        open={isDialogOpen}
-                                        onOpenChange={setIsDialogOpen}
+                                        open={isDialogOpen.delete}
+                                        onOpenChange={(value) =>
+                                            toggleDialog('delete', value)
+                                        }
                                     >
                                         <AlertDialogTrigger asChild>
                                             <DropdownMenuItem
@@ -160,7 +207,10 @@ const SinglePage = () => {
                                             <AlertDialogFooter>
                                                 <AlertDialogCancel
                                                     onClick={() =>
-                                                        setIsDialogOpen(false)
+                                                        toggleDialog(
+                                                            'delete',
+                                                            false
+                                                        )
                                                     }
                                                 >
                                                     Cancel

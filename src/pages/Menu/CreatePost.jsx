@@ -11,6 +11,8 @@ import { Label } from '@/components/ui/label'
 const CreatePost = () => {
     const URL = '/category'
     const [category, setCategory] = useState([])
+    const [loading, setLoading] = useState(false)
+
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -36,7 +38,7 @@ const CreatePost = () => {
             category: Yup.string().required('Category is required'),
             image: Yup.mixed().required('Image is required'),
         }),
-        onSubmit: async (values, { resetForm }) => {
+        onSubmit: async (values) => {
             const formData = new FormData()
             formData.append('title', values.title)
             formData.append('content', values.content)
@@ -44,20 +46,27 @@ const CreatePost = () => {
             if (values.image) {
                 formData.append('image', values.image)
             }
-
-            await apiClient
-                .post(`/category/image/posts`, formData)
-                .then((res) => {
-                    toast.success('Post created successfully')
-                    resetForm()
-                })
-
-                .catch((error) => {
-                    const errorMessage =
-                        error.response.data.message || error.message
-                    console.log(error)
-                    toast.warning(errorMessage)
-                })
+            setLoading(true)
+            console.log('check')
+            if (formik.dirty) {
+                await apiClient
+                    .post(`/category/image/posts`, formData)
+                    .then((res) => {
+                        console.log('success')
+                        toast.success('Post created successfully')
+                        setLoading(false)
+                    })
+                    .catch((error) => {
+                        const errorMessage =
+                            error.response.data.message || error.message
+                        console.log(error)
+                        toast.warning(errorMessage)
+                        setSubmitting(false)
+                    })
+            }
+            else{
+                toast.error("Please change the data")
+            }
         },
     })
 
@@ -181,7 +190,7 @@ const CreatePost = () => {
                     className="border-[1px] border-gray-500 text-gray-500 border-solid px-5 py-2 rounded-full w-fit m-auto dark:bg-blue-600 dark:text-white hover:bg-black hover:text-white dark:hover:bg-blue-400 transition-all ease-in-out duration-300 font-semibold"
                     type="submit"
                 >
-                    Submit
+                    {loading ? 'Submitting...' : 'Submit'}
                 </button>
             </form>
         </div>

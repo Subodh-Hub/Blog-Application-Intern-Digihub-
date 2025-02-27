@@ -10,6 +10,8 @@ import {
 } from '@/components/ui/table'
 import { useEffect, useState } from 'react'
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar'
+import { Separator } from "@/components/ui/separator"
+
 
 const TopPostUploadedUserTable = () => {
     const mostPostContributerUserListUrl = '/admin/topUser'
@@ -21,7 +23,6 @@ const TopPostUploadedUserTable = () => {
             .get(mostPostContributerUserListUrl)
             .then((res) => {
                 setMostPostContributerUserList(res.data)
-                console.log('res', res.data)
             })
             .catch((error) => {
                 console.log(error)
@@ -32,7 +33,7 @@ const TopPostUploadedUserTable = () => {
         user: 'bg-green-100 text-green-700',
     }
     return (
-        <div className="w-1/2">
+        <div>
             <h1 className="text-4xl font-semibold text-center mb-7">
                 Top Post Contributer User
             </h1>
@@ -41,17 +42,18 @@ const TopPostUploadedUserTable = () => {
                     Top 10 Highest Post Contributer User List
                 </TableCaption>
                 <TableHeader>
-                    <TableRow>
-                        <TableHead className="w-40">Full Name</TableHead>
-                        <TableHead className="w-20">Phone</TableHead>
-                        <TableHead className="w-10">Role</TableHead>
-                        <TableHead className="w-5">Post Uploaded</TableHead>
+                <TableRow className="bg-gray-100">
+                        <TableHead className="w-1/3">Full Name</TableHead>
+                        <TableHead className="w-1/5">Phone</TableHead>
+                        <TableHead className="w-1/5">Role</TableHead>
+                        <TableHead className="w-1/5">Post Uploaded</TableHead>
                     </TableRow>
                 </TableHeader>
+    
                 <TableBody>
                     {mostPostContributerUserList.map((el, key) => (
-                        <TableRow key={key}>
-                            <TableCell className="grid items-center justify-center grid-cols-[auto_1fr] gap-3">
+                        <TableRow key={key} className={` ${key%2!==0?"bg-gray-200 dark:bg-gray-800":""}`}>
+                            <TableCell className={`grid items-center justify-center grid-cols-[auto_1fr] gap-3`}>
                                 <Avatar className="rounded-full w-9 h-9">
                                     <AvatarImage
                                         src={
@@ -73,6 +75,7 @@ const TopPostUploadedUserTable = () => {
                                         el.userId.middleName +
                                         ' ' +
                                         el.userId.lastName}
+                                        
                                 </h3>
                             </TableCell>
                             <TableCell>{el.userId.phone}</TableCell>

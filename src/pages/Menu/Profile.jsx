@@ -44,9 +44,7 @@ const Profile = () => {
                     },
                 })
                 .then((res) => {
-                    setrefetch((prev) => {
-                        !prev
-                    })
+                    setrefetch((prev) => !prev)
                     toast.success('Profile Picture Updated Sucessfully!!!')
                     setUpdateProfile(false)
                 })
@@ -75,21 +73,6 @@ const Profile = () => {
                                     userInf?.lastName?.slice(0, 1)}
                             </AvatarFallback>
                         </Avatar>
-                        {/* <Avatar className="rounded-full w-9 h-9">
-                                    <AvatarImage
-                                        src={
-                                            el.post.user.imageName
-                                                ? `http://localhost:8080/user/image/${el.post.user.imageName}`
-                                                : 'https://github.com/shadcn.png'
-                                        }
-                                        className="object-cover w-full h-full rounded-full"
-                                        alt="@shadcn"
-                                    />
-                                    <AvatarFallback className="capitalize">
-                                        {userInf.firstName.slice(0, 1) +
-                                            userInf.lastName.slice(0, 1)}
-                                    </AvatarFallback>
-                                </Avatar> */}
 
                         <FaPlus
                             className="absolute right-0 z-50 duration-200 ease-in-out cursor-pointer transition-hover -bottom-3 hover:scale-125"
@@ -162,7 +145,6 @@ const Profile = () => {
                                     userInf.firstName.slice(1)
                                 } ${userInf.lastName}`}
                         </h3>
-                        <p></p>
                     </div>
                 </div>
                 <ul className="flex flex-wrap items-center gap-4 mt-8 text-lg text-[#3B3C4A] dark:text-white">

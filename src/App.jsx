@@ -18,24 +18,26 @@ import UpdateProfile from './components/Setting/UpdateProfile'
 import ChangePassword from './components/Setting/ChangePassword'
 import CreateAdmin from './pages/AdminDashboard/CreateAdmin'
 import AdminPostOverview from './pages/AdminDashboard/AdminPostOverview'
+import MainLayout from './pages/MainLayout'
+import AdminLayout from './pages/AdminDashboard/AdminLayout'
 
 const App = () => {
     return (
         <>
             <BrowserRouter>
                 <Routes>
-                    <Route path="/adminDashboard" element={<AdminDashboard />}>
+                    <Route element={<AdminLayout />} >
+                    <Route path="/adminDashboard" element={<AdminDashboard />} />
                         <Route path="createAdmin" element={<CreateAdmin />} />
                         <Route
                             path="adminPostOverview"
                             element={<AdminPostOverview />}
                         />
                     </Route>
-                    <Route path="/" element={<Dashboard />}>
-
-                    
+                    <Route element={<MainLayout />}>
+                        <Route path="/" element={<Dashboard />} />
                         <Route path=":name/:id" element={<DynamicCategory />} />
-                        <Route path="contact" element={<Contact />} />
+                        <Route path="/contact" element={<Contact />} />
                         <Route path="/createPost" element={<CreatePost />} />
                         <Route path="profile" element={<Profile />}>
                             <Route path="overview" element={<Overview />} />
@@ -54,7 +56,6 @@ const App = () => {
                                 element={<ChangePassword />}
                             />
                         </Route>
-
                         <Route
                             path="/:name/:id/:postId"
                             element={<SinglePage />}

@@ -10,7 +10,7 @@ import {
 import { useEffect, useState } from 'react'
 import apiClient from '@/api/axiosInterceptors.jsx'
 import { Progress } from '@/components/ui/progress'
-import { Avatar, AvatarFallback, AvatarImage } from '@radix-ui/react-avatar'
+import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar'
 
 function MostLikedPostTable() {
     const topPostUrl = '/admin/topPost'
@@ -29,17 +29,17 @@ function MostLikedPostTable() {
     }
     const maxLikes = Math.max(...topPosts.map((post) => post.likeCount), 1)
     return (
-        <div className="w-1/2">
+        <div>
             <h1 className="text-4xl font-semibold text-center mb-7">
                 Top Liked Post
             </h1>
             <Table>
                 <TableCaption className="mt-7">Most Upvoted Post</TableCaption>
-                <TableHeader>
+                <TableHeader className="bg-gray-100">
                     <TableRow>
-                        <TableHead className="w-[100px]">Post Id</TableHead>
-                        <TableHead className="w-64">Full Name</TableHead>
-                        <TableHead className="w-96">Post Title</TableHead>
+                        <TableHead className="w-[150px]">Post Id</TableHead>
+                        <TableHead className="w-1/4">Full Name</TableHead>
+                        <TableHead className="w-1/5">Post Title</TableHead>
                         <TableHead className="w-48">Category</TableHead>
                         <TableHead className="w-48">Uploaded Date</TableHead>
                         <TableHead className="w-[100px]">Upvote</TableHead>
@@ -47,13 +47,14 @@ function MostLikedPostTable() {
                 </TableHeader>
                 <TableBody>
                     {topPosts.map((el, key) => (
-                        <TableRow key={key}>
+                        <TableRow key={key} className={`${key % 2 !== 0 ? 'bg-gray-200 dark:bg-gray-800' : ''}`}>
                             <TableCell className="font-medium">
                                 {el.post.postId}
                             </TableCell>
-                            <TableCell className="grid items-center justify-center grid-cols-[auto_1fr] gap-3">
-                            
-                                <Avatar className="rounded-full w-9 h-9">
+                            <TableCell className="">
+                            <div className='flex items-center gap-2'>
+                                
+                                <Avatar className="rounded-full h-9 w-9">
                                     <AvatarImage
                                         src={
                                             el.post.user.imageName
@@ -75,8 +76,10 @@ function MostLikedPostTable() {
                                         ' ' +
                                         el.post.user.lastName}
                                 </h3>
+                            </div>
                             </TableCell>
-                            <TableCell>{el.post.title}</TableCell>
+                            <TableCell >
+                                <div className="line-clamp-2">{el.post.title}</div></TableCell>
                             <TableCell className="capitalize ">
                                 <span
                                     className={`${categoryColors[el.post.category.categoryTitle.toLowerCase()] || ''} font-semibold px-3 py-1 rounded-full`}

@@ -11,8 +11,7 @@ const Hero = () => {
                             Music
                         </p>
                         <h1 className="max-w-md mt-4 text-4xl font-bold leading-10 tracking-wide text-left text-white text-sans xl:text-black xl:dark:text-white">
-                            (21 November 1852 - 15 December 1909) Classical
-                            Guitar Revolutions: Francisco Tárrega
+                            The prologue of the death behind the Rahul Rai!!!
                         </h1>
 
                         <div className="flex items-center justify-start gap-4 mt-5 profile">
