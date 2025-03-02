@@ -22,24 +22,48 @@ import {
 } from '@/components/ui/alert-dialog'
 import apiClient from '@/api/axiosInterceptors'
 import { toast } from 'react-toastify'
-import { usePostStats } from '@/context/PostStatusContext'
 import { useState } from 'react'
+import { useFormik } from 'formik'
 
 const Comments = ({ comment, fetchComment }) => {
     const [isDialogOpen, setIsDialogOpen] = useState(false)
+    const [isEditing, setIsEditing] = useState(false)
     const deleteCommentURL = `/comment/comment/${comment.id}`
     const deleteComment = () => {
         apiClient
             .delete(deleteCommentURL)
             .then((res) => {
                 toast.success('Comment deleted sucessfully!!!')
-                fetchComment()
-                setIsDialogOpen(false)
+                setTimeout(() => {
+                    fetchComment();
+                    setIsDialogOpen(false);
+                }, 500)
             })
             .catch((err) => {
                 console.error('err', err)
             })
     }
+    const formik = useFormik({
+        initialValues: {
+            comment: comment.content,
+        },
+        onSubmit: async (values) => {
+            const payload = {
+                content: values.comment,
+            }
+            try {
+                const res = await apiClient.put(
+                    `/comment/Update-comment/${comment.id}`,
+                    payload
+                )
+                fetchComment()
+                setIsEditing(false)
+                resetForm()
+            } catch (error) {
+                console.error(error)
+            }
+        },
+    })
     function daysAgo(dateString) {
         const givenDate = new Date(dateString)
         const currentDate = new Date()
@@ -89,7 +113,11 @@ const Comments = ({ comment, fetchComment }) => {
                                 <BsThreeDotsVertical className="cursor-pointer" />
                             </DropdownMenuTrigger>
                             <DropdownMenuContent className="dark:bg-blue-950">
-                                <DropdownMenuItem>Edit</DropdownMenuItem>
+                                <DropdownMenuItem
+                                    onClick={() => setIsEditing(true)}
+                                >
+                                    Edit
+                                </DropdownMenuItem>
                                 <DropdownMenuSeparator />
                                 <AlertDialog
                                     open={isDialogOpen}
@@ -110,8 +138,7 @@ const Comments = ({ comment, fetchComment }) => {
                                             <AlertDialogDescription>
                                                 This action cannot be undone.
                                                 This will permanently delete
-                                                your account and remove your
-                                                data from our servers.
+                                                your comment from this post.
                                             </AlertDialogDescription>
                                         </AlertDialogHeader>
                                         <AlertDialogFooter>
@@ -136,8 +163,38 @@ const Comments = ({ comment, fetchComment }) => {
                         ''
                     )}
                 </div>
+
                 <div>
-                    <p className="text-slate-500">{comment.content}</p>
+                    {isEditing ? (
+                        <form>
+                            <div className="flex flex-col gap-2">
+                                <input
+                                    className="w-full p-2 border rounded-md"
+                                    name="comment"
+                                    value={formik.values.comment}
+                                    onChange={formik.handleChange}
+                                    onBlur={formik.handleBlur}
+                                    type="text"
+                                />
+                                <div className="flex gap-2">
+                                    <button
+                                        onClick={formik.handleSubmit}
+                                        className="px-3 py-1 text-white bg-blue-500 rounded-md"
+                                    >
+                                        Save
+                                    </button>
+                                    <button
+                                        onClick={() => setIsEditing(false)}
+                                        className="px-3 py-1 bg-gray-300 rounded-md"
+                                    >
+                                        Cancel
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    ) : (
+                        <p className="text-slate-500">{comment.content}</p>
+                    )}
                 </div>
             </div>
         </>

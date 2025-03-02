@@ -4,10 +4,10 @@ import { toast } from 'react-toastify'
 const AuthContext = createContext({})
 
 export const AuthProvider = ({ children }) => {
-    const [userInf, setUserInf] = useState({})
+    const [userInf, setUserInf] = useState(null)
     const URL = '/getUser-auth'
     const [token, setToken] = useState(localStorage.getItem('accessToken'))
-    const [refetch, setrefetch] = useState(false)
+    const [refetch, setRefetch] = useState(false)
 
     const fetchData = async () => {
         try {
@@ -17,10 +17,25 @@ export const AuthProvider = ({ children }) => {
             if (error.response?.status === 401) {
                 toast.error('Unauthorized. Please log in.')
                 localStorage.removeItem('accessToken')
+                setUserInf(null)
             } else {
                 toast.error('Failed to fetch user data.')
             }
         }
+    }
+
+    const loginAuth = (token) => {
+        localStorage.setItem('accessToken', token)
+        setToken(token)
+        setRefetch((prev) => !prev) //update the ui for refetching
+        toast.success('Logged in sucessfully!!!!')
+    }
+
+    const logout = () => {
+        localStorage.removeItem('accessToken')
+        setToken(null)
+        setUserInf(null)
+        toast.success('Logged out sucessfully!!!!')
     }
 
     useEffect(() => {
@@ -32,7 +47,16 @@ export const AuthProvider = ({ children }) => {
     }, [token, refetch])
 
     return (
-        <AuthContext.Provider value={{ userInf, setUserInf, fetchData,setrefetch }}>
+        <AuthContext.Provider
+            value={{
+                userInf,
+                setUserInf,
+                fetchData,
+                setRefetch,
+                loginAuth,
+                logout,
+            }}
+        >
             {children}
         </AuthContext.Provider>
     )

@@ -99,8 +99,8 @@ const Navbar = () => {
                     <div className="w-fit">
                         {isProfileMenuOpen ? (
                             <ProfileMenu
-                                fName={userInf.firstName}
-                                lName={userInf.lastName}
+                                fName={userInf?.firstName}
+                                lName={userInf?.lastName}
                                 showProfileMenu={setIsProfileMenuOpen}
                             />
                         ) : (

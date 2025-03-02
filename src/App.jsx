@@ -20,6 +20,7 @@ import CreateAdmin from './pages/AdminDashboard/CreateAdmin'
 import AdminPostOverview from './pages/AdminDashboard/AdminPostOverview'
 import MainLayout from './pages/MainLayout'
 import AdminLayout from './pages/AdminDashboard/AdminLayout'
+import ProtectedRoutes from './components/utils/ProtectedRoutes'
 
 const App = () => {
     return (
@@ -44,24 +45,31 @@ const App = () => {
                         <Route path="/" element={<Dashboard />} />
                         <Route path=":name/:id" element={<DynamicCategory />} />
                         <Route path="/contact" element={<Contact />} />
+
+                        <Route element={<ProtectedRoutes />}>
                         <Route path="/createPost" element={<CreatePost />} />
-                        <Route path="profile" element={<Profile />}>
-                            <Route path="overview" element={<Overview />} />
-                            <Route path="submitted" element={<Posts />} />
-                            <Route path="comments" element={<Comments />} />
-                            <Route path="upvoted" element={<Upvoted />} />
-                            <Route path="downvoted" element={<Downvoted />} />
+                            <Route path="profile" element={<Profile />}>
+                                <Route path="overview" element={<Overview />} />
+                                <Route path="submitted" element={<Posts />} />
+                                <Route path="comments" element={<Comments />} />
+                                <Route path="upvoted" element={<Upvoted />} />
+                                <Route
+                                    path="downvoted"
+                                    element={<Downvoted />}
+                                />
+                            </Route>
+                            <Route path="setting" element={<Setting />}>
+                                <Route
+                                    path="updateProfile"
+                                    element={<UpdateProfile />}
+                                />
+                                <Route
+                                    path="changePassword"
+                                    element={<ChangePassword />}
+                                />
+                            </Route>
                         </Route>
-                        <Route path="setting" element={<Setting />}>
-                            <Route
-                                path="updateProfile"
-                                element={<UpdateProfile />}
-                            />
-                            <Route
-                                path="changePassword"
-                                element={<ChangePassword />}
-                            />
-                        </Route>
+
                         <Route
                             path="/:name/:id/:postId"
                             element={<SinglePage />}

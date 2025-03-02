@@ -69,7 +69,6 @@ const Post = ({ post }) => {
         return `${dayWithSuffix}  ${month} ${year}`
     }
 
-    console.log('avatarImage', avatarImage)
     const avatarSrc = userInf?.imageName
         ? `${avatarImage}`
         : `https://github.com/shadcn.png`

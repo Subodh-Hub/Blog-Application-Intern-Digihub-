@@ -10,8 +10,7 @@ import { jwtDecode } from 'jwt-decode'
 const useLoginForm = () => {
     const URL = '/login'
     const [loading, setLoading] = useState(false)
-    const { fetchData, userInf } = useAuth()
-
+    const { loginAuth } = useAuth()
     const navigate = useNavigate()
     const formik = useFormik({
         initialValues: {
@@ -29,9 +28,7 @@ const useLoginForm = () => {
                 .post(URL, payload)
                 .then((response) => {
                     const accessToken = response.data.accessToken
-                    localStorage.setItem('accessToken', accessToken)
-                    fetchData()
-                    toast.success('Login Successful')
+                    loginAuth(accessToken)
                     const decoded = jwtDecode(accessToken)
                     setTimeout(() => {
                         decoded.role[0] === 'ADMIN'

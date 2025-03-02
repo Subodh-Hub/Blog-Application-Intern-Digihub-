@@ -37,15 +37,18 @@ import {
 } from '@/components/ui/alert-dialog'
 import EditPost from '@/components/EditPost'
 import usePostStore from '@/components/stores/PostStore'
+import EditPicture from '@/components/EditPicture'
 const SinglePage = () => {
     const navigate = useNavigate()
     const { userInf } = useAuth()
     const { postId } = useParams()
     const [isDialogOpen, setIsDialogOpen] = useState({
         edit: false,
+        changePicture: false,
         delete: false,
     })
     const [image, setImage] = useState('')
+    const [avatarImage, setAvatarImage] = useState('')
     const { likeCount, disLikeCount, updateLike, updateDisLike } =
         usePostStats()
 
@@ -55,20 +58,29 @@ const SinglePage = () => {
     useEffect(() => {
         fetchPost(postId)
     }, [postId])
-    
+
     useEffect(() => {
-        if (post && !loading && post.imageName) { 
+        if (post) {
             apiClient
                 .get(`/post/image/${post.imageName}`)
                 .then((res) => {
-                    setImage(res.request.responseURL);
+                    setImage(res.request.responseURL)
                 })
                 .catch((err) => {
-                    console.log(err);
-                });
-        }
-    }, [post, loading]);
+                    console.log(err)
+                })
 
+            apiClient
+                .get(`/user/image/${post.user.imageName}`)
+                .then((res) => {
+                    setAvatarImage(res.request.responseURL)
+                })
+                .catch((err) => {
+                    console.log(err)
+                })
+        }
+    }, [post])
+console.log('post',post);
     const deleteURL = `/posts-delete/${postId}`
 
     const deletePost = () => {
@@ -139,6 +151,9 @@ const SinglePage = () => {
             toast.error('Please Login first')
         }
     }
+    const avatarSrc = user?.imageName
+        ? `${avatarImage}`
+        : `https://github.com/shadcn.png`
 
     if (loading) {
         return <div>Loading...</div>
@@ -179,13 +194,47 @@ const SinglePage = () => {
                                                 <DialogTitle>
                                                     Edit Post
                                                 </DialogTitle>
-
-                                                <EditPost data={post} />
+                                                <DialogDescription>
+                                                    Once you submit the post it
+                                                    will be updated
+                                                </DialogDescription>
+                                                <EditPost />
                                             </DialogHeader>
                                         </DialogContent>
                                     </Dialog>
 
                                     <DropdownMenuSeparator />
+                                    <Dialog
+                                        open={isDialogOpen.changePicture}
+                                        onOpenChange={(value) =>
+                                            toggleDialog('changePicture', value)
+                                        }
+                                    >
+                                        <DialogTrigger asChild>
+                                            <DropdownMenuItem
+                                                onSelect={(e) =>
+                                                    e.preventDefault()
+                                                }
+                                            >
+                                                Change the Picture
+                                            </DropdownMenuItem>
+                                        </DialogTrigger>
+                                        <DialogContent>
+                                            <DialogHeader>
+                                                <DialogTitle>
+                                                    Change Picture
+                                                </DialogTitle>
+                                                <DialogDescription>
+                                                    Select the picture from your
+                                                    device!!!
+                                                </DialogDescription>
+                                                <EditPicture postId={postId} />
+                                            </DialogHeader>
+                                        </DialogContent>
+                                    </Dialog>
+
+                                    <DropdownMenuSeparator />
+
                                     <AlertDialog
                                         open={isDialogOpen.delete}
                                         onOpenChange={(value) =>
@@ -210,7 +259,7 @@ const SinglePage = () => {
                                                     This action cannot be
                                                     undone. This will
                                                     permanently delete your
-                                                    account and remove your data
+                                                    post and remove your data
                                                     from our servers.
                                                 </AlertDialogDescription>
                                             </AlertDialogHeader>
@@ -245,7 +294,10 @@ const SinglePage = () => {
                     </h2>
                     <div className="flex items-center gap-3">
                         <Avatar className="cursor-pointer">
-                            <AvatarImage src="https://github.com/shadcn.png" />
+                            <AvatarImage
+                                src={avatarSrc}
+                                className="object-cover"
+                            />
                             <AvatarFallback>CN</AvatarFallback>
                         </Avatar>
                         <p className="text-[#97989F] text-base hover:cursor-pointer capitalize">

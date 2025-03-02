@@ -20,7 +20,7 @@ import apiClient from '@/api/axiosInterceptors'
 import { toast } from 'react-toastify'
 const Profile = () => {
     const navigate = useNavigate()
-    const { userInf, setrefetch } = useAuth()
+    const { userInf, setRefetch } = useAuth()
     const outlet = useOutlet()
     const [updateProfile, setUpdateProfile] = useState(false)
     const validationSchema = Yup.object({
@@ -44,7 +44,7 @@ const Profile = () => {
                     },
                 })
                 .then((res) => {
-                    setrefetch((prev) => !prev)
+                    setRefetch((prev) => !prev)
                     toast.success('Profile Picture Updated Sucessfully!!!')
                     setUpdateProfile(false)
                 })

@@ -6,14 +6,15 @@ import apiClient from '@/api/axiosInterceptors'
 import { useEffect, useState } from 'react'
 import * as Yup from 'yup'
 import { toast } from 'react-toastify'
+import usePostStore from './stores/PostStore'
 
-const EditPost = ({ data }) => {
+const EditPost = () => {
+    const { post, editPost } = usePostStore()
     const initialValues = {
-        postId: data.postId,
-        title: data.title,
-        content: data.content,
-        category: data.category.categoryId,
-        image: data.imageName,
+        postId: post.postId,
+        title: post.title,
+        content: post.content,
+        category: post.category.categoryId,
     }
     const [category, setCategory] = useState([])
     const URL = '/category'
@@ -22,6 +23,7 @@ const EditPost = ({ data }) => {
         content: Yup.string().required('Content cannot be empty'),
         category: Yup.string().required('Please select a category'),
     })
+
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -39,20 +41,28 @@ const EditPost = ({ data }) => {
         enableReinitialize: true,
         validationSchema: validationSchema,
         onSubmit: async (values) => {
+            const selectedCategory = category.find(
+                (cat) => cat.categoryId === parseInt(values.category)
+            );
+            console.log('selectedCategory', selectedCategory);
+            const editValuesPayload = {
+                title: values.title,
+                content: values.content,
+                category: selectedCategory
+            }
             // formik.dirty returns true if values doesnot get changed
             if (formik.dirty) {
-                const formData = new FormData()
-                formData.append('postId', values.postId)
-                formData.append('title', values.title)
-                formData.append('content', values.content)
-                formData.append('categoryId', values.category)
-                if (values.image) {
-                    formData.append('imageName', values.image)
-                }
-                console.log('values', formData);
-                apiClient.put(`/post-update/${values.postId}`,formData)
-            }
-            else{
+                console.log('payload values', editValuesPayload)
+                apiClient
+                    .put(`/post-update/${values.postId}`, values)
+                    .then((res) => {
+                        toast.success('Post updated successfully')
+                        editPost(editValuesPayload)
+                    })
+                    .catch((error) => {
+                        toast.error(error.response.data.message)
+                    })
+            } else {
                 toast.error('No changes made')
             }
         },
@@ -112,30 +122,11 @@ const EditPost = ({ data }) => {
                         formik.setFieldValue('content', content)
                     }
                 />
-                {/* {formik.touched.content && formik.errors.content ? (
+                {formik.touched.content && formik.errors.content ? (
                     <div className="text-sm text-red-500">
                         {formik.errors.content}
                     </div>
-                ) : null} */}
-            </div>
-
-            <div className="grid w-full max-w-sm items-center gap-1.5">
-                <Label htmlFor="image">Picture</Label>
-                <Input
-                    id="image"
-                    type="file"
-                    name="image"
-                    accept="image/*"
-                    onChange={(event) => {
-                        if (event.currentTarget.files.length > 0) {
-                            formik.setFieldValue(
-                                'image',
-                                event.currentTarget.files[0]
-                            )
-                        }
-                    }}
-                    onBlur={formik.handleBlur}
-                />
+                ) : null}
             </div>
 
             <div>
