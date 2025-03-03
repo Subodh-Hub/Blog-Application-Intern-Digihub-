@@ -125,12 +125,6 @@ const CreateAdmin = () => {
             <Breadcrumb className="lg:ml-20 my-7">
                 <BreadcrumbList>
                     <BreadcrumbItem>
-                        <BreadcrumbLink href="/adminDashboard">
-                            Dashboard
-                        </BreadcrumbLink>
-                    </BreadcrumbItem>
-                    <BreadcrumbSeparator />
-                    <BreadcrumbItem>
                         <BreadcrumbLink href="/adminDashboard/creteAdmin">
                             <BreadcrumbPage>Create Admin</BreadcrumbPage>
                         </BreadcrumbLink>

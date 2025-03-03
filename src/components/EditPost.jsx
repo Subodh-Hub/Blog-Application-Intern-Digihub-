@@ -1,5 +1,6 @@
 import { useFormik } from 'formik'
 import { Editor } from '@tinymce/tinymce-react'
+
 import { Input } from './ui/input'
 import { Label } from './ui/label'
 import apiClient from '@/api/axiosInterceptors'
@@ -43,18 +44,24 @@ const EditPost = () => {
         onSubmit: async (values) => {
             const selectedCategory = category.find(
                 (cat) => cat.categoryId === parseInt(values.category)
-            );
-            console.log('selectedCategory', selectedCategory);
+            )
+            console.log('selectedCategory', selectedCategory)
             const editValuesPayload = {
                 title: values.title,
                 content: values.content,
-                category: selectedCategory
+                category: selectedCategory,
+            }
+            
+            const payload = {
+                title: values.title,
+                content: values.content,
+                categoryId: values.category,
             }
             // formik.dirty returns true if values doesnot get changed
             if (formik.dirty) {
                 console.log('payload values', editValuesPayload)
                 apiClient
-                    .put(`/post-update/${values.postId}`, values)
+                    .put(`/post-update/${values.postId}`, payload)
                     .then((res) => {
                         toast.success('Post updated successfully')
                         editPost(editValuesPayload)
@@ -104,19 +111,14 @@ const EditPost = () => {
                 </label>
                 <Editor
                     apiKey="u7038p4mhwnn5b23g58f080sbij9bx1rdz4r05u9z9stl1tq"
-                    value={formik.values.content}
+                    initialValue={formik.values.content}
                     init={{
                         height: 300,
                         menubar: false,
-                        plugins: [
-                            'advlist autolink lists link image charmap preview anchor',
-                            'searchreplace visualblocks code fullscreen',
-                            'insertdatetime media table paste help wordcount',
-                        ],
+                        plugins:
+                            'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount',
                         toolbar:
-                            'undo redo | formatselect | bold italic backcolor | \
-                            alignleft aligncenter alignright alignjustify | \
-                            bullist numlist outdent indent | removeformat | help',
+                            'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
                     }}
                     onEditorChange={(content) =>
                         formik.setFieldValue('content', content)

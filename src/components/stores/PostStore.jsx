@@ -3,22 +3,44 @@ import apiClient from '@/api/axiosInterceptors'
 
 const usePostStore = create((set, get) => ({
     post: null,
+    postImageUrl: null,
+    userImageUrl: null,
     loading: true,
     error: null,
     fetchPost: (postId) => {
+        set({ loading: true,error: null,postImageUrl: null,userImageUrl: null })
         apiClient
             .get(`/post/${postId}`)
             .then((res) => {
+                apiClient
+                    .get(`/post/image/${res.data.imageName}`)
+                    .then((res) => {
+                        set({ postImageUrl: res.request.responseURL })
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                        set({ postImageUrl: null })
+                    })
+
+                apiClient
+                    .get(`/user/image/${res.data.user.imageName}`)
+                    .then((res) => {
+                        set({ userImageUrl: res.request.responseURL })
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                    })
+
                 set((state) => ({
                     ...state,
                     post: res.data,
-                    loading: false,
                 }))
             })
             .catch((err) => {
                 console.log(err)
                 set({ error: err.message, loading: false })
             })
+        set({ loading: false })
     },
 
     toggleLike: () => {
@@ -63,7 +85,7 @@ const usePostStore = create((set, get) => ({
         })
     },
     isLoadingPicture: (values) => {
-        set({ loading: values }) 
+        set({ loading: values })
     },
 }))
 export default usePostStore

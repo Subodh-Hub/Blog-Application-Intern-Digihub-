@@ -4,6 +4,7 @@ import { Eye, EyeClosed } from 'lucide-react'
 import * as Yup from 'yup'
 import apiClient from '@/api/axiosInterceptors'
 import { toast } from 'react-toastify'
+import useAuth from '../hooks/useAuth'
 
 const ChangePassword = () => {
     const [showPassword, setShowPassword] = useState({
@@ -12,7 +13,6 @@ const ChangePassword = () => {
         confirmPassword: false,
     })
     const URL = '/reset-password'
-
     const togglePassword = (field) => {
         setShowPassword({
             ...showPassword,

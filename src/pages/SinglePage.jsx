@@ -47,40 +47,19 @@ const SinglePage = () => {
         changePicture: false,
         delete: false,
     })
-    const [image, setImage] = useState('')
     const [avatarImage, setAvatarImage] = useState('')
     const { likeCount, disLikeCount, updateLike, updateDisLike } =
         usePostStats()
 
-    const { post, loading, fetchPost, toggleLike, toggleDislike } =
+    const { post, loading, fetchPost, toggleLike, toggleDislike,postImageUrl,userImageUrl } =
         usePostStore()
 
     useEffect(() => {
         fetchPost(postId)
     }, [postId])
 
-    useEffect(() => {
-        if (post) {
-            apiClient
-                .get(`/post/image/${post.imageName}`)
-                .then((res) => {
-                    setImage(res.request.responseURL)
-                })
-                .catch((err) => {
-                    console.log(err)
-                })
 
-            apiClient
-                .get(`/user/image/${post.user.imageName}`)
-                .then((res) => {
-                    setAvatarImage(res.request.responseURL)
-                })
-                .catch((err) => {
-                    console.log(err)
-                })
-        }
-    }, [post])
-console.log('post',post);
+
     const deleteURL = `/posts-delete/${postId}`
 
     const deletePost = () => {
@@ -152,7 +131,7 @@ console.log('post',post);
         }
     }
     const avatarSrc = user?.imageName
-        ? `${avatarImage}`
+        ? `${userImageUrl}`
         : `https://github.com/shadcn.png`
 
     if (loading) {
@@ -258,9 +237,9 @@ console.log('post',post);
                                                 <AlertDialogDescription>
                                                     This action cannot be
                                                     undone. This will
-                                                    permanently delete your
-                                                    post and remove your data
-                                                    from our servers.
+                                                    permanently delete your post
+                                                    and remove your data from
+                                                    our servers.
                                                 </AlertDialogDescription>
                                             </AlertDialogHeader>
                                             <AlertDialogFooter>
@@ -310,7 +289,7 @@ console.log('post',post);
                 </div>
                 <div className="w-[100%] h-[80vh] m-auto rounded-2xl overflow-hidden ">
                     <img
-                        src={image}
+                        src={postImageUrl}
                         alt=""
                         className="object-cover object-center w-full h-full "
                     />

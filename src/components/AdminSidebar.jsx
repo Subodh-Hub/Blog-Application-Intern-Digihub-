@@ -36,7 +36,7 @@ const items = [
 
     {
         title: 'Settings',
-        url: '#',
+        url: '/setting/updateProfile',
         icon: Settings,
     },
 ]
@@ -45,7 +45,6 @@ function AdminSidebar() {
     // state = "expanded"/"collapsed"
     const { state } = useSidebar()
     const navigate = useNavigate()
-
     return (
         <Sidebar
             collapsible="icon"

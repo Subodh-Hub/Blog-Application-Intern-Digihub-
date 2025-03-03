@@ -62,7 +62,7 @@ const Profile = () => {
                         <Avatar className="w-16 h-16">
                             <AvatarImage
                                 src={
-                                    userInf.imageName
+                                    userInf?.imageName
                                         ? `http://localhost:8080/user/image/${userInf.imageName}`
                                         : 'https://github.com/shadcn.png'
                                 }
@@ -75,7 +75,7 @@ const Profile = () => {
                         </Avatar>
 
                         <FaPlus
-                            className="absolute right-0 z-50 duration-200 ease-in-out cursor-pointer transition-hover -bottom-3 hover:scale-125"
+                            className="absolute right-0 z-30 duration-200 ease-in-out cursor-pointer transition-hover -bottom-3 hover:scale-125"
                             color="black"
                             onClick={() => setUpdateProfile(!updateProfile)}
                         />

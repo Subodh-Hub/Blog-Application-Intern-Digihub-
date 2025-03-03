@@ -63,9 +63,8 @@ const CreatePost = () => {
                         toast.warning(errorMessage)
                         setSubmitting(false)
                     })
-            }
-            else{
-                toast.error("Please change the data")
+            } else {
+                toast.error('Please change the data')
             }
         },
     })
@@ -114,15 +113,10 @@ const CreatePost = () => {
                         init={{
                             height: 300,
                             menubar: false,
-                            plugins: [
-                                'advlist autolink lists link image charmap preview anchor',
-                                'searchreplace visualblocks code fullscreen',
-                                'insertdatetime media table paste help wordcount',
-                            ],
+                            plugins:
+                                'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount',
                             toolbar:
-                                'undo redo | formatselect | bold italic backcolor | \
-                alignleft aligncenter alignright alignjustify | \
-                bullist numlist outdent indent | removeformat | help',
+                                'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
                         }}
                         onEditorChange={(content) =>
                             formik.setFieldValue('content', content)

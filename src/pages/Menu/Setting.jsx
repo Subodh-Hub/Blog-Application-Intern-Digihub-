@@ -11,8 +11,10 @@ import SettingSidebar from '@/components/SettingSidebar'
 import { useOutlet } from 'react-router-dom'
 import UpdateProfile from '@/components/Setting/UpdateProfile'
 import ChangePassword from '@/components/Setting/ChangePassword'
+import { AuthProvider } from '@/context/AuthProvider'
 const Setting = () => {
     const outlet = useOutlet()
+
     return (
         <div className="bg-white mt-7 dark:bg-customDarkTheme">
             <div className="w-[90vw] m-auto md:px-20 xl:px-60">
@@ -42,7 +44,7 @@ const Setting = () => {
                             <SettingSidebar />
                             <main className="mt-[150px] w-full">
                                 <SidebarTrigger />
-                                {outlet}
+                                <AuthProvider>{outlet}</AuthProvider>
                             </main>
                         </SidebarProvider>
                     </div>

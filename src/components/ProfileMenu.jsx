@@ -26,7 +26,7 @@ const ProfileMenu = ({ fName,lName,showProfileMenu }) => {
             <div
                 className="flex items-center justify-center w-full gap-2 py-5 text-center cursor-pointer hover:rounded-3xl hover:bg-zinc-200 hover:text-blue-500"
                 onClick={() => {
-                    navigate('/setting')
+                    navigate('/setting/updateProfile')
                     showProfileMenu(false)
                 }}
             >

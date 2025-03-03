@@ -47,7 +47,10 @@ const App = () => {
                         <Route path="/contact" element={<Contact />} />
 
                         <Route element={<ProtectedRoutes />}>
-                        <Route path="/createPost" element={<CreatePost />} />
+                            <Route
+                                path="/createPost"
+                                element={<CreatePost />}
+                            />
                             <Route path="profile" element={<Profile />}>
                                 <Route path="overview" element={<Overview />} />
                                 <Route path="submitted" element={<Posts />} />

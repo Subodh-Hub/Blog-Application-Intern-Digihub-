@@ -8,6 +8,8 @@ export const AuthProvider = ({ children }) => {
     const URL = '/getUser-auth'
     const [token, setToken] = useState(localStorage.getItem('accessToken'))
     const [refetch, setRefetch] = useState(false)
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
+
 
     const fetchData = async () => {
         try {
@@ -26,6 +28,7 @@ export const AuthProvider = ({ children }) => {
 
     const loginAuth = (token) => {
         localStorage.setItem('accessToken', token)
+        setIsAuthenticated(true)
         setToken(token)
         setRefetch((prev) => !prev) //update the ui for refetching
         toast.success('Logged in sucessfully!!!!')
@@ -33,6 +36,7 @@ export const AuthProvider = ({ children }) => {
 
     const logout = () => {
         localStorage.removeItem('accessToken')
+        setIsAuthenticated(false)
         setToken(null)
         setUserInf(null)
         toast.success('Logged out sucessfully!!!!')
@@ -55,6 +59,7 @@ export const AuthProvider = ({ children }) => {
                 setRefetch,
                 loginAuth,
                 logout,
+                isAuthenticated
             }}
         >
             {children}

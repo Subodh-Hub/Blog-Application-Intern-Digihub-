@@ -6,25 +6,25 @@ const Overview = () => {
         <div className="flex flex-col gap-3 text-base font-poppins">
             <p>
                 First Name:{' '}
-                <strong className="capitalize">{userInf.firstName}</strong>
+                <strong className="capitalize">{userInf?.firstName}</strong>
             </p>
             <p>
                 Middle Name:
-                <strong>{userInf.middleName}</strong>
+                <strong>{userInf?.middleName}</strong>
             </p>
 
             <p className="capitalize">
-                Last Name: <strong>{userInf.lastName}</strong>
+                Last Name: <strong>{userInf?.lastName}</strong>
             </p>
             <p>
-                Email: <strong>{userInf.email}</strong>
+                Email: <strong>{userInf?.email}</strong>
             </p>
 
             <p>
-                Phone: <strong>{userInf.phone}</strong>
+                Phone: <strong>{userInf?.phone}</strong>
             </p>
             <p>
-                Role: <strong>{userInf.role}</strong>
+                Role: <strong>{userInf?.role}</strong>
             </p>
         </div>
     )
