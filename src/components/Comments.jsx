@@ -22,8 +22,10 @@ import {
 } from '@/components/ui/alert-dialog'
 import apiClient from '@/api/axiosInterceptors'
 import { toast } from 'react-toastify'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useFormik } from 'formik'
+import useCommentReplyStore from './stores/CommentReplyStore'
+import CommentReplyList from './CommentReplyList'
 
 const Comments = ({ comment, fetchComment }) => {
     const [isDialogOpen, setIsDialogOpen] = useState(false)
@@ -35,14 +37,17 @@ const Comments = ({ comment, fetchComment }) => {
             .then((res) => {
                 toast.success('Comment deleted sucessfully!!!')
                 setTimeout(() => {
-                    fetchComment();
-                    setIsDialogOpen(false);
+                    fetchComment()
+                    setIsDialogOpen(false)
                 }, 500)
             })
             .catch((err) => {
                 console.error('err', err)
             })
     }
+
+
+
     const formik = useFormik({
         initialValues: {
             comment: comment.content,
@@ -91,7 +96,7 @@ const Comments = ({ comment, fetchComment }) => {
             <div className="flex flex-col gap-2 my-7 font-poppins">
                 <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
-                        <Avatar className="cursor-pointer ">
+                        <Avatar className="cursor-pointer">
                             <AvatarImage
                                 src="https://github.com/shadcn.png"
                                 className="rounded-full w-7 h-7"
@@ -196,6 +201,9 @@ const Comments = ({ comment, fetchComment }) => {
                         <p className="text-slate-500">{comment.content}</p>
                     )}
                 </div>
+
+                
+                <CommentReplyList commentId={comment.id} postId={comment.post.postId}/>
             </div>
         </>
     )

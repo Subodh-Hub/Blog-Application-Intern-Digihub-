@@ -1,47 +1,54 @@
-import React, { useEffect, useState } from 'react'
-
-import hero from '@/assets/images/hero.jpg'
-import { useNavigate } from 'react-router-dom'
 import apiClient from '@/api/axiosInterceptors'
+import React, { useEffect, useState } from 'react'
+// import hero from '@/assets/images/hero.jpg'
+import { useNavigate } from 'react-router-dom'
 
 import parse from 'html-react-parser'
-import useAuth from './hooks/useAuth'
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
+import Skeleton from 'react-loading-skeleton'
 
 const Post = ({ post }) => {
-    const {
-        postId,
-        title,
-        content,
-        imageName,
-        addDate,
-        category,
-        user,
-        comments,
-    } = post
+    const { postId, imageName, user, category, title, addDate } = post
+    const [imageLoading, setImageLoading] = useState({
+        postImage: true,
+        avatarImage: true,
+    })
+    const [image, setImage] = useState({
+        postImage: '',
+        avatarImage: '',
+    })
     const navigate = useNavigate()
-    const URL = `/post/image/${imageName}`
-    const [image, setImage] = useState('')
-    const [avatarImage, setAvatarImage] = useState('')
-    const { userInf } = useAuth()
+
     useEffect(() => {
         apiClient
-            .get(URL)
-            .then((res) => setImage(res.request.responseURL))
-            .catch((err) => {
-                console.log('error', err)
+            .get(`/post/image/${imageName}`)
+            .then((res) => {
+                setImage((prev) => ({
+                    ...prev,
+                    postImage: res.request.responseURL,
+                }))
+                setImageLoading((prev) => ({ ...prev, postImage: false }))
             })
-        if (user.imageName) {
-            apiClient
-                .get(`/user/image/${user.imageName}`)
-                .then((res) => {
-                    setAvatarImage(res.request.responseURL)
-                })
-                .catch((error) => {
-                    console.error(error)
-                })
-        }
-    }, [])
+            .catch((err) => {
+                console.log(err)
+                setImage((prev) => ({ ...prev, postImage: null }))
+                setImageLoading(false)
+            })
+        apiClient
+            .get(`/user/image/${user.imageName}`)
+            .then((res) => {
+                setImage((prev) => ({
+                    ...prev,
+                    avatarImage: res.request.responseURL,
+                }))
+                setImageLoading((prev) => ({ ...prev, avatarImage: false }))
+            })
+            .catch((err) => {
+                console.log(err)
+                setImage((prev) => ({ ...prev, avatarImage: null }))
+                setImageLoading(false)
+            })
+    }, [postId])
 
     function formatDate(dateString) {
         const date = new Date(dateString)
@@ -69,14 +76,25 @@ const Post = ({ post }) => {
         return `${dayWithSuffix}  ${month} ${year}`
     }
 
-    const avatarSrc = userInf?.imageName
-        ? `${avatarImage}`
-        : `https://github.com/shadcn.png`
+    const avatarSrc =
+        image.avatarImage !== null
+            ? `${image.avatarImage}`
+            : `https://github.com/shadcn.png`
     const avatarFallback =
         user.firstName.charAt(0).toUpperCase() +
         user.middleName.charAt(0).toUpperCase() +
         user.lastName.charAt(0).toUpperCase()
 
+    if (imageLoading.postImage) {
+        return (
+            <main className="w-full cursor-pointer max-w-[392px] bg-white border-[1px] border-solid border-[#E8E8EA] rounded-xl drop-shadow-sm p-3 dark:bg-[#181A2A] dark:border-gray-700 hover:scale-105 transition-hover ease-in-out duration-100 hover:shadow-xl">
+                <Skeleton className="w-[95%] h-[240px] rounded-md m-auto" />
+                <div className="w-[360px] h-[200px] m-auto flex flex-col gap-4 mt-5 items-start">
+                <Skeleton className="bg-[#F6F8FF] rounded-md px-3 py-1 w-[40%] dark:bg-[#1B1E34] " />
+                </div>
+            </main>
+        )
+    }
     return (
         <main
             className="w-full cursor-pointer max-w-[392px] bg-white border-[1px] border-solid border-[#E8E8EA] rounded-xl drop-shadow-sm p-3 dark:bg-[#181A2A] dark:border-gray-700 hover:scale-105 transition-hover ease-in-out duration-100 hover:shadow-xl"
@@ -87,7 +105,11 @@ const Post = ({ post }) => {
             }
         >
             <div className="w-[95%] h-[240px] object-cover object-center bg-no-repeat rounded-md m-auto overflow-hidden">
-                <img src={image} alt="blog image" className="w-[100%]" />
+                <img
+                    src={image.postImage}
+                    alt="blog image"
+                    className="w-[100%]"
+                />
             </div>
             <div className="w-[360px] h-[200px] m-auto flex flex-col gap-4 mt-5 items-start">
                 <div className="bg-[#F6F8FF] rounded-md px-3 py-1 w-fit text-[#4B6BFB] font-thin text-md dark:bg-[#1B1E34] capitalize">

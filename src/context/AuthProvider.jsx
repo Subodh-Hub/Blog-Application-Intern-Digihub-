@@ -1,5 +1,6 @@
 import apiClient from '@/api/axiosInterceptors'
 import { createContext, useEffect, useState } from 'react'
+import { Navigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 const AuthContext = createContext({})
 
@@ -8,8 +9,7 @@ export const AuthProvider = ({ children }) => {
     const URL = '/getUser-auth'
     const [token, setToken] = useState(localStorage.getItem('accessToken'))
     const [refetch, setRefetch] = useState(false)
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
-
+    const [isAuthenticated, setIsAuthenticated] = useState(false)
 
     const fetchData = async () => {
         try {
@@ -40,6 +40,7 @@ export const AuthProvider = ({ children }) => {
         setToken(null)
         setUserInf(null)
         toast.success('Logged out sucessfully!!!!')
+        return <Navigate to="/" />
     }
 
     useEffect(() => {
@@ -59,7 +60,7 @@ export const AuthProvider = ({ children }) => {
                 setRefetch,
                 loginAuth,
                 logout,
-                isAuthenticated
+                isAuthenticated,
             }}
         >
             {children}

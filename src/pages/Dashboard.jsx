@@ -7,21 +7,16 @@ const Dashboard = () => {
     const [data, setData] = useState([])
 
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const res = await apiClient.get(URL)
-                setData(res.data)
-            } catch (error) {
-                console.error(error)
-            }
-        }
-
-        fetchData()
+        apiClient
+            .get(URL)
+            .then((res) => {setData(res.data)
+            })
+            .catch((err) => console.log(err))
     }, [])
 
     return (
         <>
-            <Hero /> 
+            <Hero />
             <PostList post={data} />
         </>
     )

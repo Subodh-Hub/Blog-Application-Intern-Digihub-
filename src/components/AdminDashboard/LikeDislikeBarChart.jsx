@@ -8,6 +8,7 @@ import {
     Tooltip,
     Legend,
     Bar,
+    ResponsiveContainer,
 } from 'recharts'
 
 const LikeDislikeBarChart = () => {
@@ -33,8 +34,9 @@ const LikeDislikeBarChart = () => {
             <h1 className="text-4xl font-semibold text-center mb-7">
                 Top user who contributed most Upvote
             </h1>
+            <ResponsiveContainer width="100%" height={500}>
             <BarChart
-                width={900}
+                width={400}
                 height={250}
                 data={chartData}
                 className="lg:m-auto"
@@ -46,6 +48,8 @@ const LikeDislikeBarChart = () => {
                 <Legend />
                 <Bar dataKey="Upvote" fill="#8884d8" />
             </BarChart>
+            </ResponsiveContainer>
+            
         </div>
     )
 }

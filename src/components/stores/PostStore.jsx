@@ -12,6 +12,10 @@ const usePostStore = create((set, get) => ({
         apiClient
             .get(`/post/${postId}`)
             .then((res) => {
+                set((state) => ({
+                    ...state,
+                    post: res.data,
+                }))
                 apiClient
                     .get(`/post/image/${res.data.imageName}`)
                     .then((res) => {
@@ -31,10 +35,7 @@ const usePostStore = create((set, get) => ({
                         console.log(err)
                     })
 
-                set((state) => ({
-                    ...state,
-                    post: res.data,
-                }))
+                
             })
             .catch((err) => {
                 console.log(err)
@@ -75,7 +76,7 @@ const usePostStore = create((set, get) => ({
         set((state) => {
             console.log(updatedPostData)
             if (!state.post) return state
-
+            
             return {
                 post: {
                     ...state.post,

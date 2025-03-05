@@ -56,7 +56,7 @@ const SinglePage = () => {
 
     useEffect(() => {
         fetchPost(postId)
-    }, [postId])
+    }, [postId,post?.imageName])
 
 
 
@@ -138,7 +138,6 @@ const SinglePage = () => {
         return <div>Loading...</div>
     }
     if (!post) return <p>No post found.</p>
-
     return (
         <div className="items-center dark:bg-customDarkTheme">
             <main className="w-[90vw] m-auto flex flex-col gap-10 md:px-30 xl:w-[80vw] pt-10">
@@ -207,7 +206,7 @@ const SinglePage = () => {
                                                     Select the picture from your
                                                     device!!!
                                                 </DialogDescription>
-                                                <EditPicture postId={postId} />
+                                                <EditPicture postId={postId} stateDialog={toggleDialog}/>
                                             </DialogHeader>
                                         </DialogContent>
                                     </Dialog>

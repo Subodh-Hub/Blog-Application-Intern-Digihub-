@@ -8,7 +8,7 @@ import { toast } from 'react-toastify'
 import usePostStore from './stores/PostStore'
 
 
-const EditPicture = ({postId}) => {
+const EditPicture = ({postId,stateDialog}) => {
     const {editPost,isLoadingPicture} = usePostStore()
     const formik = useFormik({
         initialValues: {
@@ -44,6 +44,7 @@ const EditPicture = ({postId}) => {
                 editPost({imageName:res.data.imageName})
                 console.log('res',res.data.imageName);
                 isLoadingPicture:false
+                stateDialog('changePicture',false)
             }).catch((err) => {
                 console.error(err)
             })

@@ -21,6 +21,7 @@ import { BiSolidUpvote, BiSolidDownvote } from 'react-icons/bi'
 import MostLikedPostTable from '@/components/AdminDashboard/MostLikedPostTable.jsx'
 import { Separator } from '@/components/ui/separator'
 import LikeDislikeBarChart from '@/components/AdminDashboard/LikeDislikeBarChart'
+import UserLineChart from '@/components/AdminDashboard/UserLineChart'
 
 const AdminDashboard = () => {
     const [totalDetails, setTotalDetails] = useState({})
@@ -110,13 +111,20 @@ const AdminDashboard = () => {
             <div className="flex flex-col  gap-5 lg:grid lg:grid-cols-[1fr_auto_1fr] lg:gap-2 lg:items-start lg:pr-2">
                 <TopPostUploadedUserTable />
                 <Separator
-                orientation="vertical"
-                className="w-[2px] bg-gray-400 h-full"
+                    orientation="vertical"
+                    className="w-[2px] bg-gray-400 h-full"
                 />
                 <MostLikedPostTable />
             </div>
             <hr className="h-3 my-20 bg-gray-500 rounded-full" />
-            <LikeDislikeBarChart />
+            <div className="flex flex-col  gap-5 lg:grid lg:grid-cols-[1fr_auto_1fr] lg:gap-2 lg:items-start lg:pr-2">
+                <LikeDislikeBarChart />
+                <Separator
+                    orientation="vertical"
+                    className="w-[2px] bg-gray-400 h-full"
+                />
+                <UserLineChart />
+            </div>
         </main>
     )
 }

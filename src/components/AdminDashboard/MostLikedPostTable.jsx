@@ -31,7 +31,7 @@ function MostLikedPostTable() {
     return (
         <div>
             <h1 className="text-4xl font-semibold text-center mb-7">
-                Top Liked Post
+                Popular Post
             </h1>
             <Table>
                 <TableCaption className="mt-7">Most Upvoted Post</TableCaption>
