@@ -24,13 +24,15 @@ import apiClient from '@/api/axiosInterceptors'
 import { toast } from 'react-toastify'
 import { useEffect, useState } from 'react'
 import { useFormik } from 'formik'
-import useCommentReplyStore from './stores/CommentReplyStore'
 import CommentReplyList from './CommentReplyList'
-
+import useAuth from './hooks/useAuth'
 const Comments = ({ comment, fetchComment }) => {
     const [isDialogOpen, setIsDialogOpen] = useState(false)
     const [isEditing, setIsEditing] = useState(false)
     const deleteCommentURL = `/comment/comment/${comment.id}`
+    const { userInf } = useAuth()
+    const [image, setImage] = useState('')
+    console.log('coment', comment)
     const deleteComment = () => {
         apiClient
             .delete(deleteCommentURL)
@@ -45,8 +47,20 @@ const Comments = ({ comment, fetchComment }) => {
                 console.error('err', err)
             })
     }
+    useEffect(() => {
+        apiClient
+            .get(`/user/image/${comment.user.imageName}`)
+            .then((res) => {
+                setImage(res.request.responseURL)
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+    }, [comment])
 
-
+    const avatarSrc = comment?.user?.imageName
+        ? `${image}`
+        : `https://github.com/shadcn.png`
 
     const formik = useFormik({
         initialValues: {
@@ -98,7 +112,7 @@ const Comments = ({ comment, fetchComment }) => {
                     <div className="flex items-center gap-2">
                         <Avatar className="cursor-pointer">
                             <AvatarImage
-                                src="https://github.com/shadcn.png"
+                                src={avatarSrc}
                                 className="rounded-full w-7 h-7"
                             />
                             <AvatarFallback>CN</AvatarFallback>
@@ -202,8 +216,14 @@ const Comments = ({ comment, fetchComment }) => {
                     )}
                 </div>
 
-                
-                <CommentReplyList commentId={comment.id} postId={comment.post.postId}/>
+                {userInf && Object.keys(userInf).length > 0 ? (
+                    <CommentReplyList
+                        commentId={comment.id}
+                        postId={comment.post.postId}
+                    />
+                ) : (
+                    ''
+                )}
             </div>
         </>
     )

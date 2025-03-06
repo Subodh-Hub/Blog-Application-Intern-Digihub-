@@ -21,6 +21,7 @@ import AdminPostOverview from './pages/AdminDashboard/AdminPostOverview'
 import MainLayout from './pages/MainLayout'
 import AdminLayout from './pages/AdminDashboard/AdminLayout'
 import ProtectedRoutes from './components/utils/ProtectedRoutes'
+import ContactAdmin from './pages/AdminDashboard/ContactAdmin'
 
 const App = () => {
     return (
@@ -39,6 +40,10 @@ const App = () => {
                         <Route
                             path="adminPostOverview"
                             element={<AdminPostOverview />}
+                        />
+                        <Route
+                        path="/adminDashboard/contactAdmin"
+                        element={<ContactAdmin />}
                         />
                     </Route>
                     <Route element={<MainLayout />}>

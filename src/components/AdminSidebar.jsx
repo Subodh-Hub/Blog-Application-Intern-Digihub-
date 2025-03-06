@@ -3,6 +3,7 @@ import {
     CircleGauge,
     Shield,
     Key,
+    MessageCircle,
     Settings,
     GalleryVerticalEnd,
 } from 'lucide-react'
@@ -33,7 +34,11 @@ const items = [
         url: '/adminDashboard/createAdmin',
         icon: Shield,
     },
-
+    {
+        title:'Message',
+        url:'/adminDashboard/contactAdmin',
+        icon: MessageCircle
+    },
     {
         title: 'Settings',
         url: '/setting/updateProfile',

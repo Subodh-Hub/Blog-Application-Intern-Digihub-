@@ -5,6 +5,7 @@ import { toast } from 'react-toastify'
 const useCommentReplyStore = create((set, get) => ({
     commentsReply: {},
     commentsReplyCount: {},
+    commentsReplyUserImage: {},
 
     fetchCommentsReply: (commentId) => {
         apiClient
@@ -36,6 +37,7 @@ const useCommentReplyStore = create((set, get) => ({
                 console.log(err)
             })
     },
+
     addCommentsReply: (postId, commentId, updatedValue) => {
         apiClient
             .post(
@@ -60,5 +62,20 @@ const useCommentReplyStore = create((set, get) => ({
                 toast.error('Failed to add comment reply')
             })
     },
+
+    editCommentsReply:(commentId)=>{
+        apiClient.put(`/update-commentReply/${commentId}`).then((res)=>{
+            set((state) => ({
+                commentReply: {
+                    ...state.commentReply,
+                    [commentId]: state.commentsReply[commentId].map(reply =>
+                        reply.id === replyId ? res.data : reply
+                    ),
+                },
+            }))
+            toast.success('Comment Reply Updated Successfully')
+
+        })
+    }
 }))
 export default useCommentReplyStore

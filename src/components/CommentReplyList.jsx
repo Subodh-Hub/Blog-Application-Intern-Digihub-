@@ -8,6 +8,7 @@ import { Separator } from './ui/separator'
 import { BiUpvote, BiDownvote, BiComment } from 'react-icons/bi'
 import { comment } from 'postcss'
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
+import CommentReply from './CommentReply'
 
 const CommentReplyList = ({ postId, commentId }) => {
     const {
@@ -18,14 +19,34 @@ const CommentReplyList = ({ postId, commentId }) => {
         commentsReplyCount,
     } = useCommentReplyStore()
     const [commentReply, setCommentReply] = useState(false)
+    const [commentReact, setCommentReact] = useState({
+        like: 0,
+        dislike: 0,
+    })
 
     useEffect(() => {
         fetchCommentsReplyCounts(commentId)
         fetchCommentsReply(commentId)
+        apiClient
+            .get(`/commentReact/${commentId}/likeCount`)
+            .then((res) => {
+                setCommentReact((prev) => ({ ...prev, like: res.data }))
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+        apiClient
+            .get(`/commentReact/${commentId}/dislikeCount`)
+            .then((res) => {
+                setCommentReact((prev) => ({ ...prev, dislike: res.data }))
+            })
+            .catch((err) => {
+                console.log(err)
+            })
     }, [postId])
+
     const [visibleCommentReply, setVisibleCommentReply] = useState(3)
 
-    console.log('commentsCount', commentsReplyCount[commentId])
     const formik = useFormik({
         initialValues: {
             content: '',
@@ -40,30 +61,42 @@ const CommentReplyList = ({ postId, commentId }) => {
     })
     return (
         <>
-            <div className="flex items-center gap-4 text-xs text-blue-500">
-                {/* <div>
-                        <button>
+            <div className="flex items-center gap-4 text-sm text-gray-500 ">
+                <div className="flex gap-4">
+                    <div className="flex items-center gap-1">
+                        <strong>{commentReact.like}</strong>
+                        <button className="px-2 py-2 hover:rounded-full hover:bg-gray-200 hover:text-blue-500">
                             <BiUpvote />
                         </button>
-                        <button>
+                    </div>
+                    <div className="flex items-center gap-1">
+                        <strong>{commentReact.dislike}</strong>
+                        <button className="px-2 py-2 hover:rounded-full hover:bg-gray-200 hover:text-blue-500">
                             <BiDownvote />
                         </button>
-                    </div> */}
-                <button
-                    className="flex items-center gap-2"
-                    onClick={() => setCommentReply(!commentReply)}
-                >
-                    Reply: {commentsReplyCount[commentId]}
-                    <BiComment />
-                </button>
+                    </div>
+                </div>
+
+                <div className="flex items-center gap-1">
+                    <span>
+                        Reply: <strong>{commentsReplyCount[commentId]}</strong>
+                    </span>
+
+                    <button
+                        className={`px-2 py-2 hover:rounded-full hover:bg-gray-200 hover:text-blue-500 ${commentReply ? 'text-blue-500 bg-gray-200 rounded-full' : ''}`}
+                        onClick={() => setCommentReply(!commentReply)}
+                    >
+                        <BiComment />
+                    </button>
+                </div>
             </div>
             {commentReply && (
-                <div className="lg:ml-12 h-fit ">
+                <div className="lg:ml-40 h-fit ">
                     <div className="flex h-full gap-10">
-                        {/* <Separator
+                        <Separator
                             orientation="vertical"
-                            className="h-16 w-[2px] bg-black"
-                        /> */}
+                            className="h-auto w-[2px] bg-gray-300"
+                        />
                         <div>
                             <form onSubmit={formik.handleSubmit}>
                                 <div className="flex items-center p-1 space-x-2 overflow-hidden bg-gray-100 rounded-full shadow-md full">
@@ -90,33 +123,43 @@ const CommentReplyList = ({ postId, commentId }) => {
                                     </div>
                                 ) : null}
                             </form>
-                            {commentsReply[commentId].length > 0 ? (
+                            {commentsReply[commentId]?.length > 0 ? (
                                 commentsReply[commentId]
-                                    .slice(0, visibleCommentReply)
+                                    ?.slice(0, visibleCommentReply)
                                     .map((comment, index) => (
-                                        <div
-                                            className="flex flex-col gap-3 my-3 mt-2 space-x-2"
-                                            key={index}
-                                        >
-                                            <div className="flex items-center gap-3">
-                                                <Avatar className="rounded-full w-7 h-7">
-                                                    <AvatarImage
-                                                        src="https://github.com/shadcn.png"
-                                                        className="w-full h-full rounded-full"
-                                                    />
-                                                    <AvatarFallback>
-                                                        CN
-                                                    </AvatarFallback>
-                                                </Avatar>
-                                                <p className="text-sm font-medium text-gray-700">
-                                                    {comment.user.firstName}{' '}
-                                                    {comment.user.lastName}
-                                                </p>
-                                            </div>
-                                            <p className="text-sm text-gray-500">
-                                                {comment.content}
-                                            </p>
-                                        </div>
+                                        // <div
+                                        //     className="flex flex-col gap-3 my-3"
+                                        //     key={index}
+                                        // >
+                                        //     <div className='flex items-between'>
+                                        //         <div className="flex items-center gap-3">
+                                        //             <Avatar className="rounded-full w-7 h-7">
+                                        //                 <AvatarImage
+                                        //                     src={
+                                        //                         commentsReplyUserImage[
+                                        //                             commentId
+                                        //                         ]
+                                        //                     }
+                                        //                     className="w-full h-full rounded-full"
+                                        //                 />
+                                        //                 <AvatarFallback>
+                                        //                     CN
+                                        //                 </AvatarFallback>
+                                        //             </Avatar>
+                                        //             <p className="text-sm font-medium text-gray-700">
+                                        //                 {comment.user.firstName}{' '}
+                                        //                 {comment.user.lastName}
+                                        //             </p>
+                                        //         </div>
+                                        //     </div>
+                                        //     <div className="flex items-center -translate-x-9">
+                                        //         <Separator className="w-20  h-[2px]" />
+                                        //         <p className="text-sm text-gray-500">
+                                        //             {comment.content}
+                                        //         </p>
+                                        //     </div>
+                                        // </div>
+                                        <CommentReply key={index} commentsReply={comment} />
                                     ))
                             ) : (
                                 <p className="text-sm text-gray-500">

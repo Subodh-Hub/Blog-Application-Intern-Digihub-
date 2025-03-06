@@ -15,15 +15,14 @@ const CommentsList = ({ postId }) => {
     const [data, setData] = useState({})
     const URL = `comment/comments-post/${postId}`
     const commentURL = `/comment/post/${postId}/comment`
-
-    const fetchComment = async () => {
-        try {
-            const res = await apiClient.get(URL)
-            fetchStats(postId)
-            setData(res.data)
-        } catch (error) {
-            console.error(error)
-        }
+    const fetchComment = () => {
+        apiClient
+            .get(URL)
+            .then((res) => {
+                setData(res.data)
+                fetchStats(postId)
+            })
+            .catch((err) => console.error(err))
     }
 
     const formik = useFormik({

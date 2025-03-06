@@ -34,6 +34,7 @@ const Post = ({ post }) => {
                 setImage((prev) => ({ ...prev, postImage: null }))
                 setImageLoading(false)
             })
+
         apiClient
             .get(`/user/image/${user.imageName}`)
             .then((res) => {
@@ -90,7 +91,7 @@ const Post = ({ post }) => {
             <main className="w-full cursor-pointer max-w-[392px] bg-white border-[1px] border-solid border-[#E8E8EA] rounded-xl drop-shadow-sm p-3 dark:bg-[#181A2A] dark:border-gray-700 hover:scale-105 transition-hover ease-in-out duration-100 hover:shadow-xl">
                 <Skeleton className="w-[95%] h-[240px] rounded-md m-auto" />
                 <div className="w-[360px] h-[200px] m-auto flex flex-col gap-4 mt-5 items-start">
-                <Skeleton className="bg-[#F6F8FF] rounded-md px-3 py-1 w-[40%] dark:bg-[#1B1E34] " />
+                    <Skeleton className="bg-[#F6F8FF] rounded-md px-3 py-1 w-[40%] dark:bg-[#1B1E34] " />
                 </div>
             </main>
         )
@@ -123,10 +124,10 @@ const Post = ({ post }) => {
                         <AvatarImage src={avatarSrc} className="object-cover" />
                         <AvatarFallback>{avatarFallback}</AvatarFallback>
                     </Avatar>
-                    <p className="text-white xl:text-[#97989F] text-base hover:cursor-pointer capitalize">
+                    <p className="dark:text-white xl:text-[#97989F] text-base hover:cursor-pointer capitalize">
                         {user.firstName}
                     </p>
-                    <p className="text-white xl:text-[#97989F] text-base hover:cursor-pointer">
+                    <p className="dark:text-white xl:text-[#97989F] text-base hover:cursor-pointer">
                         {parse(formatDate(addDate))}
                     </p>
                 </div>
