@@ -51,14 +51,19 @@ const SinglePage = () => {
     const { likeCount, disLikeCount, updateLike, updateDisLike } =
         usePostStats()
 
-    const { post, loading, fetchPost, toggleLike, toggleDislike,postImageUrl,userImageUrl } =
-        usePostStore()
+    const {
+        post,
+        loading,
+        fetchPost,
+        toggleLike,
+        toggleDislike,
+        postImageUrl,
+        userImageUrl,
+    } = usePostStore()
 
     useEffect(() => {
         fetchPost(postId)
-    }, [postId,post?.imageName])
-
-
+    }, [postId, post?.imageName])
 
     const deleteURL = `/posts-delete/${postId}`
 
@@ -96,13 +101,23 @@ const SinglePage = () => {
 
         // Convert milliseconds to days
         const diffDays = diffTime / (1000 * 60 * 60 * 24)
+        const diffMonths = diffDays / 30
+        const diffYears = diffMonths / 12
 
         if (diffDays < 1) {
             return 'Today'
-        } else if (diffDays === 1) {
+        } else if (diffDays < 2) {
             return '1 day ago'
-        } else {
+        } else if (diffDays < 30) {
             return `${Math.floor(diffDays)} days ago`
+        } else if (diffMonths < 2) {
+            return '1 month ago'
+        } else if (diffMonths < 12) {
+            return `${Math.floor(diffMonths)} months ago`
+        } else if (diffYears < 2) {
+            return '1 year ago'
+        } else {
+            return `${Math.floor(diffYears)} years ago`
         }
     }
 
@@ -206,7 +221,10 @@ const SinglePage = () => {
                                                     Select the picture from your
                                                     device!!!
                                                 </DialogDescription>
-                                                <EditPicture postId={postId} stateDialog={toggleDialog}/>
+                                                <EditPicture
+                                                    postId={postId}
+                                                    stateDialog={toggleDialog}
+                                                />
                                             </DialogHeader>
                                         </DialogContent>
                                     </Dialog>

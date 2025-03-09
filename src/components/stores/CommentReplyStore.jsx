@@ -1,6 +1,7 @@
 import { create } from 'zustand'
 import apiClient from '@/api/axiosInterceptors'
 import { toast } from 'react-toastify'
+import { comment } from 'postcss'
 
 const useCommentReplyStore = create((set, get) => ({
     commentsReply: {},
@@ -55,7 +56,7 @@ const useCommentReplyStore = create((set, get) => ({
                     },
                 }))
 
-                toast.success('Comment Reply Added Successfully')
+                toast.success('Reply Added Successfully')
             })
             .catch((err) => {
                 console.error('Error adding comment reply:', err)
@@ -63,19 +64,44 @@ const useCommentReplyStore = create((set, get) => ({
             })
     },
 
-    editCommentsReply:(commentId)=>{
-        apiClient.put(`/update-commentReply/${commentId}`).then((res)=>{
-            set((state) => ({
-                commentReply: {
-                    ...state.commentReply,
-                    [commentId]: state.commentsReply[commentId].map(reply =>
-                        reply.id === replyId ? res.data : reply
-                    ),
-                },
-            }))
-            toast.success('Comment Reply Updated Successfully')
-
-        })
-    }
+    editCommentsReply: (commentId,commentReplyId , values) => {
+        apiClient
+            .put(`/update-commentReply/${commentReplyId}`, values)
+            .then((res) => {
+                set((state) => ({
+                    commentsReply: {
+                        ...state.commentsReply,
+                        [commentId]: state.commentsReply[commentId].map(
+                            (reply) =>
+                                reply.id === commentReplyId ? res.data : reply
+                        ),
+                    },
+                }))
+                toast.success('Reply Updated Successfully')
+            })
+            .catch((err) => {
+                console.error('Error updating comment reply:', err)
+                toast.error('Failed to update comment reply')
+            })
+    },
+    deleteCommentsReply: (commentId, commentReplyId) => {
+        apiClient
+            .delete(`/Comment-Reply/${commentReplyId}`)
+            .then((res) => {
+                set((state) => ({
+                    commentsReply: {
+                        ...state.commentsReply,
+                        [commentId]: state.commentsReply[commentId].filter(
+                            (reply) => reply.id !== commentReplyId
+                        ),
+                    },
+                }))
+                toast.success('Reply Deleted Successfully')
+            })
+            .catch((err) => {
+                console.error('Error deleting comment reply:', err)
+                toast.error('Failed to delete comment reply')
+            })
+    },
 }))
 export default useCommentReplyStore

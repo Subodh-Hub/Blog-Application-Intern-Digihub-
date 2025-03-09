@@ -113,7 +113,7 @@ const Comments = ({ comment, fetchComment }) => {
                         <Avatar className="cursor-pointer">
                             <AvatarImage
                                 src={avatarSrc}
-                                className="rounded-full w-7 h-7"
+                                className="object-cover rounded-full w-7 h-7"
                             />
                             <AvatarFallback>CN</AvatarFallback>
                         </Avatar>

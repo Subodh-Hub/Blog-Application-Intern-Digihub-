@@ -24,12 +24,14 @@ import {
     AlertDialogTrigger,
 } from '@/components/ui/alert-dialog'
 import { useFormik } from 'formik'
+import useCommentReplyStore from './stores/CommentReplyStore'
 
-const CommentReply = ({ commentsReply }) => {
+const CommentReply = ({ commentsReply, commentId }) => {
     const [isDialogOpen, setIsDialogOpen] = useState(false)
     const [isEditing, setIsEditing] = useState(false)
     const [image, setImage] = useState('')
-    
+    const { deleteCommentsReply, editCommentsReply } = useCommentReplyStore()
+    console.log('Comments reply', commentsReply)
     useEffect(() => {
         apiClient
             .get(`/user/image/${commentsReply.user.imageName}`)
@@ -46,20 +48,21 @@ const CommentReply = ({ commentsReply }) => {
             commentReply: commentsReply.content,
         },
         onSubmit: async (values) => {
-            try {
-                const res = await apiClient.put(
-                    `/CommentReply/${commentsReply.id}`,
-                    values
-                )
-                console.log('values', values)
-            } catch (error) {
-                console.error(error)
+            const commentReplyPayload = {
+                content: values.commentReply,
             }
+            editCommentsReply(
+                commentId,
+                commentsReply.id,
+                commentReplyPayload
+            )
+            setIsEditing(false)
         },
     })
 
     return (
         <div className="flex flex-col gap-3 my-3">
+
             <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
                     <Avatar className="rounded-full w-7 h-7">
@@ -109,7 +112,7 @@ const CommentReply = ({ commentsReply }) => {
                                         <AlertDialogDescription>
                                             This action cannot be undone. This
                                             will permanently delete your comment
-                                            from this post.
+                                            reply from this post.
                                         </AlertDialogDescription>
                                     </AlertDialogHeader>
                                     <AlertDialogFooter>
@@ -121,7 +124,13 @@ const CommentReply = ({ commentsReply }) => {
                                             Cancel
                                         </AlertDialogCancel>
                                         <AlertDialogAction
-                                        // onClick={deleteComment}
+                                            onClick={() => {
+                                                deleteCommentsReply(
+                                                    commentId,
+                                                    commentsReply.id
+                                                )
+                                                setIsDialogOpen(false)
+                                            }}
                                         >
                                             Continue
                                         </AlertDialogAction>
@@ -149,6 +158,7 @@ const CommentReply = ({ commentsReply }) => {
                             />
                             <div className="flex gap-2">
                                 <button
+                                    type="submit"
                                     onClick={formik.handleSubmit}
                                     className="px-3 py-1 text-white bg-blue-500 rounded-md"
                                 >

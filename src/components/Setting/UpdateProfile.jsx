@@ -3,18 +3,31 @@ import * as Yup from 'yup'
 import apiClient from '@/api/axiosInterceptors'
 import { toast } from 'react-toastify'
 import useAuth from '../hooks/useAuth'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 const UpdateProfile = () => {
     const { userInf } = useAuth()
+    const [initialValues, setInitialValues] = useState({
+        fName: '',
+        mName: '',
+        lName: '',
+        phoneNumber: '',
+    })
+
     const URL = '/update-user'
 
-    const [initialValues, setInitialValues] = useState({
-        fName: userInf?.firstName ||'',
-        mName: userInf?.middleName || '',
-        lName: userInf?.lastName || '',
-        phoneNumber: userInf?.phone || '',
-    })
+    // Update initialValues when userInf is available
+    useEffect(() => {
+        if (userInf) {
+            setInitialValues({
+                fName: userInf.firstName || '',
+                mName: userInf.middleName || '',
+                lName: userInf.lastName || '',
+                phoneNumber: userInf.phone || '',
+            })
+        }
+    }, [userInf])
+
 
     const validationSchema = Yup.object({
         fName: Yup.string().required('First name is required'),

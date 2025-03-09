@@ -6,8 +6,6 @@ import useCommentReplyStore from './stores/CommentReplyStore'
 import { useEffect, useState } from 'react'
 import { Separator } from './ui/separator'
 import { BiUpvote, BiDownvote, BiComment } from 'react-icons/bi'
-import { comment } from 'postcss'
-import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
 import CommentReply from './CommentReply'
 
 const CommentReplyList = ({ postId, commentId }) => {
@@ -23,26 +21,32 @@ const CommentReplyList = ({ postId, commentId }) => {
         like: 0,
         dislike: 0,
     })
-
-    useEffect(() => {
-        fetchCommentsReplyCounts(commentId)
-        fetchCommentsReply(commentId)
+    const upvoteCount = (id) => {
         apiClient
-            .get(`/commentReact/${commentId}/likeCount`)
+            .get(`/commentReact/${id}/likeCount`)
             .then((res) => {
                 setCommentReact((prev) => ({ ...prev, like: res.data }))
             })
             .catch((err) => {
                 console.log(err)
             })
+    }
+    const downvoteCount = (id) => {
         apiClient
-            .get(`/commentReact/${commentId}/dislikeCount`)
+            .get(`/commentReact/${id}/dislikeCount`)
             .then((res) => {
                 setCommentReact((prev) => ({ ...prev, dislike: res.data }))
             })
             .catch((err) => {
                 console.log(err)
             })
+    }
+
+    useEffect(() => {
+        fetchCommentsReplyCounts(commentId)
+        fetchCommentsReply(commentId)
+        upvoteCount(commentId)
+        downvoteCount(commentId)
     }, [postId])
 
     const [visibleCommentReply, setVisibleCommentReply] = useState(3)
@@ -54,24 +58,62 @@ const CommentReplyList = ({ postId, commentId }) => {
         onSubmit: (values) => {
             addCommentsReply(postId, commentId, values)
             console.log('test', values)
+            formik.resetForm()
         },
         validationSchema: Yup.object({
             content: Yup.string().required('Comment is required'),
         }),
     })
+    const handleUpvote = () => {
+        const upvotePayload = {
+            like: true,
+            dislike: false,
+        }
+        apiClient
+            .post(`/commentReact/likeOrDislike/${commentId}`, upvotePayload)
+            .then(() => {
+                upvoteCount(commentId)
+                downvoteCount(commentId)
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+    }
+    const handleDownvote = () => {
+        const downvotePayload = {
+            like: false,
+            dislike: true,
+        }
+        apiClient
+            .post(`/commentReact/likeOrDislike/${commentId}`, downvotePayload)
+            .then(() => {
+                upvoteCount(commentId)
+                downvoteCount(commentId)
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+    }
+
     return (
         <>
             <div className="flex items-center gap-4 text-sm text-gray-500 ">
                 <div className="flex gap-4">
                     <div className="flex items-center gap-1">
                         <strong>{commentReact.like}</strong>
-                        <button className="px-2 py-2 hover:rounded-full hover:bg-gray-200 hover:text-blue-500">
+                        <button
+                            className="px-2 py-2 hover:rounded-full hover:bg-gray-200 hover:text-blue-500"
+                            onClick={handleUpvote}
+                        >
                             <BiUpvote />
                         </button>
                     </div>
                     <div className="flex items-center gap-1">
                         <strong>{commentReact.dislike}</strong>
-                        <button className="px-2 py-2 hover:rounded-full hover:bg-gray-200 hover:text-blue-500">
+                        <button
+                            className="px-2 py-2 hover:rounded-full hover:bg-gray-200 hover:text-blue-500"
+                            onClick={handleDownvote}
+                        >
                             <BiDownvote />
                         </button>
                     </div>
@@ -127,39 +169,11 @@ const CommentReplyList = ({ postId, commentId }) => {
                                 commentsReply[commentId]
                                     ?.slice(0, visibleCommentReply)
                                     .map((comment, index) => (
-                                        // <div
-                                        //     className="flex flex-col gap-3 my-3"
-                                        //     key={index}
-                                        // >
-                                        //     <div className='flex items-between'>
-                                        //         <div className="flex items-center gap-3">
-                                        //             <Avatar className="rounded-full w-7 h-7">
-                                        //                 <AvatarImage
-                                        //                     src={
-                                        //                         commentsReplyUserImage[
-                                        //                             commentId
-                                        //                         ]
-                                        //                     }
-                                        //                     className="w-full h-full rounded-full"
-                                        //                 />
-                                        //                 <AvatarFallback>
-                                        //                     CN
-                                        //                 </AvatarFallback>
-                                        //             </Avatar>
-                                        //             <p className="text-sm font-medium text-gray-700">
-                                        //                 {comment.user.firstName}{' '}
-                                        //                 {comment.user.lastName}
-                                        //             </p>
-                                        //         </div>
-                                        //     </div>
-                                        //     <div className="flex items-center -translate-x-9">
-                                        //         <Separator className="w-20  h-[2px]" />
-                                        //         <p className="text-sm text-gray-500">
-                                        //             {comment.content}
-                                        //         </p>
-                                        //     </div>
-                                        // </div>
-                                        <CommentReply key={index} commentsReply={comment} />
+                                        <CommentReply
+                                            key={index}
+                                            commentsReply={comment}
+                                            commentId={commentId}
+                                        />
                                     ))
                             ) : (
                                 <p className="text-sm text-gray-500">
@@ -168,7 +182,7 @@ const CommentReplyList = ({ postId, commentId }) => {
                             )}
                         </div>
                     </div>
-                    {commentsReply[commentId].length > 3 &&
+                    {commentsReply[commentId]?.length > 3 &&
                         (commentsReply[commentId].length >
                         visibleCommentReply ? (
                             <button
