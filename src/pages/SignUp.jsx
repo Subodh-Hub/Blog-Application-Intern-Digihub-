@@ -29,7 +29,7 @@ const SignUp = () => {
         })
     }
     return (
-        <div className="flex items-center justify-center w-screen py-10 h-fit bg-custom-gradient">
+        <div className="flex items-center justify-center w-screen py-14 h-fit bg-custom-gradient">
             <div className="flex justify-center bg-white w-[75vw] h-fit rounded-3xl overflow-hidden">
                 <div className="relative z-10 hidden lg:w-1/3 h-100 lg:block bg-customPink">
                     <img

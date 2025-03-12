@@ -8,7 +8,7 @@ import { Separator } from './ui/separator'
 import { BiUpvote, BiDownvote, BiComment } from 'react-icons/bi'
 import CommentReply from './CommentReply'
 
-const CommentReplyList = ({ postId, commentId }) => {
+const CommentReplyList = ({ postId, commentId, comment, fetchComment }) => {
     const {
         commentsReply,
         addCommentsReply,
@@ -41,7 +41,7 @@ const CommentReplyList = ({ postId, commentId }) => {
                 console.log(err)
             })
     }
-
+    console.log('comment', comment)
     useEffect(() => {
         fetchCommentsReplyCounts(commentId)
         fetchCommentsReply(commentId)
@@ -74,6 +74,7 @@ const CommentReplyList = ({ postId, commentId }) => {
             .then(() => {
                 upvoteCount(commentId)
                 downvoteCount(commentId)
+                fetchComment()
             })
             .catch((err) => {
                 console.log(err)
@@ -89,6 +90,7 @@ const CommentReplyList = ({ postId, commentId }) => {
             .then(() => {
                 upvoteCount(commentId)
                 downvoteCount(commentId)
+                fetchComment()
             })
             .catch((err) => {
                 console.log(err)
@@ -99,10 +101,10 @@ const CommentReplyList = ({ postId, commentId }) => {
         <>
             <div className="flex items-center gap-4 text-sm text-gray-500 ">
                 <div className="flex gap-4">
-                    <div className="flex items-center gap-1">
+                    <div className={`flex items-center gap-1`}>
                         <strong>{commentReact.like}</strong>
                         <button
-                            className="px-2 py-2 hover:rounded-full hover:bg-gray-200 hover:text-blue-500"
+                            className={`px-2 py-2 hover:rounded-full hover:bg-gray-200 hover:text-blue-500 ${comment.likedByUser ? 'text-blue-500 bg-gray-200 rounded-full' : ''}`}
                             onClick={handleUpvote}
                         >
                             <BiUpvote />
@@ -111,7 +113,7 @@ const CommentReplyList = ({ postId, commentId }) => {
                     <div className="flex items-center gap-1">
                         <strong>{commentReact.dislike}</strong>
                         <button
-                            className="px-2 py-2 hover:rounded-full hover:bg-gray-200 hover:text-blue-500"
+                            className={`px-2 py-2 hover:rounded-full hover:bg-gray-200 hover:text-blue-500 ${comment.disLikedByUser ? 'text-blue-500 bg-gray-200 rounded-full' : ''}`}
                             onClick={handleDownvote}
                         >
                             <BiDownvote />

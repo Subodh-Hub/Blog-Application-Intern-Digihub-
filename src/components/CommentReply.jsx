@@ -51,33 +51,67 @@ const CommentReply = ({ commentsReply, commentId }) => {
             const commentReplyPayload = {
                 content: values.commentReply,
             }
-            editCommentsReply(
-                commentId,
-                commentsReply.id,
-                commentReplyPayload
-            )
+            editCommentsReply(commentId, commentsReply.id, commentReplyPayload)
             setIsEditing(false)
         },
     })
 
+    function daysAgo(dateString) {
+        const givenDate = new Date(dateString)
+        const currentDate = new Date()
+
+        // Set the time of both dates to midnight to ignore time differences
+        givenDate.setHours(0, 0, 0, 0)
+        currentDate.setHours(0, 0, 0, 0)
+
+        // Calculate the difference in milliseconds
+        const diffTime = currentDate - givenDate
+
+        // Convert milliseconds to days
+        const diffDays = diffTime / (1000 * 60 * 60 * 24)
+        const diffMonths = diffDays / 30
+        const diffYears = diffMonths / 12
+
+        if (diffDays < 1) {
+            return 'Today'
+        } else if (diffDays < 2) {
+            return '1 day ago'
+        } else if (diffDays < 30) {
+            return `${Math.floor(diffDays)} days ago`
+        } else if (diffMonths < 2) {
+            return '1 month ago'
+        } else if (diffMonths < 12) {
+            return `${Math.floor(diffMonths)} months ago`
+        } else if (diffYears < 2) {
+            return '1 year ago'
+        } else {
+            return `${Math.floor(diffYears)} years ago`
+        }
+    }
+
     return (
         <div className="flex flex-col gap-3 my-3">
-
             <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                    <Avatar className="rounded-full w-7 h-7">
-                        <AvatarImage
-                            src={image}
-                            className="object-cover w-full h-full rounded-full"
-                        />
-                        <AvatarFallback>
-                            {commentsReply.user.firstName.slice(0, 1)}
-                            {commentsReply.user.lastName.slice(0, 1)}
-                        </AvatarFallback>
-                    </Avatar>
-                    <p className="text-sm font-medium text-gray-700">
-                        {commentsReply.user.firstName}{' '}
-                        {commentsReply.user.lastName}
+                <div className="flex items-center gap-5">
+                    <div className="flex items-center gap-3">
+                        <Avatar className="rounded-full w-7 h-7">
+                            <AvatarImage
+                                src={image}
+                                className="object-cover w-full h-full rounded-full"
+                            />
+                            <AvatarFallback>
+                                {commentsReply.user.firstName.slice(0, 1)}
+                                {commentsReply.user.lastName.slice(0, 1)}
+                            </AvatarFallback>
+                        </Avatar>
+                        <p className="text-sm font-medium text-gray-700">
+                            {commentsReply.user.firstName}{' '}
+                            {commentsReply.user.lastName}
+                        </p>
+                    </div>
+
+                    <p className="text-xs text-gray-500">
+                        {daysAgo(commentsReply.created_At)}
                     </p>
                 </div>
 

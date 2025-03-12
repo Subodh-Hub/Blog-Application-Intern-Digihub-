@@ -3,8 +3,9 @@ import { useState } from 'react'
 
 import PropTypes from 'prop-types'
 
-const PostList = ({ post }) => {
+const PostList = ({ post}) => {
     const [visiblePost, setVisiblePost] = useState(6)
+    
 
     return (
         <div className="flex flex-col items-center justify-center dark:bg-customDarkTheme">

@@ -32,7 +32,6 @@ const Comments = ({ comment, fetchComment }) => {
     const deleteCommentURL = `/comment/comment/${comment.id}`
     const { userInf } = useAuth()
     const [image, setImage] = useState('')
-    console.log('coment', comment)
     const deleteComment = () => {
         apiClient
             .delete(deleteCommentURL)
@@ -96,15 +95,26 @@ const Comments = ({ comment, fetchComment }) => {
 
         // Convert milliseconds to days
         const diffDays = diffTime / (1000 * 60 * 60 * 24)
+        const diffMonths = diffDays / 30
+        const diffYears = diffMonths / 12
 
         if (diffDays < 1) {
             return 'Today'
-        } else if (diffDays === 1) {
+        } else if (diffDays < 2) {
             return '1 day ago'
-        } else {
+        } else if (diffDays < 30) {
             return `${Math.floor(diffDays)} days ago`
+        } else if (diffMonths < 2) {
+            return '1 month ago'
+        } else if (diffMonths < 12) {
+            return `${Math.floor(diffMonths)} months ago`
+        } else if (diffYears < 2) {
+            return '1 year ago'
+        } else {
+            return `${Math.floor(diffYears)} years ago`
         }
     }
+
     return (
         <>
             <div className="flex flex-col gap-2 my-7 font-poppins">
@@ -218,8 +228,11 @@ const Comments = ({ comment, fetchComment }) => {
 
                 {userInf && Object.keys(userInf).length > 0 ? (
                     <CommentReplyList
+                        comment={comment}
                         commentId={comment.id}
                         postId={comment.post.postId}
+                        fetchComment={fetchComment}
+                        
                     />
                 ) : (
                     ''
