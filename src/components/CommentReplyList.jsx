@@ -41,7 +41,6 @@ const CommentReplyList = ({ postId, commentId, comment, fetchComment }) => {
                 console.log(err)
             })
     }
-    console.log('comment', comment)
     useEffect(() => {
         fetchCommentsReplyCounts(commentId)
         fetchCommentsReply(commentId)
@@ -66,7 +65,7 @@ const CommentReplyList = ({ postId, commentId, comment, fetchComment }) => {
     })
     const handleUpvote = () => {
         const upvotePayload = {
-            like: true,
+            like: !comment.likedByUser,
             dislike: false,
         }
         apiClient
@@ -75,6 +74,7 @@ const CommentReplyList = ({ postId, commentId, comment, fetchComment }) => {
                 upvoteCount(commentId)
                 downvoteCount(commentId)
                 fetchComment()
+
             })
             .catch((err) => {
                 console.log(err)
@@ -83,7 +83,8 @@ const CommentReplyList = ({ postId, commentId, comment, fetchComment }) => {
     const handleDownvote = () => {
         const downvotePayload = {
             like: false,
-            dislike: true,
+            dislike: !comment.disLikedByUser,
+
         }
         apiClient
             .post(`/commentReact/likeOrDislike/${commentId}`, downvotePayload)

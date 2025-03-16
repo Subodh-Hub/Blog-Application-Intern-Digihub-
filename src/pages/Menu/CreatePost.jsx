@@ -7,11 +7,13 @@ import { toast } from 'react-toastify'
 import { Editor } from '@tinymce/tinymce-react'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { Skeleton } from '@/components/ui/skeleton'
 
 const CreatePost = () => {
     const URL = '/category'
     const [category, setCategory] = useState([])
     const [loading, setLoading] = useState(false)
+    const [editorLoading, setEditorLoading] = useState(true) // Add editor loading state
 
     useEffect(() => {
         const fetchData = async () => {
@@ -101,6 +103,11 @@ const CreatePost = () => {
                     ) : null}
                 </div>
                 <div>
+                    {editorLoading && (
+                        <div className="flex justify-center items-center h-[300px]">
+                            <Skeleton />
+                        </div>
+                    )}
                     <label
                         htmlFor="content"
                         className="block mb-1 font-medium text-gray-700 text-md dark:text-white"
@@ -117,6 +124,11 @@ const CreatePost = () => {
                                 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount',
                             toolbar:
                                 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
+                            setup: (editor) => {
+                                editor.on('init', () => {
+                                    setEditorLoading(false) // Hide loader when editor is ready
+                                })
+                            },
                         }}
                         onEditorChange={(content) =>
                             formik.setFieldValue('content', content)

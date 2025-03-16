@@ -1,5 +1,5 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { useOutlet, NavLink, useNavigate } from 'react-router-dom'
+import { useOutlet, NavLink } from 'react-router-dom'
 import { FaPlus } from 'react-icons/fa'
 import useAuth from '@/components/hooks/useAuth'
 import { useState } from 'react'
@@ -19,7 +19,6 @@ import * as Yup from 'yup'
 import apiClient from '@/api/axiosInterceptors'
 import { toast } from 'react-toastify'
 const Profile = () => {
-    const navigate = useNavigate()
     const { userInf, setRefetch } = useAuth()
     const outlet = useOutlet()
     const [updateProfile, setUpdateProfile] = useState(false)
@@ -199,15 +198,7 @@ const Profile = () => {
                         Downvoted
                     </NavLink>
                 </ul>
-                <div
-                    className="px-3 py-1 mt-4 border-zinc-500 border-[1px] w-fit rounded-full flex gap-2 items-center justify-center cursor-pointer dark:hover:border-white"
-                    onClick={() => {
-                        navigate('/createPost')
-                    }}
-                >
-                    <FaPlus />
-                    Create Post
-                </div>
+                
                 <hr className="my-3" />
                 {outlet}
             </div>

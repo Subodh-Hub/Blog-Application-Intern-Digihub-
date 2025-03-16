@@ -38,6 +38,8 @@ import {
 import EditPost from '@/components/EditPost'
 import usePostStore from '@/components/stores/PostStore'
 import EditPicture from '@/components/EditPicture'
+import { Eye } from 'lucide-react'
+
 const SinglePage = () => {
     const navigate = useNavigate()
     const { userInf } = useAuth()
@@ -62,8 +64,9 @@ const SinglePage = () => {
     } = usePostStore()
 
     useEffect(() => {
+        window.scrollTo(0, 0)
         fetchPost(postId)
-    }, [postId, post?.imageName])
+    }, [postId])
 
     const deleteURL = `/posts-delete/${postId}`
 
@@ -75,8 +78,6 @@ const SinglePage = () => {
             }, 500)
         })
     }
-
-    const { category, title, user, content, addDate, deletable } = post || {}
 
     const formatNumber = (number) => {
         if (number >= 1000000) {
@@ -145,23 +146,23 @@ const SinglePage = () => {
             toast.error('Please Login first')
         }
     }
-    const avatarSrc = user?.imageName
+    const avatarSrc = post?.user?.imageName
         ? `${userImageUrl}`
         : `https://github.com/shadcn.png`
 
     if (loading) {
         return <div>Loading...</div>
     }
-    if (!post) return <p>No post found.</p>
+    // if (!post) return <p>No post found.</p>
     return (
         <div className="items-center dark:bg-customDarkTheme">
             <main className="w-[90vw] m-auto flex flex-col gap-10 md:px-30 xl:w-[80vw] pt-10">
                 <div className="flex flex-col items-start gap-3">
                     <div className="flex items-center justify-between w-full">
                         <p className="bg-[#4B6BFB] text-white px-3 py-1 font-sans rounded-md w-fit text-sm font-semibold capitalize">
-                            {category.categoryTitle}
+                            {post?.category?.categoryTitle}
                         </p>
-                        {deletable ? (
+                        {post?.deletable ? (
                             <DropdownMenu modal={false}>
                                 <DropdownMenuTrigger>
                                     <BsThreeDotsVertical className="cursor-pointer" />
@@ -284,9 +285,8 @@ const SinglePage = () => {
                             ''
                         )}
                     </div>
-
                     <h2 className="text-4xl font-semibold">
-                        {title.charAt(0).toUpperCase() + title.slice(1)}
+                        {post?.title}
                     </h2>
                     <div className="flex items-center gap-3">
                         <Avatar className="cursor-pointer">
@@ -297,11 +297,15 @@ const SinglePage = () => {
                             <AvatarFallback>CN</AvatarFallback>
                         </Avatar>
                         <p className="text-[#97989F] text-base hover:cursor-pointer capitalize">
-                            {user.firstName} {user.lastName}
+                            {post?.user?.firstName} {post?.user?.lastName}
                         </p>
                         <p className="text-[#97989F] text-base hover:cursor-pointer ml-5">
-                            {daysAgo(addDate)}
+                            {daysAgo(post?.addDate)}
                         </p>
+                    </div>
+                    <div className="text-[#97989F] flex items-center gap-3 mt-3">
+                        <Eye size={16} />
+                        <p className="text-xs">{post?.viewCount}</p>
                     </div>
                 </div>
                 <div className="w-[100%] h-[80vh] m-auto rounded-2xl overflow-hidden ">
@@ -312,17 +316,21 @@ const SinglePage = () => {
                     />
                 </div>
                 <div className="text-lg serif text-[#3B3C4A] dark:text-[#BABABF]">
-                    {content ? parse(content) : <p>No content available</p>}
+                    {post?.content ? (
+                        parse(post?.content)
+                    ) : (
+                        <p>No content available</p>
+                    )}
                 </div>
                 <div className="flex items-center gap-3">
                     <div
                         className={`flex items-center gap-3 px-3 py-1 rounded-lg bg-slate-300 dark:bg-slate-500 ${
-                            post.likedByUser ? 'bg-slate-500 text-white' : ''
+                            post?.likedByUser ? 'bg-slate-500 text-white' : ''
                         }`}
                     >
                         <BiUpvote
                             className={`text-2xl text-[#4B6BFB] cursor-pointer dark:text-slate-200 dark:hover:text-white ${
-                                post.likedByUser ? 'text-white' : ''
+                                post?.likedByUser ? 'text-white' : ''
                             }`}
                             onClick={handleLike}
                         />
@@ -330,14 +338,14 @@ const SinglePage = () => {
                     </div>
                     <div
                         className={`flex items-center gap-3 px-3 py-1 rounded-lg bg-slate-300 dark:bg-slate-500  ${
-                            post.disLikedByUser
+                            post?.disLikedByUser
                                 ? 'bg-slate-500 text-white font-semibold'
                                 : ''
                         }`}
                     >
                         <BiDownvote
                             className={`text-2xl text-[#4B6BFB] cursor-pointer dark:text-slate-200 dark:hover:text-white  ${
-                                post.disLikedByUser
+                                post?.disLikedByUser
                                     ? ' text-white font-semibold'
                                     : ''
                             }`}

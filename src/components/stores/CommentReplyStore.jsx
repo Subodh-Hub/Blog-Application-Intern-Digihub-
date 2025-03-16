@@ -51,7 +51,8 @@ const useCommentReplyStore = create((set, get) => ({
                         ...state.commentsReply,
                         [commentId]: [
                             ...(state.commentsReply[commentId] || []),
-                            res.data,
+                           {...res.data,deletable : true,},
+                            
                         ],
                     },
                 }))
